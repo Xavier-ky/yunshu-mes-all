@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "scan-input": "/components/scan-input/index",
+    "page-header": "/components/page-header/index"
+  },
+  "navigationStyle": "custom"
+}

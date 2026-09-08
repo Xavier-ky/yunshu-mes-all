@@ -1,0 +1,31 @@
+<view class="task-card card" bindtap="onTap">
+  <view class="task-header">
+    <view class="task-no">{{task.taskNo}}</view>
+    <status-tag status="{{task.status}}" type="{{task.taskType}}">{{task.statusLabel}}</status-tag>
+  </view>
+  <view class="task-title">{{task.productName}}</view>
+  <view class="task-info">
+    <view class="info-row">
+      <text class="info-label">工单</text>
+      <text class="info-value">{{task.workOrderNo}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">工序</text>
+      <text class="info-value">{{task.processName}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">工位</text>
+      <text class="info-value">{{task.workstationName}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">数量</text>
+      <text class="info-value">{{task.completedQty}}/{{task.planQty}}</text>
+    </view>
+  </view>
+  <view class="task-footer">
+    <view class="task-type-tag">{{task.taskTypeName}}</view>
+    <view wx:if="{{task.priority === 'HIGH'}}" class="priority-tag high">急</view>
+    <view wx:elif="{{task.priority === 'MEDIUM'}}" class="priority-tag medium">中</view>
+    <text class="task-deadline">{{task.deadline}}</text>
+  </view>
+</view>

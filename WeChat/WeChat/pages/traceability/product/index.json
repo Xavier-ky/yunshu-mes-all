@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "page-header": "/components/page-header/index",
+    "status-tag": "/components/status-tag/index",
+    "scan-input": "/components/scan-input/index",
+    "empty-state": "/components/empty-state/index"
+  },
+  "navigationStyle": "custom"
+}

@@ -1,0 +1,74 @@
+<page-header title="呼叫详情" showBack="{{true}}" />
+
+<view class="page-container">
+  <block wx:if="{{!loading && call}}">
+    <view class="md-content">
+
+            <view class="md-card">
+        <view class="md-status-row">
+          <text class="md-status-label">状态</text>
+          <view class="md-status-tag status-{{call.status}}">{{call.statusLabel}}</view>
+        </view>
+      </view>
+
+            <view class="md-card">
+        <text class="md-section-title">呼叫信息</text>
+        <view class="md-info-grid">
+          <view class="md-info-item"><text class="md-info-l">呼叫单号</text><text class="md-info-v">{{call.callId}}</text></view>
+          <view class="md-info-item"><text class="md-info-l">工单号</text><text class="md-info-v">{{call.workOrderNo}}</text></view>
+          <view class="md-info-item"><text class="md-info-l">产线/工位</text><text class="md-info-v">{{call.lineName}} · {{call.workstationName}}</text></view>
+          <view class="md-info-item"><text class="md-info-l">产品</text><text class="md-info-v">{{call.productName}}</text></view>
+          <view class="md-info-item"><text class="md-info-l">缺料物料</text><text class="md-info-v md-info-highlight">{{call.materialName}}</text></view>
+          <view class="md-info-item"><text class="md-info-l">需求数量</text><text class="md-info-v md-info-highlight">{{call.needQty}} 个</text></view>
+          <view class="md-info-item"><text class="md-info-l">紧急程度</text><text class="md-info-v">{{call.urgencyLabel}}</text></view>
+          <view class="md-info-item"><text class="md-info-l">呼叫时间</text><text class="md-info-v">{{call.createTime}}</text></view>
+        </view>
+        <view class="md-remark" wx:if="{{call.remark}}">
+          <text class="md-info-l">备注</text><text class="md-info-v">{{call.remark}}</text>
+        </view>
+      </view>
+
+            <view class="md-card" wx:if="{{call.status === 'PENDING' || call.status === 'PROCESSING'}}">
+        <text class="md-section-title">{{call.status === 'PENDING' ? '处理呼叫' : '配送信息'}}</text>
+
+        <view class="md-form-item">
+          <text class="md-label">实际发料数量</text>
+          <input class="md-input" type="number" value="{{actualQty}}" bindinput="onActualQtyInput" placeholder="填写发料数量" />
+        </view>
+        <view class="md-form-item">
+          <text class="md-label">发料批次号</text>
+          <input class="md-input" value="{{batchNo}}" bindinput="onBatchNoInput" placeholder="输入批次号" />
+        </view>
+        <view class="md-form-item">
+          <text class="md-label">预计送达时间</text>
+          <input class="md-input" value="{{estimatedArrival}}" bindinput="onArrivalInput" placeholder="如：2026-07-12 10:30" />
+        </view>
+
+        <view class="md-actions">
+          <view class="md-btn md-btn-primary" bindtap="onProcess" wx:if="{{call.status === 'PENDING'}}">
+            {{processing ? '提交中...' : '确认处理'}}
+          </view>
+          <view class="md-btn md-btn-success" bindtap="onComplete" wx:if="{{call.status === 'PROCESSING'}}">
+            确认配送完成
+          </view>
+        </view>
+      </view>
+
+            <view class="md-card" wx:if="{{call.status === 'COMPLETED'}}">
+        <text class="md-section-title">配送记录</text>
+        <view class="md-info-item"><text class="md-info-l">发料数量</text><text class="md-info-v">{{call.actualQty}} 个</text></view>
+        <view class="md-info-item"><text class="md-info-l">批次号</text><text class="md-info-v">{{call.batchNo || '--'}}</text></view>
+        <view class="md-info-item"><text class="md-info-l">完成时间</text><text class="md-info-v">{{call.completeTime}}</text></view>
+      </view>
+
+            <view class="md-card" wx:if="{{call.status === 'UPGRADED'}}">
+        <text class="md-section-title">安灯升级</text>
+        <view class="md-upgraded">
+          <text>该呼叫已升级为安灯事件</text>
+          <view class="md-btn md-btn-sm" bindtap="onViewAndon">查看安灯详情</view>
+        </view>
+      </view>
+
+    </view>
+  </block>
+</view>

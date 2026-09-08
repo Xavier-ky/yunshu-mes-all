@@ -1,0 +1,15 @@
+<view class="scan-input-wrap">
+  <view class="scan-btn" bindtap="onScan">
+    <image class="scan-icon" src="/images/扫码_scan-code.svg" mode="aspectFit" />
+  </view>
+  <view class="input-row">
+    <input
+      class="scan-input"
+      placeholder="{{placeholder}}"
+      value="{{value}}"
+      disabled="{{disabled}}"
+      bindinput="onInput"
+      bindconfirm="onConfirm"
+    />
+  </view>
+</view>

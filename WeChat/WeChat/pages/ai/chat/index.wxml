@@ -1,0 +1,205 @@
+<page-header title="AI 助手" showBack="{{true}}" />
+
+<view class="chat-page" style="height: calc(100vh - {{headerHeightPx}}px);">
+
+    <view class="chat-welcome" wx:if="{{messages.length === 0}}">
+        <view class="welcome-hero">
+      <view class="welcome-avatar">
+        <image class="welcome-avatar-img" src="/images/AI助手.svg" mode="aspectFit" />
+      </view>
+      <text class="welcome-title">云枢 AI 助手</text>
+      <text class="welcome-subtitle">智能对话 · 快速跳转 · 表单预填</text>
+    </view>
+
+        <view class="welcome-cards">
+      <view class="welcome-card">
+        <view class="welcome-card-icon">🔍</view>
+        <view class="welcome-card-body">
+          <text class="welcome-card-title">数据查询</text>
+          <text class="welcome-card-desc">产量、质量、库存实时查询</text>
+        </view>
+      </view>
+      <view class="welcome-card">
+        <view class="welcome-card-icon">📋</view>
+        <view class="welcome-card-body">
+          <text class="welcome-card-title">页面跳转</text>
+          <text class="welcome-card-desc">一句话打开功能页面</text>
+        </view>
+      </view>
+      <view class="welcome-card">
+        <view class="welcome-card-icon">📝</view>
+        <view class="welcome-card-body">
+          <text class="welcome-card-title">智能填表</text>
+          <text class="welcome-card-desc">AI 预填、人工确认提交</text>
+        </view>
+      </view>
+      <view class="welcome-card">
+        <view class="welcome-card-icon">⚠️</view>
+        <view class="welcome-card-body">
+          <text class="welcome-card-title">异常处理</text>
+          <text class="welcome-card-desc">安灯发起、设备报修辅助</text>
+        </view>
+      </view>
+    </view>
+
+        <view class="welcome-tips">
+      <text class="welcome-tips-label">💡 试试这样问我</text>
+      <view class="welcome-tips-grid">
+        <view
+          class="tip-chip"
+          wx:for="{{quickTips}}"
+          wx:key="*this"
+          bindtap="onTipTap"
+          data-text="{{item}}"
+        >
+          <text class="tip-chip-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+    <scroll-view
+    wx:else
+    class="chat-list"
+    scroll-y="{{true}}"
+    scroll-into-view="{{scrollToView}}"
+    scroll-with-animation="{{true}}"
+    enhanced="{{true}}"
+    show-scrollbar="{{false}}"
+    bounces="{{false}}"
+    bindscroll="onScroll"
+  >
+    <view class="chat-list-inner">
+            <view class="chat-divider" wx:if="{{messages.length > 0}}">
+        <view class="chat-divider-line"></view>
+        <text class="chat-divider-text">{{messages.length}} 条消息</text>
+        <view class="chat-divider-line"></view>
+      </view>
+
+      <block wx:for="{{messages}}" wx:key="id">
+        <view
+          class="msg-row {{item.role === 'user' ? 'msg-user' : 'msg-ai'}} msg-enter"
+          id="msg-{{item.id}}"
+        >
+                    <view class="msg-avatar {{item.role === 'user' ? 'avatar-user' : 'avatar-ai'}}">
+            <text wx:if="{{item.role === 'user'}}" class="avatar-emoji">👤</text>
+            <image wx:else class="msg-avatar-img" src="/images/AI助手.svg" mode="aspectFit" />
+          </view>
+
+                    <view class="msg-body">
+                        <text wx:if="{{item.role === 'assistant'}}" class="msg-sender">云枢 AI</text>
+
+                        <view
+              class="msg-bubble {{item.role === 'user' ? 'bubble-user' : 'bubble-ai'}}"
+              bindlongpress="onCopyMsg"
+              data-content="{{item.content}}"
+            >
+              <text class="msg-text" selectable="{{true}}">{{item.content}}</text>
+            </view>
+
+                        <view class="msg-meta {{item.role === 'user' ? 'meta-right' : 'meta-left'}}">
+              <text class="msg-time">{{item.time}}</text>
+              <view
+                wx:if="{{item.role === 'assistant'}}"
+                class="msg-copy-btn"
+                bindtap="onCopyMsg"
+                data-content="{{item.content}}"
+              >
+                <text class="msg-copy-icon">▦</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+
+            <view class="msg-row msg-ai msg-enter" wx:if="{{isLoading}}">
+        <view class="msg-avatar avatar-ai">
+          <image class="msg-avatar-img" src="/images/AI助手.svg" mode="aspectFit" />
+        </view>
+        <view class="msg-body">
+          <text class="msg-sender">云枢 AI</text>
+          <view class="msg-bubble bubble-ai typing-bubble">
+            <view class="typing-dots">
+              <view class="typing-dot"></view>
+              <view class="typing-dot"></view>
+              <view class="typing-dot"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+            <view class="msg-row msg-ai" wx:if="{{errorMsg}}">
+        <view class="msg-avatar avatar-ai">
+          <image class="msg-avatar-img" src="/images/AI助手.svg" mode="aspectFit" />
+        </view>
+        <view class="msg-body">
+          <view class="msg-bubble bubble-error">
+            <text class="msg-text msg-error-text">{{errorMsg}}</text>
+            <view class="msg-retry-btn" bindtap="onRetry">
+              <text class="msg-retry-text">↻ 重试</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view id="msg-bottom"></view>
+    </view>
+  </scroll-view>
+
+    <view class="scroll-fab {{showScrollFab ? 'fab-visible' : ''}}" bindtap="scrollToBottom" wx:if="{{messages.length > 0}}">
+    <text class="scroll-fab-icon">↓</text>
+  </view>
+
+    <view class="chat-input-area {{isIphoneX ? 'safe-area' : ''}}">
+        <view class="chat-toolbar" wx:if="{{messages.length > 2}}">
+      <view class="chat-toolbar-left">
+        <text class="chat-msg-count">共 {{messages.length}} 条对话</text>
+      </view>
+      <view class="chat-clear-btn" bindtap="onClearHistory">
+        <text class="chat-clear-icon">🗑</text>
+        <text class="chat-clear-text">清空对话</text>
+      </view>
+    </view>
+
+    <view class="chat-input-row">
+            <view
+        wx:if="{{!showKeyboard}}"
+        class="voice-btn-wrap {{isRecording ? 'voice-recording' : ''}}"
+        bindtouchstart="onVoiceStart"
+        bindtouchend="onVoiceEnd"
+      >
+        <image class="voice-icon-img" src="/images/录音.svg" mode="aspectFit" />
+        <text class="voice-label">{{isRecording ? '松开发送 · 上滑取消' : '按住说话'}}</text>
+      </view>
+
+            <view class="chat-input-wrap" wx:if="{{showKeyboard}}">
+        <input
+          class="chat-input"
+          type="text"
+          value="{{inputText}}"
+          placeholder="输入消息…"
+          placeholder-class="chat-input-ph"
+          focus="{{inputFocus}}"
+          bindinput="onInput"
+          bindconfirm="onSend"
+          confirm-type="send"
+          adjust-position="{{true}}"
+          maxlength="500"
+        />
+      </view>
+
+            <view class="chat-actions">
+                <view wx:if="{{showKeyboard}}" class="chat-action-btn" bindtap="onSwitchVoice">
+          <image class="chat-action-icon-img" src="/images/录音.svg" mode="aspectFit" />
+        </view>
+        <view wx:if="{{!showKeyboard}}" class="chat-action-btn" bindtap="onSwitchKeyboard">
+          <text class="chat-action-icon">⌨</text>
+        </view>
+
+                <view wx:if="{{showKeyboard}}" class="chat-send-btn {{inputText.trim() ? 'send-active' : ''}}" bindtap="onSend">
+          <text class="chat-send-icon">↑</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,164 @@
+<view class="cp-shell">
+
+    <view class="cp-topbar">
+    <view class="cp-top-left" bindtap="goToProfile">
+      <view class="cp-avatar"><text class="cp-avatar-t">{{userNameFirst}}</text></view>
+      <view class="cp-user">
+        <text class="cp-name">{{userInfo.realName || '云枢用户'}}</text>
+        <text class="cp-role">{{userInfo.roleName || 'MES操作员'}} · {{userInfo.departmentName || '--'}}</text>
+      </view>
+    </view>
+    <view class="cp-top-right">
+      <text class="cp-date">{{currentDate}}</text>
+      <text class="cp-shift">◉ {{shiftHours}}</text>
+    </view>
+  </view>
+
+    <view class="cp-scanline"></view>
+
+    <view class="cp-hub" bindtap="onKpiTap">
+    <view class="cp-ring-shell">
+            <view class="cp-ring-aura" style="--aura:{{kpiPrimary.color}};"></view>
+            <view class="cp-ring-track" style="--pct:{{kpiPrimary.target > 0 ? kpiPrimary.value / kpiPrimary.target : 0}}; --clr:{{kpiPrimary.color}};">
+        <view class="cp-ring-fill"></view>
+        <view class="cp-ring-dot"></view>
+      </view>
+            <view class="cp-ring-core">
+        <text class="cp-core-val">{{kpiPrimary.value}}</text>
+        <text class="cp-core-unit">{{kpiPrimary.unit}}</text>
+        <text class="cp-core-label">{{kpiPrimary.label}}</text>
+        <view class="cp-core-rate" style="--clr:{{kpiPrimary.color}};">
+          <text>{{kpiPrimary.target > 0 ? Math.round(kpiPrimary.value / kpiPrimary.target * 100) : 0}}%</text>
+        </view>
+      </view>
+    </view>
+        <view class="cp-ring-info">
+      <text class="cp-info-target">目标 {{kpiPrimary.target}}{{kpiPrimary.unit}}</text>
+      <text class="cp-info-sub" wx:if="{{kpiSubtitle}}">{{kpiSubtitle}}</text>
+    </view>
+
+        <view class="cp-stat-strip">
+      <view class="cp-stat-item" wx:for="{{kpiSecondary}}" wx:key="label">
+        <text class="cp-stat-val">{{item.value}}</text>
+        <text class="cp-stat-lbl">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+    <view class="cp-section">
+    <view class="cp-section-head">
+      <view class="cp-section-dot cp-section-dot--live"></view>
+      <text class="cp-section-title">活跃事件</text>
+      <text class="cp-section-count">{{pulseCards.length}}</text>
+    </view>
+
+    <scroll-view scroll-x class="cp-pulse-scroll" wx:if="{{pulseCards.length > 0}}">
+      <view class="cp-pulse-row">
+        <view
+          class="cp-pulse-card {{item.pulseClass}}"
+          wx:for="{{pulseCards}}"
+          wx:key="id"
+          data-url="{{item.jumpUrl}}"
+          bindtap="onPulseCardTap"
+        >
+          <view class="cp-pc-icon"><text>{{item.icon}}</text></view>
+          <view class="cp-pc-body">
+            <text class="cp-pc-title">{{item.title}}</text>
+            <text class="cp-pc-sub">{{item.subtitle}}</text>
+            <view class="cp-pc-foot">
+              <view class="cp-pc-status {{item.pulseClass}}">{{item.statusLabel}}</view>
+              <text class="cp-pc-time">{{item.time}}</text>
+            </view>
+          </view>
+          <view class="cp-pc-indicator {{item.pulseClass}}"></view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="cp-pulse-empty" wx:if="{{pulseCards.length === 0}}">
+      <text class="cp-empty-text">◉ 一切正常，暂无活跃事件</text>
+    </view>
+  </view>
+
+    <view class="cp-section" wx:if="{{myTasks.length > 0}}">
+    <view class="cp-section-head">
+      <view class="cp-section-dot cp-section-dot--task"></view>
+      <text class="cp-section-title">我的任务</text>
+      <text class="cp-section-count">{{myTasks.length}} 项进行中</text>
+    </view>
+
+    <view class="cp-task-list">
+      <view
+        class="cp-task-card"
+        wx:for="{{myTasks}}"
+        wx:key="taskId"
+        data-taskid="{{item.taskId}}"
+        bindtap="onTaskTap"
+      >
+        <view class="cp-task-left">
+          <view class="cp-task-ring" style="--pct:{{item.progress / 100}}; --clr:{{item.status === 'PENDING' ? '#FFB800' : '#00D4FF'}};">
+            <text class="cp-task-ring-txt">{{item.progress}}%</text>
+          </view>
+        </view>
+        <view class="cp-task-body">
+          <text class="cp-task-name">{{item.productName}}</text>
+          <text class="cp-task-desc">{{item.taskNo}} · {{item.processName || item.workstationName}}</text>
+          <view class="cp-task-bar">
+            <view class="cp-task-bar-fill" style="width:{{item.progress}}%;"></view>
+          </view>
+        </view>
+        <status-tag status="{{item.status}}">{{item.statusLabel}}</status-tag>
+      </view>
+    </view>
+  </view>
+
+    <view class="cp-section" wx:if="{{lineProgress.length > 0}}">
+    <view class="cp-section-head">
+      <view class="cp-section-dot cp-section-dot--line"></view>
+      <text class="cp-section-title">产线进度</text>
+      <text class="cp-section-count" bindtap="goToDashboard">看板 ›</text>
+    </view>
+
+    <view class="cp-line-grid">
+      <view class="cp-line-card" wx:for="{{lineProgress}}" wx:key="lineName">
+        <view class="cp-line-top">
+          <text class="cp-line-name">{{item.lineName}}</text>
+          <text class="cp-line-rate">{{item.qualifiedRate}}%</text>
+        </view>
+        <view class="cp-line-bar">
+          <view class="cp-line-fill" style="width:{{item.progress}}%;"></view>
+        </view>
+        <view class="cp-line-stats">
+          <text>{{item.actualQty}} / {{item.planQty}}</text>
+          <text>{{item.taskCount}} 个工单</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+    <view class="cp-section">
+    <view class="cp-section-head">
+      <view class="cp-section-dot cp-section-dot--quick"></view>
+      <text class="cp-section-title">常用功能</text>
+    </view>
+
+    <view class="cp-quick-row">
+      <view
+        class="cp-quick-btn"
+        wx:for="{{visibleEntries}}"
+        wx:key="key"
+        data-page="{{item.page}}"
+        data-istab="{{item.isTab}}"
+        bindtap="onEntryTap"
+      >
+        <image wx:if="{{item.iconImage}}" class="cp-quick-icon-img" src="{{item.iconImage}}" mode="aspectFit" />
+        <text wx:else class="cp-quick-icon">{{item.icon}}</text>
+        <text class="cp-quick-label">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="cp-footer"></view>
+
+    <ai-fab visible="{{true}}" />
+</view>

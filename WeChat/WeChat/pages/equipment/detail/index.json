@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "page-header": "/components/page-header/index",
+    "status-tag": "/components/status-tag/index",
+    "action-footer": "/components/action-footer/index"
+  },
+  "navigationStyle": "custom"
+}

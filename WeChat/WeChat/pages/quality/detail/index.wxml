@@ -1,0 +1,130 @@
+<page-header title="质检详情" showBack="{{true}}" />
+
+<view class="page-container">
+  <view class="qd-loading" wx:if="{{loading}}"><text>加载中...</text></view>
+  <view class="qd-empty" wx:elif="{{!record}}"><text>质检记录不存在</text></view>
+
+  <view class="qd-content" wx:else>
+        <view class="qd-verdict {{record.result === 'QUALIFIED' ? 'qd-verdict--pass' : 'qd-verdict--fail'}}">
+      <view class="qd-verdict-icon">
+        <text>{{record.result === 'QUALIFIED' ? '✓' : '✗'}}</text>
+      </view>
+      <view class="qd-verdict-body">
+        <text class="qd-verdict-label">{{record.resultLabel}}</text>
+        <text class="qd-verdict-type">{{record.inspectionTypeName}} · {{record.inspector}}</text>
+      </view>
+    </view>
+
+        <view class="qd-card">
+      <text class="qd-card-title">产品信息</text>
+      <view class="qd-info-grid">
+        <view class="qd-info-item">
+          <text class="qd-info-l">产品名称</text>
+          <text class="qd-info-v">{{record.productName}}</text>
+        </view>
+        <view class="qd-info-item">
+          <text class="qd-info-l">产品型号</text>
+          <text class="qd-info-v">{{record.productModel}}</text>
+        </view>
+        <view class="qd-info-item">
+          <text class="qd-info-l">产品 SN</text>
+          <text class="qd-info-v">{{record.productSn}}</text>
+        </view>
+        <view class="qd-info-item">
+          <text class="qd-info-l">工单号</text>
+          <text class="qd-info-v">{{record.workOrderNo}}</text>
+        </view>
+        <view class="qd-info-item">
+          <text class="qd-info-l">产线</text>
+          <text class="qd-info-v">{{record.lineName}}</text>
+        </view>
+        <view class="qd-info-item">
+          <text class="qd-info-l">工位</text>
+          <text class="qd-info-v">{{record.workstationName}}</text>
+        </view>
+      </view>
+    </view>
+
+        <view class="qd-card">
+      <text class="qd-card-title">检验数量</text>
+      <view class="qd-qty-row">
+        <view class="qd-qty-item">
+          <text class="qd-qty-num">{{record.sampleQty}}</text>
+          <text class="qd-qty-label">抽检总数</text>
+        </view>
+        <view class="qd-qty-div">/</view>
+        <view class="qd-qty-item">
+          <text class="qd-qty-num qd-green">{{record.goodQty}}</text>
+          <text class="qd-qty-label">合格</text>
+        </view>
+        <view class="qd-qty-div">/</view>
+        <view class="qd-qty-item">
+          <text class="qd-qty-num {{record.defectQty > 0 ? 'qd-red' : ''}}">{{record.defectQty}}</text>
+          <text class="qd-qty-label">不良</text>
+        </view>
+      </view>
+
+            <view class="qd-rate-bar">
+        <view class="qd-rate-pass" style="flex:{{record.goodQty}};"></view>
+        <view class="qd-rate-fail" style="flex:{{record.defectQty}};" wx:if="{{record.defectQty > 0}}"></view>
+      </view>
+    </view>
+
+        <view class="qd-card" wx:if="{{record.defects && record.defects.length > 0}}">
+      <text class="qd-card-title">缺陷详情（{{record.defectQty}} 件）</text>
+
+      <view class="qd-defect-item" wx:for="{{record.defects}}" wx:key="index">
+        <view class="qd-defect-head">
+          <view class="qd-defect-tag">{{item.defectName}}</view>
+          <text class="qd-defect-qty">{{item.defectQty}} 件</text>
+        </view>
+
+        <text class="qd-defect-desc">{{item.description}}</text>
+
+                <view class="qd-images" wx:if="{{item.images && item.images.length > 0}}">
+          <image
+            class="qd-img"
+            wx:for="{{item.images}}"
+            wx:key="index2"
+            wx:for-item="img"
+            src="{{img}}"
+            mode="aspectFill"
+            data-urls="{{item.images}}"
+            data-current="{{img}}"
+            bindtap="onPreviewImage"
+          />
+        </view>
+      </view>
+    </view>
+
+        <view class="qd-card">
+      <text class="qd-card-title">处置信息</text>
+      <view class="qd-info-row">
+        <text class="qd-info-l">处置动作</text>
+        <text class="qd-info-v qd-action {{record.action === 'REWORK' ? 'qd-action--rework' : record.action === 'SCRAP' ? 'qd-action--scrap' : 'qd-action--release'}}">{{record.actionLabel}}</text>
+      </view>
+      <view class="qd-info-row" wx:if="{{record.remark}}">
+        <text class="qd-info-l">备注</text>
+        <text class="qd-info-v">{{record.remark}}</text>
+      </view>
+    </view>
+
+        <view class="qd-card">
+      <text class="qd-card-title">检验信息</text>
+      <view class="qd-info-row">
+        <text class="qd-info-l">检验员</text>
+        <text class="qd-info-v">{{record.inspector}}</text>
+      </view>
+      <view class="qd-info-row">
+        <text class="qd-info-l">检验时间</text>
+        <text class="qd-info-v">{{record.inspectTime}}</text>
+      </view>
+      <view class="qd-info-row">
+        <text class="qd-info-l">检验类型</text>
+        <text class="qd-info-v">{{record.inspectionTypeName}}</text>
+      </view>
+    </view>
+
+    <view class="footer-placeholder"></view>
+  </view>
+</view>

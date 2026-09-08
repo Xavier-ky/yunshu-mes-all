@@ -1,0 +1,9 @@
+{
+  "name": "mes-production",
+  "version": "1.0.0",
+  "description": "生产报工云函数 — 工序防错校验 + 任务进度更新",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

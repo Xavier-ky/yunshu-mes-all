@@ -1,0 +1,40 @@
+
+
+.task-card {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+  border: 1rpx solid rgba(255,255,255,0.07);
+  border-radius: 14rpx;
+  padding: 28rpx;
+  transition: all 0.15s ease;
+}
+.task-card:active { transform: scale(0.98); background: rgba(255,255,255,0.06); }
+
+.task-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8rpx; }
+.task-no { font-size: 22rpx; color: rgba(255,255,255,0.25); font-family: var(--font-mono); }
+
+.task-title { font-size: 30rpx; font-weight: 700; color: #E2E8F0; margin-bottom: 10rpx; }
+
+.task-info { margin-bottom: 10rpx; }
+.task-card .info-row { display: flex; align-items: center; padding: 4rpx 0; }
+.task-card .info-label { font-size: 24rpx; color: rgba(255,255,255,0.30); width: 72rpx; flex-shrink: 0; }
+.task-card .info-value { font-size: 24rpx; color: rgba(255,255,255,0.50); flex: 1; }
+
+.task-footer {
+  display: flex; align-items: center; padding-top: 14rpx;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.task-type-tag {
+  padding: 4rpx 14rpx; border-radius: 6rpx; font-size: 20rpx;
+  color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.05);
+}
+.priority-tag {
+  padding: 4rpx 12rpx; border-radius: 6rpx; font-size: 20rpx;
+  margin-left: 8rpx; font-weight: 700;
+}
+.priority-tag.high { color: #FF4757; background: rgba(255,71,87,0.10); }
+.priority-tag.medium { color: #FFB800; background: rgba(255,184,0,0.10); }
+
+.task-deadline { font-size: 22rpx; color: rgba(255,255,255,0.25); margin-left: auto; font-family: var(--font-mono); }

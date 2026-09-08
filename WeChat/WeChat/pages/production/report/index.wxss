@@ -1,0 +1,10 @@
+.section-title {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.disabled-input {
+  color: var(--color-text-secondary);
+  opacity: 0.8;
+}

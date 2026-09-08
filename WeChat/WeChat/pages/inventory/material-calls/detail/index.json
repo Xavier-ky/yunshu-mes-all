@@ -1,0 +1,4 @@
+{
+  "usingComponents": { "page-header": "/components/page-header/index" },
+  "navigationStyle": "custom"
+}

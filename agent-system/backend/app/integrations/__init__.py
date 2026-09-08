@@ -1,0 +1,1 @@
+"""Adapters for the MES Spring Boot boundary."""

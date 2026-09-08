@@ -1,0 +1,10 @@
+<page-header title="退料" showBack="{{true}}" />
+
+<view class="page-container">
+  <view class="mr-empty">
+    <text class="mr-empty-icon">📤</text>
+    <text class="mr-empty-title">退料功能已迁移</text>
+    <text class="mr-empty-desc">退料操作已合并至领料确认页，请在领料任务详情中操作退料</text>
+    <view class="mr-goto-btn" bindtap="onGoToIssue">前往领料列表</view>
+  </view>
+</view>

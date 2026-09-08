@@ -1,0 +1,9 @@
+{
+  "name": "seed-data",
+  "version": "1.0.0",
+  "description": "一次性数据初始化 - 为所有集合填充初始数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

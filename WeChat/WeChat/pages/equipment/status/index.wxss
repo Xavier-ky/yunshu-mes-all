@@ -1,0 +1,44 @@
+
+
+.page-container { min-height: 100vh; background: #0A1628; }
+
+.filter-bar { white-space: nowrap; padding: 24rpx 32rpx; background: rgba(255,255,255,0.04); }
+.filter-item {
+  display: inline-block; padding: 14rpx 28rpx; margin-right: 16rpx;
+  font-size: 24rpx; color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.05);
+  border-radius: 8rpx; transition: all 0.15s;
+}
+.filter-item.active { background: #00B4E4; color: #fff; font-weight: 600; }
+
+.page-content { padding: 24rpx 32rpx; display: flex; flex-direction: column; gap: 24rpx; }
+
+.card {
+  background: rgba(255,255,255,0.04); border-radius: 12rpx; padding: 32rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
+}
+.device-card { transition: all 0.15s ease; }
+.device-card:active { transform: scale(0.98); }
+
+.flex-between { display: flex; justify-content: space-between; align-items: flex-start; }
+
+.device-info { display: flex; flex-direction: column; flex: 1; min-width: 0; margin-right: 16rpx; }
+.device-code { font-size: 28rpx; font-weight: 700; color: #E2E8F0; }
+.device-name { font-size: 24rpx; color: rgba(255,255,255,0.35); margin-top: 4rpx; }
+
+.flex-row { display: flex; align-items: center; }
+.device-model {
+  font-size: 22rpx; color: #00B4E4; padding: 4rpx 16rpx;
+  background: rgba(26,58,92,0.06); border-radius: 6rpx;
+}
+.device-line { font-size: 22rpx; color: rgba(255,255,255,0.35); }
+
+.fault-info {
+  display: flex; align-items: flex-start;
+  padding: 16rpx 20rpx; background: rgba(255,71,87,0.08);
+  border: 1rpx solid rgba(211,47,47,0.12); border-radius: 10rpx;
+}
+.fault-label { font-size: 22rpx; color: #FF4757; font-weight: 600; flex-shrink: 0; }
+.fault-text { font-size: 22rpx; color: #FF4757; flex: 1; margin-left: 8rpx; }
+
+.mt-sm { margin-top: 12rpx; }
+.ml-sm { margin-left: 12rpx; }

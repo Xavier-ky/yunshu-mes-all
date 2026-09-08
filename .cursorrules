@@ -1,0 +1,6 @@
+# 云枢 MES — Cursor 工作区规则
+
+1. 禁止在工作区内创建、下载、克隆或解压任何外部 MES 参考代码库。
+2. 前端只改 `frontend/web-admin/src/yunshu-ui/`，后端只改现有 `compat` 包。
+3. 若项目根目录出现外部参考文件夹，立即删除，不得读取或保留。
+4. 启动时 `scripts/cleanup-external-repos.ps1` 会自动清理；Agent 不得重新创建。

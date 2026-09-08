@@ -1,0 +1,69 @@
+<page-header title="我的" showBack="{{true}}" />
+
+<view class="page-container">
+    <view class="user-card">
+    <view class="avatar-placeholder">{{userNameFirst}}</view>
+    <view class="user-detail">
+      <text class="user-name">{{userInfo.realName || '未登录'}}</text>
+      <text class="user-role">{{userInfo.roleName || ''}}</text>
+    </view>
+  </view>
+
+    <view class="info-section">
+    <view class="info-row">
+      <text class="info-label">所属部门</text>
+      <text class="info-value">{{userInfo.departmentName || '--'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">产线/班组</text>
+      <text class="info-value">{{userInfo.lineName || '--'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">当前班次</text>
+      <text class="info-value">{{userInfo.shiftName || '--'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">账号</text>
+      <text class="info-value">{{userInfo.username || '--'}}</text>
+    </view>
+  </view>
+
+    <view class="quick-links-section">
+    <view class="quick-link-item" bindtap="onNavToTasks" hover-class="none">
+      <view class="quick-link-left">
+        <image class="quick-link-icon-img" src="/images/任务.svg" mode="aspectFit" />
+        <text class="quick-link-text">我的任务</text>
+      </view>
+      <text class="quick-link-arrow">›</text>
+    </view>
+    <view class="quick-link-item" bindtap="onNavToScan" hover-class="none">
+      <view class="quick-link-left">
+        <image class="quick-link-icon-img" src="/images/扫码_scan-code.svg" mode="aspectFit" />
+        <text class="quick-link-text">扫码作业</text>
+      </view>
+      <text class="quick-link-arrow">›</text>
+    </view>
+    <view class="quick-link-item" bindtap="onNavToMessages" hover-class="none">
+      <view class="quick-link-left">
+        <image class="quick-link-icon-img" src="/images/消息.svg" mode="aspectFit" />
+        <text class="quick-link-text">消息中心</text>
+      </view>
+      <text class="quick-link-arrow">›</text>
+    </view>
+  </view>
+
+    <view class="action-section">
+    <view class="action-item" bindtap="onClearCache">
+      <text class="action-text">清除缓存</text>
+      <text class="action-arrow">›</text>
+    </view>
+    <view class="action-item" bindtap="onLogout">
+      <text class="action-text danger">退出登录</text>
+      <text class="action-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="version-info">
+    <text>云枢智造 MES v1.0.0</text>
+  </view>
+</view>

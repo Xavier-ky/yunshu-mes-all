@@ -1,0 +1,123 @@
+
+
+.page-container { min-height: 100vh; background: #0A1628; }
+.qi-loading, .qi-empty { display: flex; justify-content: center; padding: 120rpx; font-size: 28rpx; color: rgba(255,255,255,0.35); }
+.qi-content { padding: 24rpx 32rpx; display: flex; flex-direction: column; gap: 32rpx; }
+
+.qi-card { background: rgba(255,255,255,0.04); border-radius: 12rpx; padding: 32rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03); }
+.qi-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24rpx; }
+.qi-card-title { font-size: 28rpx; font-weight: 700; color: #E2E8F0; margin-bottom: 24rpx; display: block; }
+.qi-card-head .qi-card-title { margin-bottom: 0; }
+
+.qi-info-grid { display: flex; flex-wrap: wrap; }
+.qi-info-item { width: 50%; padding: 12rpx 0; }
+.qi-info-item:nth-child(odd) { padding-right: 24rpx; }
+.qi-info-item:nth-child(n+3) { border-top: 1px dashed rgba(255,255,255,0.08); }
+.qi-info-l { font-size: 24rpx; color: rgba(255,255,255,0.35); display: block; margin-bottom: 4rpx; }
+.qi-info-v { font-size: 26rpx; font-weight: 500; color: #E2E8F0; display: block; }
+
+.qi-checklist { display: flex; flex-direction: column; gap: 20rpx; }
+.qi-check-item { display: flex; align-items: flex-start; gap: 20rpx; }
+.qi-check-box {
+  width: 44rpx; height: 44rpx; border-radius: 8rpx; flex-shrink: 0;
+  border: 2rpx solid #D9D9D9; display: flex; align-items: center; justify-content: center;
+  font-size: 26rpx; color: #fff; transition: all 0.2s;
+  margin-top: 2rpx;
+}
+.qi-checked { background: #00E896; border-color: #00E896; }
+.qi-check-body { flex: 1; }
+.qi-check-name { font-size: 28rpx; font-weight: 500; color: #E2E8F0; display: block; }
+.qi-check-std { font-size: 24rpx; color: rgba(255,255,255,0.35); margin-top: 4rpx; display: block; }
+
+.qi-form-item { margin-bottom: 24rpx; }
+.qi-form-item:last-child { margin-bottom: 0; }
+.qi-label { font-size: 26rpx; color: rgba(255,255,255,0.35); display: block; margin-bottom: 12rpx; }
+.qi-required { color: #FF4757; }
+
+.qi-input {
+  width: 100%; height: 80rpx; background: rgba(255,255,255,0.05); border: 1rpx solid rgba(255,255,255,0.08);
+  border-radius: 12rpx; padding: 0 24rpx; font-size: 26rpx; color: #E2E8F0; box-sizing: border-box;
+}
+.qi-scan-row { display: flex; gap: 16rpx; }
+.qi-scan-row .qi-input { flex: 1; }
+.qi-scan-btn {
+  width: 80rpx; height: 80rpx; border-radius: 50%; flex-shrink: 0;
+  background: rgba(255,255,255,0.05); border: 1rpx solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center; font-size: 36rpx;
+}
+.qi-scan-icon { width: 40rpx; height: 40rpx; }
+
+.qi-picker {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 80rpx; background: rgba(255,255,255,0.05); border: 1rpx solid rgba(255,255,255,0.08);
+  border-radius: 12rpx; padding: 0 24rpx; font-size: 26rpx; color: #E2E8F0;
+}
+.qi-picker--empty { color: rgba(255,255,255,0.25); }
+.qi-picker-arrow { font-size: 22rpx; color: rgba(255,255,255,0.35); }
+
+.qi-textarea {
+  width: 100%; height: 150rpx; background: rgba(255,255,255,0.05); border: 1rpx solid rgba(255,255,255,0.08);
+  border-radius: 12rpx; padding: 24rpx; font-size: 26rpx; color: #E2E8F0; box-sizing: border-box;
+}
+.qi-char-count { text-align: right; font-size: 22rpx; color: rgba(255,255,255,0.25); margin-top: 8rpx; display: block; }
+
+.qi-stepper { display: flex; align-items: center; }
+.qi-step-btn {
+  width: 88rpx; height: 88rpx; border-radius: 16rpx;
+  background: rgba(255,255,255,0.05); border: 1rpx solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36rpx; font-weight: 600; color: #E2E8F0;
+}
+.qi-step-input {
+  width: 160rpx; height: 88rpx; margin: 0 16rpx;
+  background: rgba(255,255,255,0.06); border: 1rpx solid rgba(255,255,255,0.1); border-radius: 16rpx;
+  text-align: center; font-size: 36rpx; font-weight: 700; color: #E2E8F0;
+}
+
+.qi-calc-row { display: flex; align-items: center; gap: 12rpx; margin-top: 12rpx; padding: 16rpx 20rpx; background: rgba(255,255,255,0.03); border-radius: 8rpx; }
+.qi-calc-label { font-size: 24rpx; color: rgba(255,255,255,0.35); }
+.qi-calc-val { font-size: 32rpx; font-weight: 700; color: #00E896; }
+.qi-calc-bad { color: #FF4757; }
+.qi-calc-hint { font-size: 22rpx; color: rgba(255,255,255,0.25); margin-left: auto; }
+
+.qi-add-btn {
+  padding: 8rpx 24rpx; background: #00B4E4; color: #fff;
+  border-radius: 10rpx; font-size: 24rpx; font-weight: 500;
+}
+.qi-empty-hint { display: block; text-align: center; padding: 40rpx 0; font-size: 24rpx; color: rgba(255,255,255,0.25); }
+
+.qi-defect-item {
+  background: rgba(255,255,255,0.03); border-radius: 12rpx; padding: 24rpx; margin-top: 24rpx;
+}
+.qi-defect-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20rpx; }
+.qi-defect-num { font-size: 26rpx; font-weight: 600; color: #00B4E4; }
+.qi-defect-del { font-size: 24rpx; color: #FF4757; }
+
+.qi-andon-card { border: 1rpx solid rgba(211,47,47,0.15); }
+.qi-andon-head { display: flex; align-items: center; gap: 12rpx; margin-bottom: 20rpx; }
+.qi-andon-icon { font-size: 36rpx; }
+.qi-andon-title { font-size: 26rpx; font-weight: 600; color: #FF4757; }
+.qi-andon-toggle { display: flex; align-items: center; gap: 16rpx; margin-bottom: 24rpx; font-size: 26rpx; color: #E2E8F0; }
+.qi-andon-check {
+  width: 44rpx; height: 44rpx; border-radius: 8rpx; border: 2rpx solid #D9D9D9;
+  display: flex; align-items: center; justify-content: center; font-size: 26rpx; color: #fff;
+}
+.qi-andon-checked { background: #D32F2F; border-color: #FF4757; }
+
+.qi-action-row { display: flex; gap: 16rpx; flex-wrap: wrap; }
+.qi-action-item {
+  flex: 1; min-width: 140rpx; text-align: center;
+  padding: 20rpx 0; border-radius: 12rpx; font-size: 26rpx; color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.05); border: 1rpx solid rgba(255,255,255,0.08);
+}
+.qi-action--active { background: rgba(26,58,92,0.06); color: #00B4E4; border-color: #00B4E4; font-weight: 600; }
+
+.qi-submit-wrap { padding-bottom: calc(32rpx + env(safe-area-inset-bottom)); }
+.qi-submit-btn {
+  height: 96rpx; border-radius: 24rpx; background: #00B4E4; color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32rpx; font-weight: 700; letter-spacing: 1rpx;
+  box-shadow: 0 8rpx 24rpx rgba(26,58,92,0.20);
+}
+.qi-submit-btn:active { opacity: 0.88; transform: scale(0.98); }
+.qi-submit--loading { opacity: 0.6; pointer-events: none; }

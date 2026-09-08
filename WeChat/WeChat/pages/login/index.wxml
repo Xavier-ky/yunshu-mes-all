@@ -1,0 +1,43 @@
+<view class="page-container flex-center">
+  <view class="login-card">
+        <view class="login-logo-wrap">
+      <view class="login-logo-ring"></view>
+      <view class="login-logo-ring2"></view>
+      <view class="login-logo-glow"></view>
+      <image
+        class="login-logo"
+        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTE0IDEwMjQiIGZpbGw9InJnYmEoMjAwLDIzMCwyNTUsMC45NSkiPjxwYXRoIGQ9Ik02NjguMTYgMzgyLjcydjI5MS44NGwxMDMuNjggNTIuNDggNTIuNDgtMzItOTcuMjgtNDQuOFY0MTguNTZsMTA3LjUyLTQ4LjY0IDE5Ny4xMiA5My40NHYtNjAuMTZsLTE5Ny4xMi05NC43Mi0xNjYuNCA3NC4yNHoiLz48cGF0aCBkPSJNNzYxLjYgNTEwLjcydi02NS4yOGw3Mi45Ni0zMiAyNTYgMTIwLjMydjE5OS42OEw5MjEuNiA4MjQuMzJsLTM0LjU2LTM4LjQgMTQ3LjItODkuNlY1NjUuNzZMODM0LjU2IDQ3My42bC03Mi45NiAzNy4xMnoiLz48cGF0aCBkPSJNNjI5Ljc2IDQ5NC4wOGwtNTYuMzIgMzMuMjh2MjA0LjhsMTkzLjI4IDkyLjE2IDIyNi41Ni0xMzYuOTZ2LTEwNy41MmwtNTEuMi0yMC40OHYxMDQuOTZsLTE3NS4zNiAxMDEuMTItMTM2Ljk2LTcwLjRWNDk0LjA4eiIvPjxwYXRoIGQ9Ik01MjguNjQgODI0LjMySDE4OS40NGMtOTYtMTkuMi0xNjcuNjgtMTAyLjQtMTY3LjY4LTIwMy41MiAwLTEwOC44IDg1Ljc2LTE5OS42OCAxOTQuNTYtMjA2LjA4IDIuNTYtMTYzLjg0IDEzNi45Ni0yOTUuNjggMzAwLjgtMjk1LjY4IDEzMC41NiAwIDIyMS40NCA0Ni4wOCAyODAuMzIgMTU3LjQ0bC02Ni41NiAyOS40NGMtNDMuNTItODguMzItMTEyLjY0LTEyMC4zMi0yMTMuNzYtMTIwLjMyLTEyOS4yOCAwLTIzNC4yNCAxMDQuOTYtMjM0LjI0IDIzNC4yNCAwIDguOTYgMCAxNi42NCAxLjI4IDI1LjZsNS4xMiA0MC45Ni00MC45Ni01LjEyYy01LjEyIDAtMTEuNTItMS4yOC0xNi42NC0xLjI4QzE1My42IDQ4MCA4OS42IDU0Mi43MiA4OS42IDYyMC44YzAgNzUuNTIgNjAuMTYgMTM2Ljk2IDEzNS42OCAxNDAuOGgzMDQuNjR2NjIuNzJoLTEuMjh6Ii8+PHBhdGggZD0iTTUyOC42NCA4MjQuMzJIMTg5LjQ0Yy05Ni0xOS4yLTE2Ny42OC0xMDIuNC0xNjcuNjgtMjAzLjUyIDAtMTA4LjggODUuNzYtMTk5LjY4IDE5NC41Ni0yMDYuMDggNjYuNTYgNS4xMiA3MS42OCA3MS42OCA3MS42OCA3MS42OGwtNDAuOTYtNS4xMmMtNS4xMiAwLTExLjUyLTEuMjgtMTYuNjQtMS4yOC03OC4wOCAwLTE0Mi4wOCA2Mi43Mi0xNDIuMDggMTQwLjggMCA3NS41MiA2MC4xNiAxMzYuOTYgMTM1LjY4IDE0MC44aDMwNC42NHY2Mi43MnoiLz48L3N2Zz4="
+        mode="aspectFit"
+      />
+    </view>
+
+        <view class="login-header">
+      <text class="login-title">云 枢 智 造</text>
+      <text class="login-subtitle">MES · 现场作业平台</text>
+    </view>
+
+        <view class="login-form">
+      <view class="form-group">
+        <view class="form-label">账号</view>
+        <input
+          class="form-input"
+          placeholder="请输入账号"
+          value="{{username}}"
+          bindinput="onUsernameInput"
+        />
+      </view>
+      <view class="form-group">
+        <view class="form-label">密码</view>
+        <input
+          class="form-input"
+          placeholder="请输入密码"
+          password
+          value="{{password}}"
+          bindinput="onPasswordInput"
+        />
+      </view>
+      <button class="btn btn-primary btn-block mt-lg" bindtap="onLogin" loading="{{loading}}">登 录</button>
+    </view>
+
+  </view>
+</view>

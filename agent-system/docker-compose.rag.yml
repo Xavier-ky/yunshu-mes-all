@@ -1,0 +1,14 @@
+name: mes-rag
+
+services:
+  qdrant:
+    # Keep server/client compatible with the project's Python 3.9 pytorch runtime.
+    image: qdrant/qdrant:v1.16.1
+    container_name: mes-qdrant
+    restart: unless-stopped
+    ports:
+      # 只绑定本机；FastAPI 是唯一的业务访问方。
+      - "127.0.0.1:6333:6333"
+      - "127.0.0.1:6334:6334"
+    volumes:
+      - ./data/qdrant:/qdrant/storage

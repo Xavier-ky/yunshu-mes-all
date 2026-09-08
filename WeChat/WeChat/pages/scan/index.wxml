@@ -1,0 +1,52 @@
+<page-header title="扫码作业" showBack="{{true}}" />
+
+<view class="page-container">
+  <view class="scan-section">
+    <scan-input
+      placeholder="扫描或输入产品SN/物料批次/工单号/设备编码"
+      bind:scan="onScanResult"
+      bind:identify="onIdentify"
+    />
+  </view>
+  <view class="identify-result" wx:if="{{identifyResult}}">
+    <view class="result-label">识别结果</view>
+    <view class="result-card card">
+      <view class="result-row">
+        <text class="info-label">类型</text>
+        <text class="info-value">{{identifyResult.name}}</text>
+      </view>
+      <view class="result-row">
+        <text class="info-label">编码</text>
+        <text class="info-value">{{identifyResult.code}}</text>
+      </view>
+      <view class="result-row" wx:if="{{identifyResult.page}}">
+        <text class="info-label">跳转</text>
+        <text class="info-value text-primary">{{identifyResult.page}}</text>
+      </view>
+    </view>
+    <button wx:if="{{identifyResult.page}}" class="btn btn-primary btn-block mt-md" bindtap="onGoToPage">
+      查看详情
+    </button>
+  </view>
+  <view class="scan-tips" wx:if="{{!identifyResult}}">
+    <view class="section-title">扫码说明</view>
+    <view class="tip-list">
+      <view class="tip-item">
+        <text class="tip-prefix">SN</text>
+        <text class="tip-desc">产品SN码 → 产品追溯</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-prefix">MAT</text>
+        <text class="tip-desc">物料批次码 → 物料绑定</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-prefix">WO</text>
+        <text class="tip-desc">工单号 → 任务详情</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-prefix">EQ</text>
+        <text class="tip-desc">设备编码 → 设备详情</text>
+      </view>
+    </view>
+  </view>
+</view>

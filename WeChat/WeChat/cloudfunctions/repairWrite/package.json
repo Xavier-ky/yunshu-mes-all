@@ -1,0 +1,7 @@
+{
+  "name": "repairWrite",
+  "version": "1.0.0",
+  "description": "设备维修写操作云函数",
+  "main": "index.js",
+  "dependencies": { "wx-server-sdk": "latest" }
+}

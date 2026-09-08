@@ -1,0 +1,1 @@
+<text class="status-tag tag-{{colorClass}}"><slot></slot></text>

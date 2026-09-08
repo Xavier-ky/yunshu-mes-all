@@ -1,0 +1,9 @@
+{
+  "name": "mes-chat",
+  "version": "1.0.0",
+  "description": "群聊管理云函数 — 消息发送/群管理",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

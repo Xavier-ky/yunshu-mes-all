@@ -1,0 +1,3 @@
+<view wx:if="{{visible}}" class="role-panel">
+  <slot></slot>
+</view>

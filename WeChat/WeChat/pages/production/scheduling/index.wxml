@@ -1,0 +1,99 @@
+<page-header title="布置任务" showBack="{{true}}" />
+
+<view class="page-container">
+  <scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+        <view class="form-card">
+      <text class="form-card-title">下达新任务</text>
+
+            <view class="form-row">
+        <text class="form-label">产线</text>
+        <picker mode="selector" range="{{lineOptions}}" value="{{lineIndex}}" bindchange="onLinePick">
+          <view class="form-pick {{form.lineName ? '' : 'form-pick-placeholder'}}">
+            <text>{{form.lineName || '点击选择'}}</text>
+            <text class="form-pick-arrow">▾</text>
+          </view>
+        </picker>
+      </view>
+
+            <view class="form-row">
+        <text class="form-label">指派给</text>
+        <picker mode="selector" range="{{operatorNames}}" value="{{operatorIndex}}" bindchange="onOperatorPick">
+          <view class="form-pick {{form.operatorName ? '' : 'form-pick-placeholder'}}">
+            <text>{{form.operatorName || '点击选择操作工'}}</text>
+            <text class="form-pick-arrow">▾</text>
+          </view>
+        </picker>
+      </view>
+
+            <view class="form-row">
+        <text class="form-label">产品</text>
+        <input class="form-input" value="{{form.productName}}" placeholder="输入产品名称" placeholder-class="form-ph" bindinput="onField" data-field="productName" />
+      </view>
+
+            <view class="form-row-split">
+        <view class="form-split-item">
+          <text class="form-label">数量（台）</text>
+          <input class="form-input" type="number" value="{{form.planQty}}" placeholder="0" placeholder-class="form-ph" bindinput="onField" data-field="planQty" />
+        </view>
+        <view class="form-split-item">
+          <text class="form-label">完成日期</text>
+          <picker mode="date" value="{{form.endDate}}" start="{{today}}" bindchange="onDatePick">
+            <view class="form-pick {{form.endDate ? '' : 'form-pick-placeholder'}}">
+              <text>{{form.endDate || '选择'}}</text>
+              <text class="form-pick-arrow">📅</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+
+            <view class="form-row">
+        <text class="form-label">工序序列<text class="form-optional">（选填，逗号分隔）</text></text>
+        <input class="form-input" value="{{form.routingSteps}}" placeholder="如：冲压,焊接,总装,测试,包装" placeholder-class="form-ph" bindinput="onField" data-field="routingSteps" />
+      </view>
+
+            <view class="form-row-split">
+        <view class="form-split-item">
+          <text class="form-label">工装/模具号<text class="form-optional">（选填）</text></text>
+          <input class="form-input" value="{{form.toolingCode}}" placeholder="如：TL-40A-01" placeholder-class="form-ph" bindinput="onField" data-field="toolingCode" />
+        </view>
+        <view class="form-split-item">
+          <text class="form-label">标准工时（秒/件）<text class="form-optional">（选填）</text></text>
+          <input class="form-input" type="number" value="{{form.standardHours}}" placeholder="0" placeholder-class="form-ph" bindinput="onField" data-field="standardHours" />
+        </view>
+      </view>
+
+            <view class="form-row">
+        <text class="form-label">工作说明<text class="form-optional">（选填）</text></text>
+        <textarea class="form-textarea" value="{{form.description}}" placeholder="工艺要求、注意事项等…" placeholder-class="form-ph" maxlength="300" bindinput="onField" data-field="description" auto-height />
+      </view>
+
+            <button class="form-submit" bindtap="onSubmit" loading="{{submitting}}" disabled="{{submitting}}">
+        ✓ 布置任务
+      </button>
+    </view>
+
+        <view class="history-section" wx:if="{{recentList.length > 0}}">
+      <text class="history-title">近期布置</text>
+      <view class="history-list">
+        <view class="history-item" wx:for="{{recentList}}" wx:key="id" data-id="{{item.id}}" bindtap="onDeleteItem">
+          <view class="hi-left">
+            <text class="hi-product">{{item.productName}} ×{{item.planQty}}台</text>
+            <text class="hi-meta">{{item.lineName}} · {{item.operatorName}} · {{item.startDate || item.endDate}}</text>
+          </view>
+          <view class="hi-right">
+            <text class="hi-status {{item.status === 'PENDING' ? 'hi-pending' : item.status === 'IN_PROGRESS' ? 'hi-progress' : 'hi-done'}}">{{item.statusLabel}}</text>
+            <view wx:if="{{item.status === 'PENDING'}}" class="hi-del" catchtap="onDeleteItem" data-id="{{item.id}}">
+              <text class="hi-del-icon">✕</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="history-empty" wx:if="{{recentList.length === 0}}">
+      <text class="he-text">暂无布置记录</text>
+    </view>
+
+    <view class="page-bottom"></view>
+  </scroll-view>
+</view>

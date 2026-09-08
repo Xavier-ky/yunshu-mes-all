@@ -1,0 +1,169 @@
+<page-header title="产品追溯" showBack="{{true}}" />
+
+<view class="page-container">
+  <view class="page-content">
+        <view class="scan-section">
+      <scan-input
+        placeholder="扫描或输入产品SN"
+        value="{{scanValue}}"
+        bind:scan="onScan"
+        bind:input="onInput"
+      />
+      <button class="btn btn-primary btn-block mt-sm" bindtap="onSearch">查询</button>
+    </view>
+
+        <view wx:if="{{loading}}" class="flex-center mt-lg">
+      <text class="text-secondary">查询中...</text>
+    </view>
+
+        <block wx:elif="{{productInfo}}">
+      <view class="card mt-md">
+        <view class="card-header">
+          <text class="card-title">产品信息</text>
+          <status-tag status="{{productInfo.currentStatus}}">{{productInfo.currentStatusLabel}}</status-tag>
+        </view>
+        <view class="info-row">
+          <text class="info-label">产品SN</text>
+          <text class="info-value font-bold">{{productInfo.productSn}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">产品名称</text>
+          <text class="info-value">{{productInfo.productName}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">产品型号</text>
+          <text class="info-value">{{productInfo.productModel}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">工单号</text>
+          <text class="info-value">{{productInfo.workOrderNo}}</text>
+        </view>
+        <view wx:if="{{productInfo.lineName}}" class="info-row">
+          <text class="info-label">产线</text>
+          <text class="info-value">{{productInfo.lineName}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">生产时间</text>
+          <text class="info-value">{{productInfo.productionTime}}</text>
+        </view>
+      </view>
+
+            <view wx:if="{{processHistory.length > 0}}" class="card mt-sm">
+        <view class="section-title">生产工艺流程</view>
+        <view class="timeline">
+          <block wx:for="{{processHistory}}" wx:key="processCode">
+            <view class="timeline-item">
+              <view class="timeline-dot {{item.result === 'QUALIFIED' ? 'dot-success' : 'dot-danger'}}"></view>
+              <view wx:if="{{index < processHistory.length - 1}}" class="timeline-line"></view>
+              <view class="timeline-content">
+                <view class="flex-between">
+                  <text class="font-md font-bold">{{item.processName}}</text>
+                  <text class="tag {{item.result === 'QUALIFIED' ? 'tag-green' : 'tag-red'}}">{{item.resultLabel}}</text>
+                </view>
+                <view class="info-row mt-xs">
+                  <text class="info-label">工位</text>
+                  <text class="info-value">{{item.workstationName}}</text>
+                </view>
+                <view class="info-row">
+                  <text class="info-label">操作人</text>
+                  <text class="info-value">{{item.operator}}</text>
+                </view>
+                <view class="info-row">
+                  <text class="info-label">时间</text>
+                  <text class="info-value">{{item.startTimeStr}} ~ {{item.endTimeStr}}</text>
+                </view>
+                <view wx:if="{{item.remark}}" class="info-row">
+                  <text class="info-label">备注</text>
+                  <text class="info-value">{{item.remark}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+
+            <view wx:if="{{materialBindings.length > 0}}" class="card mt-sm">
+        <view class="section-title">物料绑定</view>
+        <view class="divider"></view>
+        <block wx:for="{{materialBindings}}" wx:key="materialCode">
+          <view class="binding-item">
+            <view class="info-row">
+              <text class="info-label">物料编码</text>
+              <text class="info-value">{{item.materialCode}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">物料名称</text>
+              <text class="info-value">{{item.materialName}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">批次号</text>
+              <text class="info-value">{{item.batchNo}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">供应商</text>
+              <text class="info-value">{{item.supplier || '--'}}</text>
+            </view>
+          </view>
+          <view wx:if="{{index < materialBindings.length - 1}}" class="divider"></view>
+        </block>
+      </view>
+
+            <view wx:if="{{qualityRecords.length > 0}}" class="card mt-sm">
+        <view class="section-title">质检记录</view>
+        <view class="divider"></view>
+        <block wx:for="{{qualityRecords}}" wx:key="recordId">
+          <view class="record-item">
+            <view class="flex-between">
+              <text class="font-md font-bold">{{item.inspectionTypeName}}</text>
+              <text class="tag {{item.result === 'QUALIFIED' ? 'tag-green' : 'tag-red'}}">{{item.resultLabel}}</text>
+            </view>
+            <view class="info-row mt-xs">
+              <text class="info-label">检验人</text>
+              <text class="info-value">{{item.inspector}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">检验时间</text>
+              <text class="info-value">{{item.inspectTimeStr}}</text>
+            </view>
+            <view wx:if="{{item.remark}}" class="info-row">
+              <text class="info-label">备注</text>
+              <text class="info-value">{{item.remark}}</text>
+            </view>
+          </view>
+          <view wx:if="{{index < qualityRecords.length - 1}}" class="divider"></view>
+        </block>
+      </view>
+
+            <view wx:if="{{andonRecords.length > 0}}" class="card mt-sm">
+        <view class="section-title">安灯记录</view>
+        <view class="divider"></view>
+        <block wx:for="{{andonRecords}}" wx:key="eventId">
+          <view class="record-item">
+            <view class="info-row">
+              <text class="info-label">事件ID</text>
+              <text class="info-value">{{item.eventId}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">事件类型</text>
+              <text class="info-value">{{item.eventTypeName}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">状态</text>
+              <text class="info-value">{{item.statusLabel}}</text>
+            </view>
+          </view>
+          <view wx:if="{{index < andonRecords.length - 1}}" class="divider"></view>
+        </block>
+      </view>
+
+      <view wx:if="{{andonRecords.length === 0}}" class="card mt-sm">
+        <view class="section-title">安灯记录</view>
+        <view class="flex-center pt-sm pb-sm">
+          <text class="text-secondary font-sm">暂无安灯记录</text>
+        </view>
+      </view>
+    </block>
+
+    <empty-state wx:elif="{{hasSearched && !loading}}" text="请扫描或输入产品SN进行追溯" />
+  </view>
+</view>

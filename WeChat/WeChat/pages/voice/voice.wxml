@@ -1,0 +1,50 @@
+<view class="voice-page">
+    <view class="result-area" wx:if="{{resultText}}">
+    <text class="result-label">识别结果</text>
+    <view class="result-box">
+      <text class="result-text">{{resultText}}</text>
+    </view>
+    <view class="result-actions">
+      <button class="ra-btn ra-btn-send" bindtap="sendToAI">发送到 AI</button>
+      <button class="ra-btn ra-btn-retry" bindtap="startRecord">重新识别</button>
+    </view>
+  </view>
+
+    <view class="status-area" wx:if="{{!resultText}}">
+    <text class="status-hint">{{statusHint}}</text>
+  </view>
+
+    <view class="record-area">
+    <view
+      class="record-btn {{isRecording ? 'recording' : ''}} {{loading ? 'loading' : ''}}"
+      bindtouchstart="onTouchStart"
+      bindtouchend="onTouchEnd"
+      bindtouchcancel="onTouchCancel"
+      wx:if="{{!loading}}"
+    >
+      <view class="record-ripple {{isRecording ? 'ripple-active' : ''}}">
+        <view class="ripple r1"></view>
+        <view class="ripple r2"></view>
+        <view class="ripple r3"></view>
+      </view>
+      <text class="record-icon">{{isRecording ? '🔴' : '🎤'}}</text>
+      <text class="record-label">{{isRecording ? '松 开 识 别' : '按 住 说 话'}}</text>
+    </view>
+
+        <view class="record-btn loading-state" wx:if="{{loading}}">
+      <view class="loading-spinner"></view>
+      <text class="record-label">识别中...</text>
+    </view>
+  </view>
+
+    <view class="error-area" wx:if="{{errorMsg}}">
+    <text class="error-icon">⚠️</text>
+    <text class="error-text">{{errorMsg}}</text>
+  </view>
+
+    <view class="perm-area" wx:if="{{showPermGuide}}">
+    <text class="perm-title">需要录音权限</text>
+    <text class="perm-desc">请在「设置」中允许小程序使用麦克风</text>
+    <button class="perm-btn" bindtap="openSetting">去设置</button>
+  </view>
+</view>

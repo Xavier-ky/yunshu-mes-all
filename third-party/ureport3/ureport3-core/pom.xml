@@ -1,0 +1,133 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>ureport3-core</artifactId>
+	<parent>
+		<groupId>com.bstek.ureport</groupId>
+		<artifactId>ureport3-parent</artifactId>
+		<version>3.0.1</version>
+		<relativePath>../ureport3-parent/pom.xml</relativePath>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itextpdf</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-scratchpad</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml-full</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.5.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr4</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sourceDirectory>${project.basedir}/dsl</sourceDirectory>
+					<!-- Output into the Java package path so IDE/JDT resolves com.bstek.ureport.dsl.* -->
+					<outputDirectory>${project.basedir}/src/main/java/com/bstek/ureport/dsl</outputDirectory>
+					<includes>
+						<include>ReportParser.g4</include>
+					</includes>
+					<arguments>
+						<argument>-package</argument>
+						<argument>com.bstek.ureport.dsl</argument>
+					</arguments>
+					<visitor>true</visitor>
+					<listener>true</listener>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<!--<licenses>-->
+	<!--	<license>-->
+	<!--		<name>The Apache License, Version 2.0</name>-->
+	<!--		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>-->
+	<!--	</license>-->
+	<!--</licenses>-->
+	<!--<developers>
+		<developer>
+			<name>Gaojie</name>
+			<email>jacky.gao@bstek.com</email>
+			<organization>Bstek</organization>
+			<organizationUrl>http://www.bstek.com</organizationUrl>
+		</developer>
+	</developers>-->
+	<!--<scm>-->
+	<!--	<connection>scm:git:https://github.com/youseries/ureport.git</connection>-->
+	<!--	<developerConnection>scm:git:git@github.com:youseries/ureport.git</developerConnection>-->
+	<!--	<url>https://github.com/youseries/ureport</url>-->
+  <!--  <tag>ureport2-core-2.2.4</tag>-->
+  <!--</scm>-->
+	<!--<organization>-->
+	<!--	<name>Bstek</name>-->
+	<!--	<url>http://www.bstek.com</url>-->
+	<!--</organization>-->
+	<!--<name>UReport2 Core Project</name>-->
+	<!--<url>https://github.com/youseries/ureport/tree/master/ureport2-core</url>-->
+</project>

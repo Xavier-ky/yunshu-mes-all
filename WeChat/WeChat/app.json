@@ -1,0 +1,100 @@
+{
+  "pages": [
+    "pages/login/index",
+    "pages/home/index",
+    "pages/tasks/index",
+    "pages/scan/index",
+    "pages/message/index",
+    "pages/mine/index",
+    "pages/production/task-list/index",
+    "pages/production/task-detail/index",
+    "pages/production/operation/index",
+    "pages/production/report/index",
+    "pages/production/material-bind/index",
+    "pages/quality/task-list/index",
+    "pages/quality/inspect/index",
+    "pages/quality/defect/index",
+    "pages/quality/detail/index",
+    "pages/andon/create/index",
+    "pages/andon/detail/index",
+    "pages/andon/handle/index",
+    "pages/equipment/status/index",
+    "pages/equipment/detail/index",
+    "pages/equipment/repair/index",
+    "pages/inventory/material-issue/index",
+    "pages/inventory/material-return/index",
+    "pages/inventory/task-list/index",
+    "pages/inventory/task-detail/index",
+    "pages/traceability/product/index",
+    "pages/supervisor/dashboard/index",
+    "pages/supervisor/abnormal/index",
+    "pages/trend/index",
+    "pages/ai/chat/index",
+    "pages/production/material-call/index",
+    "pages/inventory/material-calls/index",
+    "pages/inventory/material-calls/detail/index",
+    "pages/inventory/return-detail/index",
+    "pages/chat/list/index",
+    "pages/chat/detail/index",
+    "pages/production/scheduling/index",
+    "pages/voice/voice",
+    "pages/tasks/detail/index",
+    "pages/tasks/repair-detail/index",
+    "pages/repair/task-list/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#faf8f5",
+    "navigationBarTitleText": "云枢智造 MES",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#faf8f5"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999999",
+    "selectedColor": "#1A3A5C",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/message/index",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/ai/chat/index",
+        "text": "AI助手"
+      },
+      {
+        "pagePath": "pages/chat/list/index",
+        "text": "群聊"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {
+    "page-header": "/components/page-header/index",
+    "metric-card": "/components/metric-card/index",
+    "task-card": "/components/task-card/index",
+    "status-tag": "/components/status-tag/index",
+    "scan-input": "/components/scan-input/index",
+    "empty-state": "/components/empty-state/index",
+    "action-footer": "/components/action-footer/index",
+    "role-panel": "/components/role-panel/index",
+    "ai-fab": "/components/ai-fab/index"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 30000,
+    "downloadFile": 30000
+  }
+}

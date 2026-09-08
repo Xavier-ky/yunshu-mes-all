@@ -1,0 +1,9 @@
+{
+  "name": "mes-andon",
+  "version": "1.0.0",
+  "description": "安灯管理云函数 — 创建/解决安灯 + 群聊消息管理",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

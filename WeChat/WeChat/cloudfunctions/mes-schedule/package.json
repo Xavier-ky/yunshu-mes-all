@@ -1,0 +1,9 @@
+{
+  "name": "mes-schedule",
+  "version": "1.0.0",
+  "description": "排产管理云函数 — 排产创建/删除/查询",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

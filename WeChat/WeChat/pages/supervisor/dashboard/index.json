@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "page-header": "/components/page-header/index",
+    "status-tag": "/components/status-tag/index",
+    "empty-state": "/components/empty-state/index"
+  }
+}

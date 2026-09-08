@@ -1,0 +1,116 @@
+<page-header title="群聊" showBack="{{true}}" />
+
+<view class="page-container" wx:if="{{!loading}}">
+    <view class="cd-header-bar">
+    <view class="cd-header-members" bindtap="onViewMembers">
+      <block wx:for="{{group.members}}" wx:key="userId" wx:for-item="m">
+        <view class="cd-header-avatar" style="background:linear-gradient({{memberGradient(m.userId)}});">
+          <text>{{memberInitial(m.userName)}}</text>
+        </view>
+      </block>
+      <text class="cd-header-count">{{group.members.length}}人</text>
+    </view>
+    <text class="cd-header-name">{{group.name}}</text>
+  </view>
+
+    <view class="cd-biz-banner" wx:if="{{group.bizContext && group.bizContext.title}}" bindtap="onBizTap">
+    <view class="cd-biz-icon">
+      <text>📋</text>
+    </view>
+    <view class="cd-biz-body">
+      <text class="cd-biz-title">{{group.bizContext.title}}</text>
+      <text class="cd-biz-detail">{{group.bizContext.detail}}</text>
+      <view class="cd-biz-foot">
+        <text class="cd-biz-ref">{{group.bizRefNo}}</text>
+        <text class="cd-biz-status" wx:if="{{group.bizContext.statusLabel}}">{{group.bizContext.statusLabel}}</text>
+      </view>
+    </view>
+    <text class="cd-biz-arrow">›</text>
+  </view>
+
+    <view class="cd-disbanded-banner" wx:if="{{group.status === 'DISBANDED'}}">
+    <text>⚠️ 该群聊已解散{{group.disbandReason ? '：' + group.disbandReason : ''}}</text>
+  </view>
+
+    <scroll-view
+    class="cd-msg-list"
+    scroll-y
+    scroll-into-view="{{scrollToView}}"
+    scroll-with-animation
+  >
+    <view class="cd-msg-inner">
+      <block wx:for="{{messages}}" wx:key="msgId">
+                <view class="cd-sys-msg" wx:if="{{item.type === 'SYSTEM'}}" id="msg-{{item.msgId}}">
+          <text>{{item.content}}</text>
+        </view>
+
+                <view class="cd-msg-row cd-msg-other" wx:elif="{{item.senderId !== userId && item.senderName !== userInfo.realName}}" id="msg-{{item.msgId}}">
+          <view class="cd-msg-avatar" style="background:linear-gradient({{item._avatarGradient}});">
+            <text>{{item._avatarInitial}}</text>
+          </view>
+          <view class="cd-msg-bubble-wrap">
+            <view class="cd-msg-meta">
+              <text class="cd-msg-sender-name">{{item.senderName}}</text>
+            </view>
+            <view class="cd-msg-bubble cd-bubble-other">
+              <text>{{item.content}}</text>
+            </view>
+            <text class="cd-msg-time cd-msg-time--left">{{item._timeStr}}</text>
+          </view>
+        </view>
+
+                <view class="cd-msg-row cd-msg-self" wx:else id="msg-{{item.msgId}}">
+          <view class="cd-msg-avatar" style="background:linear-gradient({{item._avatarGradient}});">
+            <text>{{item._avatarInitial}}</text>
+          </view>
+          <view class="cd-msg-bubble-wrap">
+            <view class="cd-msg-bubble cd-bubble-self">
+              <text>{{item.content}}</text>
+            </view>
+            <text class="cd-msg-time cd-msg-time--right">{{item._timeStr}}</text>
+          </view>
+        </view>
+      </block>
+
+      <view class="cd-msg-end">— 以上为全部消息 —</view>
+    </view>
+  </scroll-view>
+
+    <view class="cd-input-bar" wx:if="{{group.status === 'ACTIVE'}}">
+    <view class="cd-input-more" bindtap="onToggleMenu">
+      <text>＋</text>
+    </view>
+    <input
+      class="cd-input"
+      placeholder="输入消息..."
+      value="{{inputValue}}"
+      bindinput="onInput"
+      bindconfirm="onSend"
+      confirm-type="send"
+      adjust-position="{{true}}"
+    />
+    <view class="cd-send-btn {{inputValue ? '' : 'cd-send--disabled'}}" bindtap="onSend">
+      {{sending ? '...' : '发送'}}
+    </view>
+  </view>
+
+    <view class="cd-input-bar cd-input-bar--disabled" wx:else>
+    <text class="cd-disabled-text">群聊已解散，无法发送消息</text>
+  </view>
+</view>
+<view class="cd-menu-mask" wx:if="{{showMenu}}" bindtap="onToggleMenu"></view>
+<view class="cd-menu" wx:if="{{showMenu}}">
+  <view class="cd-menu-head">
+    <text class="cd-menu-title">群聊操作</text>
+    <text class="cd-menu-close" bindtap="onToggleMenu">✕</text>
+  </view>
+  <view class="cd-menu-item" bindtap="onViewMembers">
+    <text>查看成员（{{group.members.length}}人）</text>
+  </view>
+  <view class="cd-menu-item" wx:if="{{group.bizRefId}}" bindtap="onBizTap">
+    <text>查看关联业务</text>
+  </view>
+  <view class="cd-menu-item cd-menu-item--danger" wx:if="{{isCreator}}" bindtap="onDisband">
+    <text>解散群聊</text>
+  </view>
+</view>

@@ -1,0 +1,21 @@
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.docx binary
+*.xlsx binary
+
+# Large project assets stored with Git LFS.
+"agent-system/mymodel/models/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620/model.safetensors" filter=lfs diff=lfs merge=lfs -text
+"agent-system/mymodel/models/Qwen3-0.6B/model.safetensors" filter=lfs diff=lfs merge=lfs -text
+"agent-system/mymodel/models/Qwen3-0.6B-MES-clean360-balanced-merged/model.safetensors" filter=lfs diff=lfs merge=lfs -text
+"face-auth/data/.deepface/weights/facenet512_weights.h5" filter=lfs diff=lfs merge=lfs -text
+"frontend/images/202607151604.mp4" filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,6 @@
+<view class="side-fab {{expanded ? 'side-fab--show' : ''}}" wx:if="{{visible}}" bindtap="onTap">
+  <view class="side-fab-inner">
+    <image class="side-fab-icon" src="/images/AI助手.svg" mode="aspectFit" />
+  </view>
+  <view class="side-fab-edge"></view>
+</view>

@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "metric-card": "/components/metric-card/index",
+    "role-panel": "/components/role-panel/index"
+  },
+  "navigationBarTitleText": "云枢智造 MES"
+}

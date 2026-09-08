@@ -1,0 +1,136 @@
+<page-header title="物料管理" showBack="{{true}}" />
+
+<view class="page-container">
+    <view class="mi-tabs">
+    <view
+      class="mi-tab {{activeTab === 'issue' ? 'mi-tab--active' : ''}}"
+      data-tab="issue" bindtap="onTabChange"
+    >领料</view>
+    <view
+      class="mi-tab {{activeTab === 'return' ? 'mi-tab--active' : ''}}"
+      data-tab="return" bindtap="onTabChange"
+    >退料</view>
+  </view>
+
+    <view class="mi-list" wx:if="{{activeTab === 'issue'}}">
+    <block wx:for="{{issueList}}" wx:key="taskId">
+      <view class="mi-card" data-task-id="{{item.taskId}}" bindtap="onCardTap">
+        <view class="mi-card-top">
+          <text class="mi-material">{{item.materialName}}</text>
+          <status-tag status="{{item.status}}">{{item.statusLabel}}</status-tag>
+        </view>
+        <view class="mi-card-sub">
+          <text>{{item.taskNo}}</text>
+          <text class="mi-sub-div">·</text>
+          <text>{{item.materialCode}}</text>
+        </view>
+        <view class="mi-info-row">
+          <view class="mi-info-item">
+            <text class="mi-info-l">规格</text><text class="mi-info-v">{{item.spec || '--'}}</text>
+          </view>
+          <view class="mi-info-item">
+            <text class="mi-info-l">批次号</text><text class="mi-info-v">{{item.batchNo}}</text>
+          </view>
+          <view class="mi-info-item">
+            <text class="mi-info-l">仓库</text><text class="mi-info-v">{{item.warehouseName}}</text>
+          </view>
+          <view class="mi-info-item">
+            <text class="mi-info-l">库位</text><text class="mi-info-v">{{item.locationCode}}</text>
+          </view>
+        </view>
+        <view class="mi-progress-row">
+          <view class="mi-progress-bar">
+            <view class="mi-progress-fill" style="width:{{item.qty > 0 ? item.issuedQty / item.qty * 100 : 0}}%;"></view>
+          </view>
+          <text class="mi-progress-num">{{item.issuedQty}}/{{item.qty}} {{item.unit || ''}}</text>
+        </view>
+        <view class="mi-card-foot">
+          <text class="mi-time">{{item.createTimeStr}}</text>
+          <text class="mi-arrow">›</text>
+        </view>
+      </view>
+    </block>
+    <view class="mi-empty" wx:if="{{!loading && issueList.length === 0}}">
+      <text class="mi-empty-icon">📦</text>
+      <text class="mi-empty-title">暂无领料任务</text>
+    </view>
+  </view>
+
+    <view class="mi-list" wx:if="{{activeTab === 'return'}}">
+    <block wx:for="{{returnList}}" wx:key="taskId">
+      <view class="mi-card" data-task-id="{{item.taskId}}" bindtap="onReturnTap">
+        <view class="mi-card-top">
+          <text class="mi-material">{{item.materialName}}</text>
+          <status-tag status="{{item.status}}">{{item.statusLabel}}</status-tag>
+        </view>
+        <view class="mi-card-sub">
+          <text>{{item.taskNo}}</text>
+          <text class="mi-sub-div">·</text>
+          <text>{{item.materialCode}}</text>
+        </view>
+        <view class="mi-info-row">
+          <view class="mi-info-item">
+            <text class="mi-info-l">规格</text><text class="mi-info-v">{{item.spec || '--'}}</text>
+          </view>
+          <view class="mi-info-item">
+            <text class="mi-info-l">数量</text><text class="mi-info-v">{{item.qty}} {{item.unit || ''}}</text>
+          </view>
+          <view class="mi-info-item">
+            <text class="mi-info-l">仓库</text><text class="mi-info-v">{{item.warehouseName}}</text>
+          </view>
+        </view>
+        <view wx:if="{{item.reason}}" class="mi-reason">
+          <text class="mi-reason-label">退料原因：</text><text>{{item.reason}}</text>
+        </view>
+        <view class="mi-card-foot">
+          <text class="mi-time">{{item.createTimeStr}}</text>
+          <text class="mi-arrow">›</text>
+        </view>
+      </view>
+    </block>
+    <view class="mi-empty" wx:if="{{!loading && returnList.length === 0}}">
+      <text class="mi-empty-icon">📋</text>
+      <text class="mi-empty-title">暂无退料任务</text>
+    </view>
+
+        <view class="mi-fab" bindtap="onNewReturn">
+      <text class="mi-fab-text">+ 新建退料</text>
+    </view>
+  </view>
+</view>
+<view class="mr-overlay" wx:if="{{showReturnForm}}">
+  <view class="mr-form-header">
+    <view class="mr-form-back" bindtap="onCancelReturn">取消</view>
+    <text class="mr-form-title">新建退料</text>
+    <view></view>
+  </view>
+  <view class="mr-form-body">
+    <view class="mr-f-group">
+      <text class="mr-f-label">物料编码</text>
+      <input class="mr-f-input" placeholder="请输入或扫描" value="{{returnForm.materialCode}}" bindinput="onReturnField" data-field="materialCode" />
+    </view>
+    <view class="mr-f-group">
+      <text class="mr-f-label">物料名称</text>
+      <input class="mr-f-input" placeholder="请输入物料名称" value="{{returnForm.materialName}}" bindinput="onReturnField" data-field="materialName" />
+    </view>
+    <view class="mr-f-row">
+      <view class="mr-f-half">
+        <text class="mr-f-label">规格</text>
+        <input class="mr-f-input" placeholder="规格" value="{{returnForm.spec}}" bindinput="onReturnField" data-field="spec" />
+      </view>
+      <view class="mr-f-half">
+        <text class="mr-f-label">数量</text>
+        <input class="mr-f-input" type="number" placeholder="数量" value="{{returnForm.qty}}" bindinput="onReturnField" data-field="qty" />
+      </view>
+    </view>
+    <view class="mr-f-group">
+      <text class="mr-f-label">批次号</text>
+      <input class="mr-f-input" placeholder="批次号" value="{{returnForm.batchNo}}" bindinput="onReturnField" data-field="batchNo" />
+    </view>
+    <view class="mr-f-group">
+      <text class="mr-f-label">退料原因</text>
+      <textarea class="mr-f-textarea" placeholder="请填写退料原因" value="{{returnForm.reason}}" bindinput="onReturnField" data-field="reason" maxlength="200" />
+    </view>
+    <button class="mr-submit" bindtap="onSubmitReturn" loading="{{submittingReturn}}" disabled="{{submittingReturn}}">确认退料</button>
+  </view>
+</view>

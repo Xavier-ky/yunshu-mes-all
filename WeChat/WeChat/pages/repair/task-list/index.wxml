@@ -1,0 +1,68 @@
+<page-header title="维修任务" showBack="{{true}}" />
+
+<view class="page-container">
+    <view class="stats-row">
+    <view class="stat-card stat-pending {{activeStatus === 'PENDING' ? 'stat-active' : ''}}" data-status="PENDING" bindtap="onStatTap">
+      <text class="stat-num">{{stats.pending}}</text>
+      <text class="stat-label">待处理</text>
+    </view>
+    <view class="stat-card stat-processing {{activeStatus === 'PROCESSING' ? 'stat-active' : ''}}" data-status="PROCESSING" bindtap="onStatTap">
+      <text class="stat-num">{{stats.processing}}</text>
+      <text class="stat-label">维修中</text>
+    </view>
+    <view class="stat-card stat-completed {{activeStatus === 'COMPLETED' ? 'stat-active' : ''}}" data-status="COMPLETED" bindtap="onStatTap">
+      <text class="stat-num">{{stats.completed}}</text>
+      <text class="stat-label">已完成</text>
+    </view>
+  </view>
+
+    <scroll-view scroll-x class="filter-tabs" enhanced show-scrollbar="{{false}}">
+    <view
+      class="filter-chip {{activeStatus === item.value ? 'chip-active' : ''}}"
+      wx:for="{{statusList}}" wx:key="value"
+      data-value="{{item.value}}" bindtap="onStatusChange"
+    >{{item.label}}</view>
+  </scroll-view>
+
+    <scroll-view class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <block wx:for="{{taskList}}" wx:key="taskId">
+      <view
+        class="repair-card {{item.status === 'COMPLETED' ? 'repair-done' : item.status === 'PROCESSING' ? 'repair-ing' : ''}}"
+        data-task-id="{{item.taskId}}"
+        data-device-code="{{item.productModel}}"
+        bindtap="onTaskTap"
+      >
+                <view class="repair-bar"></view>
+
+                <view class="repair-body">
+                    <view class="repair-head">
+            <text class="repair-device">{{item.productName || '未知设备'}}</text>
+            <status-tag status="{{item.status}}">{{item.statusLabel}}</status-tag>
+          </view>
+
+                    <view class="repair-fault" wx:if="{{item.description}}">
+            <text class="repair-fault-icon">⚠️</text>
+            <text class="repair-fault-text">{{item.description}}</text>
+          </view>
+
+                    <view class="repair-meta">
+            <text class="repair-meta-item">{{item.productModel || '--'}}</text>
+            <text class="repair-meta-dot" wx:if="{{item.workstationName}}">·</text>
+            <text class="repair-meta-item" wx:if="{{item.workstationName}}">{{item.workstationName}}</text>
+          </view>
+
+                    <view class="repair-flow">
+            <text class="repair-person">{{item.reportedBy || '--'}}</text>
+            <text class="repair-arrow">→</text>
+            <text class="repair-person repair-assignee">{{item.assignedTo || '待分配'}}</text>
+          </view>
+
+                    <text class="repair-time" wx:if="{{item.createTime}}">{{item.createTime}}</text>
+        </view>
+      </view>
+    </block>
+
+    <empty-state wx:if="{{!loading && taskList.length === 0}}" text="暂无维修任务" />
+    <view class="list-end"></view>
+  </scroll-view>
+</view>

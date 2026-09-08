@@ -1,0 +1,17 @@
+.section-title {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.scan-result {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-success-light);
+  border-radius: var(--radius-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.scan-result-text {
+  font-size: var(--font-sm);
+  color: var(--color-success);
+}

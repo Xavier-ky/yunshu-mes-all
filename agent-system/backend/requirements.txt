@@ -1,0 +1,15 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.9.0
+python-dotenv>=1.0.0
+httpx>=0.27.0
+PyJWT>=2.9.0
+PyMySQL>=1.1.1
+qdrant-client>=1.12.0,<1.17.0
+sentence-transformers>=3.0.0
+# Local Qwen3 inference. Use the existing `pytorch` conda environment when possible.
+torch>=2.3.0
+transformers>=4.57.0
+# Compatibility-first orchestration core. Existing scheduling/quality routes
+# remain unchanged until an explicit cutover is approved.
+langgraph==0.2.76

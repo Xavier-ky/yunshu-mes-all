@@ -1,0 +1,9 @@
+{
+  "name": "mes-dashboard",
+  "version": "1.0.0",
+  "description": "仪表盘云函数 — 定时聚合KPI + 快照查询",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

@@ -1,0 +1,123 @@
+<page-header title="异常监控" showBack="{{true}}" />
+
+<view class="page-container">
+    <view class="stats-row">
+    <view class="{{statAndonClass}}" data-key="andon" bindtap="onStatTap">
+      <text class="stat-icon">⚠</text>
+      <text class="stat-num">{{stats.andon}}</text>
+      <text class="stat-label">安灯异常</text>
+    </view>
+    <view class="{{statQualityClass}}" data-key="quality" bindtap="onStatTap">
+      <text class="stat-icon">✗</text>
+      <text class="stat-num">{{stats.quality}}</text>
+      <text class="stat-label">质量异常</text>
+    </view>
+    <view class="{{statEquipmentClass}}" data-key="equipment" bindtap="onStatTap">
+      <text class="stat-icon">🔧</text>
+      <text class="stat-num">{{stats.equipment}}</text>
+      <text class="stat-label">设备异常</text>
+    </view>
+  </view>
+
+    <scroll-view scroll-x class="tab-bar" enhanced show-scrollbar="{{false}}">
+    <view
+      class="tab-chip {{activeTab === item.key ? 'chip-active' : ''}}"
+      wx:for="{{tabs}}" wx:key="key"
+      data-key="{{item.key}}" bindtap="onTabChange"
+    >
+      <text class="chip-icon">{{item.icon}}</text>
+      <text>{{item.label}}</text>
+      <text class="chip-count" wx:if="{{item.key === 'andon' && stats.andon > 0}}">{{stats.andon}}</text>
+      <text class="chip-count" wx:if="{{item.key === 'quality' && stats.quality > 0}}">{{stats.quality}}</text>
+      <text class="chip-count" wx:if="{{item.key === 'equipment' && stats.equipment > 0}}">{{stats.equipment}}</text>
+    </view>
+  </scroll-view>
+
+    <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载异常数据...</text>
+  </view>
+
+        <scroll-view
+    wx:if="{{!loading && activeTab === 'andon'}}"
+    class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}"
+    refresher-enabled refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh"
+  >
+    <block wx:for="{{andonList}}" wx:key="eventId">
+      <view class="ab-card" data-id="{{item.eventId}}" bindtap="onAndonTap">
+        <view class="ab-bar ab-bar-andon"></view>
+        <view class="ab-body">
+          <view class="ab-head">
+            <text class="ab-title">{{item.eventTypeName}}</text>
+            <view class="ab-status tag {{item._tagClass}}">{{item.statusLabel}}</view>
+          </view>
+          <text class="ab-desc" wx:if="{{item.description}}">{{item.description}}</text>
+          <view class="ab-meta">
+            <text wx:if="{{item.lineName}}">{{item.lineName}}</text>
+            <text wx:if="{{item.workstationName}}"> · {{item.workstationName}}</text>
+            <text wx:if="{{item.deviceName}}"> · {{item.deviceName}}</text>
+          </view>
+          <view class="ab-flow" wx:if="{{item.createdByName || item.targetPerson}}">
+            <text class="ab-person">{{item.createdByName}}</text>
+            <text class="ab-arrow">→</text>
+            <text class="ab-person ab-target">{{item.targetPerson}}</text>
+          </view>
+          <text class="ab-time" wx:if="{{item.createTime}}">{{item.createTime}}</text>
+        </view>
+      </view>
+    </block>
+    <empty-state wx:if="{{andonList.length === 0}}" text="暂无安灯异常" desc="当前没有活跃的安灯事件" />
+    <view class="list-end"></view>
+  </scroll-view>
+
+        <scroll-view
+    wx:if="{{!loading && activeTab === 'quality'}}"
+    class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}"
+    refresher-enabled refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh"
+  >
+    <block wx:for="{{qualityList}}" wx:key="workOrderNo">
+      <view class="ab-card">
+        <view class="ab-bar ab-bar-quality"></view>
+        <view class="ab-body">
+          <view class="ab-head">
+            <text class="ab-title">{{item.productName}}</text>
+            <view class="ab-status tag tag-red">{{item.statusLabel}}</view>
+          </view>
+          <text class="ab-desc" wx:if="{{item.reason}}">⚠️ {{item.reason}}</text>
+          <view class="ab-meta">
+            <text>{{item.workOrderNo}}</text>
+          </view>
+          <text class="ab-time" wx:if="{{item.frozenAt}}">{{item.frozenAt}}</text>
+        </view>
+      </view>
+    </block>
+    <empty-state wx:if="{{qualityList.length === 0}}" text="暂无质量异常" desc="当前没有被冻结的工单" />
+    <view class="list-end"></view>
+  </scroll-view>
+
+        <scroll-view
+    wx:if="{{!loading && activeTab === 'equipment'}}"
+    class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}"
+    refresher-enabled refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh"
+  >
+    <block wx:for="{{equipmentList}}" wx:key="deviceCode">
+      <view class="ab-card" data-code="{{item.deviceCode}}" bindtap="onEquipmentTap">
+        <view class="ab-bar ab-bar-equipment"></view>
+        <view class="ab-body">
+          <view class="ab-head">
+            <text class="ab-title">{{item.deviceName}}</text>
+            <view class="ab-status tag {{item._tagClass}}">{{item.statusLabel}}</view>
+          </view>
+          <text class="ab-desc" wx:if="{{item.faultDescription}}">⚠️ {{item.faultDescription}}</text>
+          <view class="ab-meta">
+            <text class="ab-code">{{item.deviceCode}}</text>
+            <text wx:if="{{item.lineName}}"> · {{item.lineName}}</text>
+          </view>
+          <text class="ab-time" wx:if="{{item.faultTime}}">{{item.faultTime}}</text>
+        </view>
+      </view>
+    </block>
+    <empty-state wx:if="{{equipmentList.length === 0}}" text="暂无设备异常" desc="当前设备运行正常" />
+    <view class="list-end"></view>
+  </scroll-view>
+</view>

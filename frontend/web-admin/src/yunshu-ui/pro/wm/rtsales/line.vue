@@ -1,0 +1,339 @@
+<template>
+  <div class="app-container">
+    <el-row v-if="optType != 'view'" :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="default"
+          @click="handleAdd"
+          v-hasPermi="['mes:wm:rtsales:add']"
+        >新增</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="danger"
+          plain
+          icon="el-icon-delete"
+          size="default"
+          :disabled="multiple"
+          @click="handleDelete"
+          v-hasPermi="['mes:wm:rtsales:remove']"
+        >删除</el-button>
+      </el-col>
+      <right-toolbar :show-search="showSearch" @update:showSearch="showSearch = $event" @queryTable="getList"></right-toolbar>
+    </el-row>
+
+    <el-table v-loading="loading" :data="rtsaleslineList" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="产品编码" width="120" align="center" prop="itemCode" />
+      <el-table-column label="产品名称" width="200" align="center" prop="itemName" :show-overflow-tooltip="true"/>
+      <el-table-column label="规格型号" width="150" align="center" prop="specification" :show-overflow-tooltip="true"/>
+      <el-table-column label="单位" align="center" prop="unitName" />
+      <el-table-column label="退货数量" align="center" prop="quantityRted" />
+      <el-table-column label="批次号" align="center" prop="batchCode" />
+      <el-table-column label="质量状态" width="100px" align="center" prop="qualityStatus">
+        <template #default="scope">
+          <dict-tag :options="dict.type.mes_quality_status" :value="scope.row.qualityStatus"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true"/>
+      <el-table-column label="操作" width="150px" align="center" v-if="optType != 'view'" class-name="small-padding fixed-width">
+        <template #default="scope">
+          <el-button
+            size="default"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['mes:wm:rtsales:edit']"
+          >修改</el-button>
+          <el-button
+            size="default"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['mes:wm:rtsales:remove']"
+          >删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page="queryParams.pageNum"
+      :limit="queryParams.pageSize"
+      @update:page="queryParams.pageNum = $event"
+      @update:limit="queryParams.pageSize = $event"
+      @pagination="getList"
+    />
+
+    <!-- 添加或修改产品销售退货行对话框 -->
+    <el-dialog :title="title" v-model="open" width="960px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="产品编码"  prop="itemCode">
+              <el-input v-model="form.itemCode" readonly="readonly" placeholder="请选择产品" >
+                <template #append><el-button @click="handleSelectProduct" icon="el-icon-search"></el-button></template>
+              </el-input>
+            </el-form-item>
+            <ItemSelect ref="itemSelect" @onSelected="onItemSelected" > </ItemSelect>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="产品名称" prop="itemName">
+              <el-input v-model="form.itemName" placeholder="请输入产品物料名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="单位" prop="unitName">
+              <el-input v-model="form.unitName" placeholder="请输入单位" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="规格型号" prop="specification">
+              <el-input v-model="form.specification" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="退货数量" prop="quantityRted">
+              <el-input v-model="form.quantityRted" placeholder="请输入退货数量" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+              <el-form-item label="批次号" prop="batchCode">
+                <el-input v-model="form.batchCode" readonly="readonly" placeholder="请选择批次号" >
+                  <template #append><el-button @click="handleSelectBatch" icon="el-icon-search"></el-button></template>
+                </el-input>
+              </el-form-item>
+              <BatchSelect ref="batchSelect" :itemId="form.itemId" :clientId="clientId" :coCode="coCode" @onSelected="onBatchSelected" ></BatchSelect>
+            </el-col>
+        </el-row>
+      </el-form>
+      <template #footer><div class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div></template>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { listRtsalesline, getRtsalesline, delRtsalesline, addRtsalesline, updateRtsalesline } from "@/yunshu-ui/api/mes/wm/rtsalesline";
+import ItemSelect  from "@/yunshu-ui/components/itemSelect/single.vue";
+import BatchSelect from "@/yunshu-ui/components/batchSelect/single.vue";
+export default {
+  name: "Rtsalesline",
+  components: {ItemSelect,BatchSelect},
+  dicts:['mes_quality_status'],
+  props: {
+    rtId: null,
+    clientId: null,
+    coCode: null,
+    optType: null,
+  },
+  data() {
+    return {
+      // 遮罩层
+      loading: true,
+      // 选中数组
+      ids: [],
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 显示搜索条件
+      showSearch: true,
+      // 总条数
+      total: 0,
+      // 产品销售退货行表格数据
+      rtsaleslineList: [],
+      // 弹出层标题
+      title: "",
+      // 是否显示弹出层
+      open: false,
+      // 查询参数
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        rtId: this.rtId,
+        itemId: null,
+        itemCode: null,
+        itemName: null,
+        specification: null,
+        unitOfMeasure: null,
+        quantityRted: null,
+        batchId: null,
+        batchCode: null,
+        qualityStatus: null,
+      },
+      // 表单参数
+      form: {},
+      // 表单校验
+      rules: {
+        itemCode: [
+          { required: true, message: "产品编码不能为空", trigger: "blur" }
+        ],
+        itemId: [
+          { required: true, message: "产品不能为空", trigger: "blur" }
+        ],
+        quantityRted: [
+          { required: true, message: "退货数量不能为空", trigger: "blur" }
+        ],
+      }
+    };
+  },
+  created() {
+    this.getList();
+  },
+  methods: {
+    /** 查询产品销售退货行列表 */
+    getList() {
+      this.loading = true;
+      listRtsalesline(this.queryParams).then(response => {
+        this.rtsaleslineList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
+    },
+    handleSelectProduct(){
+      this.$refs.itemSelect.showFlag = true;
+    },
+    //物料选择弹出框
+    onItemSelected(obj){
+        if(obj != undefined && obj != null){
+          this.form.itemId = obj.itemId;
+          this.form.itemCode = obj.itemCode;
+          this.form.itemName = obj.itemName;
+          this.form.specification = obj.specification;
+          this.form.unitOfMeasure = obj.unitOfMeasure;
+          this.form.unitName = obj.unitName
+        }
+    },
+    handleSelectBatch(){
+      this.$refs.batchSelect.showFlag = true;
+    },
+    
+    onBatchSelected(obj){
+        if(obj != undefined && obj != null){
+          if(this.form.itemId == null || this.form.itemId != obj.itemId){
+            this.form.itemId = obj.itemId;
+            this.form.itemCode = obj.itemCode;
+            this.form.itemName = obj.itemName;
+            this.form.specification = obj.specification;
+            this.form.unitOfMeasure = obj.unitOfMeasure;
+            this.form.unitName = obj.unitName;
+          }
+
+          this.form.batchId = obj.batchId;
+          this.form.batchCode = obj.batchCode;
+        }
+    },
+
+    // 取消按钮
+    cancel() {
+      this.open = false;
+      this.reset();
+    },
+    // 表单重置
+    reset() {
+      this.form = {
+        lineId: null,
+        rtId: this.rtId,
+        itemId: null,
+        itemCode: null,
+        itemName: null,
+        specification: null,
+        unitOfMeasure: null,
+        unitName: null,
+        quantityRted: 0,
+        batchId: null,
+        batchCode: null,
+        qualityStatus: null,        
+        attr1: null,
+        attr2: null,
+        attr3: null,
+        attr4: null,
+        createBy: null,
+        createTime: null,
+        updateBy: null,
+        updateTime: null
+      };
+      this.resetForm("form");
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageNum = 1;
+      this.getList();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection.map(item => item.lineId)
+      this.single = selection.length!==1
+      this.multiple = !selection.length
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      this.reset();
+      this.open = true;
+      this.title = "添加产品销售退货行";
+    },
+    /** 修改按钮操作 */
+    handleUpdate(row) {
+      this.reset();
+      const lineId = row.lineId || this.ids
+      getRtsalesline(lineId).then(response => {
+        this.form = response.data;
+        this.open = true;
+        this.title = "修改产品销售退货行";
+      });
+    },
+    /** 提交按钮 */
+    submitForm() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          if (this.form.lineId != null) {
+            updateRtsalesline(this.form).then(response => {
+              this.$modal.msgSuccess("修改成功");
+              this.open = false;
+              this.getList();
+            });
+          } else {
+            addRtsalesline(this.form).then(response => {
+              this.$modal.msgSuccess("新增成功");
+              this.open = false;
+              this.getList();
+            });
+          }
+        }
+      });
+    },
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      const lineIds = row.lineId || this.ids;
+      this.$modal.confirm('是否确认删除产品销售退货行编号为"' + lineIds + '"的数据项？').then(function() {
+        return delRtsalesline(lineIds);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("删除成功");
+      }).catch(() => {});
+    },
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download('wm/rtsalesline/export', {
+        ...this.queryParams
+      }, `rtsalesline_${new Date().getTime()}.xlsx`)
+    }
+  }
+};
+</script>

@@ -1,0 +1,94 @@
+<page-header title="生产报工" showBack="{{true}}" />
+
+<view class="page-container">
+
+  <view class="page-content">
+    <view class="card">
+      <text class="section-title mb-sm">任务信息</text>
+
+      <view class="form-group">
+        <text class="form-label">工单号</text>
+        <input
+          class="form-input disabled-input"
+          value="{{task.workOrderNo || ''}}"
+          disabled
+        />
+      </view>
+
+      <view class="form-group">
+        <text class="form-label">工位编码</text>
+        <input
+          class="form-input disabled-input"
+          value="{{task.workstationCode || ''}}"
+          disabled
+        />
+      </view>
+
+      <view class="form-group">
+        <text class="form-label">工序编码</text>
+        <input
+          class="form-input disabled-input"
+          value="{{task.processCode || ''}}"
+          disabled
+        />
+      </view>
+    </view>
+
+    <view class="card">
+      <text class="section-title mb-sm">报工信息</text>
+
+      <view class="form-group">
+        <text class="form-label">产品SN</text>
+        <scan-input
+          placeholder="扫描产品SN码"
+          value="{{formData.productSn}}"
+          bind:scan="onScanProduct"
+          bind:input="onProductInput"
+        />
+      </view>
+
+      <view class="form-group">
+        <text class="form-label">良品数量</text>
+        <input
+          class="form-input"
+          type="number"
+          placeholder="请输入良品数量"
+          value="{{formData.goodQty}}"
+          bindinput="onGoodQtyInput"
+        />
+      </view>
+
+      <view class="form-group">
+        <text class="form-label">不良数量</text>
+        <input
+          class="form-input"
+          type="number"
+          placeholder="请输入不良数量（选填）"
+          value="{{formData.defectQty}}"
+          bindinput="onDefectQtyInput"
+        />
+      </view>
+
+      <view class="form-group">
+        <text class="form-label">备注</text>
+        <textarea
+          class="form-textarea"
+          placeholder="请输入备注信息（选填）"
+          value="{{formData.remark}}"
+          bindinput="onRemarkInput"
+          maxlength="200"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-placeholder"></view>
+</view>
+
+<action-footer
+    primaryText="提交报工"
+    primaryDisabled="{{submitting}}"
+    primaryLoading="{{submitting}}"
+    showSecondary="{{false}}"
+    bind:primary="onSubmit"
+  />

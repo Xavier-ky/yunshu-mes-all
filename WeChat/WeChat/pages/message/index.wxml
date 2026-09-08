@@ -1,0 +1,47 @@
+<page-header title="系统信息" showBack="{{true}}" />
+
+<view class="page-container">
+    <view class="msg-top-bar">
+    <scroll-view scroll-x class="msg-filter-bar">
+      <view class="msg-filter-item {{activeType === item.value ? 'active' : ''}}"
+        wx:for="{{typeList}}" wx:key="value"
+        data-value="{{item.value}}"
+        bindtap="onTypeChange"
+      >{{item.label}}</view>
+    </scroll-view>
+    <view class="msg-mark-all" bindtap="onMarkAllRead" wx:if="{{unreadCount > 0}}">
+      <text>全部已读</text>
+    </view>
+  </view>
+
+    <view class="msg-unread-banner" wx:if="{{unreadCount > 0}}">
+    <text class="msg-unread-icon">●</text>
+    <text class="msg-unread-text">{{unreadCount}} 条未读消息</text>
+  </view>
+
+    <view class="msg-list">
+    <block wx:for="{{messageList}}" wx:key="msgId">
+      <view class="msg-card {{item.isRead ? '' : 'msg-card--unread'}}" bindtap="onMessageTap" data-id="{{item.msgId}}">
+                <view class="msg-left-bar" style="background:{{item.isRead ? '#E8E8E8' : 'var(--msg-color-' + item.typeColor + ', #1A3A5C)'}};"></view>
+
+                <view class="msg-body">
+          <view class="msg-head">
+            <view class="msg-type-tag tag-{{item.typeColor}}">{{item.typeName}}</view>
+            <text class="msg-time">{{item.timeStr}}</text>
+          </view>
+
+          <text class="msg-title {{item.isRead ? '' : 'msg-title--bold'}}">{{item.title}}</text>
+          <text class="msg-content">{{item.content}}</text>
+
+                    <view class="msg-ref-row" wx:if="{{item.refNo}}">
+            <text class="msg-ref-label">关联：</text>
+            <text class="msg-ref-no">{{item.refNo}}</text>
+            <text class="msg-ref-arrow">›</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <empty-state wx:if="{{messageList.length === 0}}" text="暂无消息" />
+</view>

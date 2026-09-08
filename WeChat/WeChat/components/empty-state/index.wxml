@@ -1,0 +1,5 @@
+<view class="empty-state">
+  <view class="empty-icon">{{icon || '📋'}}</view>
+  <text class="empty-text">{{text}}</text>
+  <view wx:if="{{showAction}}" class="empty-btn" bindtap="onAction" hover-class="empty-btn-active">{{actionText}}</view>
+</view>

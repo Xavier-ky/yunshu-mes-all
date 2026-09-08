@@ -1,0 +1,219 @@
+<page-header title="任务详情" showBack="{{true}}" />
+
+<view class="page-container">
+  <block wx:if="{{!loading && task}}">
+    <view class="detail-content">
+
+            <view class="dt-card">
+        <view class="dt-card-head">
+          <text class="dt-card-title">基本信息</text>
+          <status-tag status="{{task.status}}">{{task.statusLabel}}</status-tag>
+        </view>
+        <view class="dt-info-grid">
+          <view class="dt-info-item">
+            <text class="dt-info-label">任务编号</text>
+            <text class="dt-info-val">{{task.taskNo}}</text>
+          </view>
+          <view class="dt-info-item">
+            <text class="dt-info-label">工单号</text>
+            <text class="dt-info-val">{{task.workOrderNo}}</text>
+          </view>
+          <view class="dt-info-item">
+            <text class="dt-info-label">产品名称</text>
+            <text class="dt-info-val">{{task.productName}}</text>
+          </view>
+          <view class="dt-info-item">
+            <text class="dt-info-label">产品型号</text>
+            <text class="dt-info-val">{{task.productModel}}</text>
+          </view>
+          <view class="dt-info-item">
+            <text class="dt-info-label">工序</text>
+            <text class="dt-info-val">{{task.processName}}（{{task.processCode}}）</text>
+          </view>
+          <view class="dt-info-item">
+            <text class="dt-info-label">工位</text>
+            <text class="dt-info-val">{{task.workstationName}}（{{task.workstationCode}}）</text>
+          </view>
+          <view class="dt-info-item dt-info-full">
+            <text class="dt-info-label">产线</text>
+            <text class="dt-info-val">{{task.lineName}}</text>
+          </view>
+        </view>
+      </view>
+
+            <view class="dt-card">
+        <text class="dt-card-title">生产进度</text>
+        <view class="dt-progress-stats">
+          <view class="dt-stat">
+            <text class="dt-stat-num">{{task.planQty}}</text>
+            <text class="dt-stat-label">计划</text>
+          </view>
+          <view class="dt-stat">
+            <text class="dt-stat-num">{{task.completedQty}}</text>
+            <text class="dt-stat-label">已完成</text>
+          </view>
+          <view class="dt-stat">
+            <text class="dt-stat-num good">{{task.goodQty}}</text>
+            <text class="dt-stat-label">良品</text>
+          </view>
+          <view class="dt-stat">
+            <text class="dt-stat-num defect">{{task.defectQty}}</text>
+            <text class="dt-stat-label">不良</text>
+          </view>
+        </view>
+        <view class="dt-progress-wrap">
+          <view class="dt-progress-bar">
+            <view class="dt-progress-fill" style="width:{{progressPercent}}%;"></view>
+          </view>
+          <text class="dt-progress-pct">{{progressPercent}}%</text>
+        </view>
+        <text class="dt-remain" wx:if="{{task.planQty - task.completedQty > 0}}">剩余需完成 <text class="dt-remain-num">{{task.planQty - task.completedQty}}</text> 件</text>
+      </view>
+
+            <view class="dt-card" wx:if="{{task.sopDesc}}">
+        <view class="dt-card-head">
+          <text class="dt-card-title">作业指导（SOP）</text>
+          <view class="dt-card-head-right">
+                        <view class="sop-view-btn" wx:if="{{sopImages.length > 0}}" bindtap="onPreviewSop">
+              <text>📖</text>
+            </view>
+                        <view class="andon-mini" bindtap="onQuickAndon" wx:if="{{!isReadOnly}}">
+              <text>⚠️</text>
+            </view>
+          </view>
+        </view>
+        <view class="sop-indicator">
+          <view
+            class="sop-step-item {{index < task.completedQty / task.planQty * sopSteps.length ? 'sop-step-done' : ''}} {{index === Math.floor(task.completedQty / task.planQty * sopSteps.length) ? 'sop-step-current' : ''}}"
+            wx:for="{{sopSteps}}"
+            wx:key="index"
+          >
+            <view class="sop-step-node">
+              <text wx:if="{{index < task.completedQty / task.planQty * sopSteps.length}}">✓</text>
+              <text wx:else>{{index + 1}}</text>
+            </view>
+            <view class="sop-step-connector" wx:if="{{index < sopSteps.length - 1}}"></view>
+            <text class="sop-step-text">{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+            <view class="dt-card" wx:if="{{!isReadOnly}}">
+        <text class="dt-card-title">物料绑定</text>
+        <view class="dt-form-item">
+          <text class="dt-form-label">扫描 / 输入物料批次</text>
+          <view class="dt-scan-row">
+            <input
+              class="dt-input"
+              placeholder="扫描或输入物料批次码"
+              value="{{materialForm.batchNo}}"
+              bindinput="onMaterialInput"
+              bindconfirm="onMaterialConfirm"
+            />
+            <view class="dt-scan-btn" bindtap="onMaterialScan">
+              <image class="dt-scan-icon" src="/images/扫码_scan-code.svg" mode="aspectFit" />
+            </view>
+          </view>
+        </view>
+
+                <view class="dt-material-preview" wx:if="{{materialInfo}}">
+          <view class="dt-info-item"><text class="dt-info-label">物料名称</text><text class="dt-info-val">{{materialInfo.materialName}}</text></view>
+          <view class="dt-info-item"><text class="dt-info-label">规格型号</text><text class="dt-info-val">{{materialInfo.spec}}</text></view>
+          <view class="dt-info-item"><text class="dt-info-label">批次号</text><text class="dt-info-val">{{materialInfo.batchNo}}</text></view>
+          <view class="dt-info-item"><text class="dt-info-label">库存数量</text><text class="dt-info-val">{{materialInfo.stockQty}}</text></view>
+          <view class="dt-confirm-btn" bindtap="onBindMaterial">确认绑定</view>
+        </view>
+
+                <view class="dt-chip-list" wx:if="{{boundMaterials.length > 0}}">
+          <text class="dt-chip-label">已绑定：</text>
+          <view class="dt-chip" wx:for="{{boundMaterials}}" wx:key="batchNo">
+            <text class="dt-chip-text">{{item.materialName}} · {{item.batchNo}}</text>
+          </view>
+        </view>
+      </view>
+
+            <view class="dt-card" wx:if="{{!isReadOnly}}">
+        <text class="dt-card-title">产品 SN 绑定</text>
+        <view class="dt-form-item">
+          <text class="dt-form-label">扫描产品 SN</text>
+          <view class="dt-scan-row">
+            <input
+              class="dt-input"
+              placeholder="扫描产品SN码"
+              value="{{productSn}}"
+              bindinput="onProductSnInput"
+            />
+            <view class="dt-scan-btn" bindtap="onProductSnScan">
+              <image class="dt-scan-icon" src="/images/扫码_scan-code.svg" mode="aspectFit" />
+            </view>
+          </view>
+        </view>
+        <view class="dt-sn-preview" wx:if="{{productSn}}">
+          <text class="dt-sn-text">当前 SN：{{productSn}}</text>
+          <view class="dt-confirm-btn" bindtap="onBindProductSn">确认绑定</view>
+        </view>
+      </view>
+
+            <view class="dt-card" wx:if="{{!isReadOnly}}">
+        <text class="dt-card-title">生产报工</text>
+
+        <view class="dt-form-item">
+          <text class="dt-form-label">良品数量</text>
+          <view class="dt-stepper">
+            <view class="dt-stepper-btn" bindtap="onGoodQtyChange" data-delta="-1">−</view>
+            <input class="dt-stepper-input" type="number" value="{{reportForm.goodQty}}" bindinput="onGoodQtyInput" />
+            <view class="dt-stepper-btn" bindtap="onGoodQtyChange" data-delta="1">+</view>
+          </view>
+        </view>
+
+        <view class="dt-form-item">
+          <text class="dt-form-label">不良数量</text>
+          <view class="dt-stepper">
+            <view class="dt-stepper-btn" bindtap="onDefectQtyChange" data-delta="-1">−</view>
+            <input class="dt-stepper-input" type="number" value="{{reportForm.defectQty}}" bindinput="onDefectQtyInput" />
+            <view class="dt-stepper-btn" bindtap="onDefectQtyChange" data-delta="1">+</view>
+          </view>
+        </view>
+
+        <view class="dt-form-item" wx:if="{{reportForm.defectQty > 0}}">
+          <text class="dt-form-label">缺陷原因</text>
+          <picker mode="selector" range="{{defectOptions}}" range-key="label" bindchange="onDefectChange">
+            <view class="dt-picker">{{reportForm.defectReasonLabel || '请选择缺陷原因'}}</view>
+          </picker>
+        </view>
+
+        <view class="dt-form-item">
+          <text class="dt-form-label">备注</text>
+          <textarea
+            class="dt-textarea"
+            placeholder="输入备注信息，如异常情况、返工说明等"
+            value="{{reportForm.remark}}"
+            bindinput="onRemarkInput"
+            maxlength="200"
+          />
+        </view>
+      </view>
+
+            <view class="dt-submit-wrap" wx:if="{{!isReadOnly}}">
+        <view class="dt-submit-btn" bindtap="onSubmitReport">
+          {{submitting ? '提交中...' : '提交生产报工'}}
+        </view>
+        <view class="dt-material-call-btn" bindtap="onMaterialCall">
+          缺料呼叫
+        </view>
+      </view>
+
+            <view class="dt-submit-wrap" wx:if="{{isReadOnly}}">
+        <view class="dt-urge-btn" bindtap="onUrge">
+          {{urging ? '已提醒' : '催办'}}
+        </view>
+      </view>
+
+    </view>
+  </block>
+
+    <view class="empty-wrap" wx:if="{{!loading && !task}}">
+    <text class="empty-icon">📋</text>
+    <text class="empty-title">任务不存在</text>
+  </view>
+</view>

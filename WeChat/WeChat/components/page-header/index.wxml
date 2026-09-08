@@ -1,0 +1,14 @@
+<view class="page-header" style="padding-top: {{statusBarHeight}}px;">
+  <view class="header-inner">
+    <view class="header-left">
+      <view wx:if="{{showBack}}" class="back-btn" bindtap="onBack" hover-class="back-btn-active">
+        <text class="back-icon">‹</text>
+      </view>
+      <text class="header-title">{{title}}</text>
+    </view>
+    <view wx:if="{{rightText}}" class="header-right" bindtap="onRightTap" hover-class="header-right-active">
+      <text class="right-text">{{rightText}}</text>
+    </view>
+  </view>
+</view>
+<view class="header-placeholder" style="height: {{headerHeight}}px;"></view>

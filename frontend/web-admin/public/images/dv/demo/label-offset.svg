@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <rect width="120" height="120" rx="8" fill="#f8fafc"/>
+  <rect x="28" y="36" width="64" height="40" rx="4" fill="#64748b"/>
+  <rect x="40" y="44" width="40" height="8" fill="#fbbf24"/>
+  <path d="M52 56h16" stroke="#ef4444" stroke-width="3" marker-end="url(#a)"/>
+  <text x="60" y="98" text-anchor="middle" font-size="10" fill="#475569" font-family="sans-serif">4O�</text>
+</svg>

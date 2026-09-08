@@ -1,0 +1,13 @@
+<view class="metric-card {{color}}">
+  <view class="metric-glow"></view>
+  <text class="metric-icon">{{icon}}</text>
+  <text class="metric-label">{{label}}</text>
+  <view class="metric-value-row">
+    <text class="metric-value text-neon-{{color}}">{{value}}</text>
+    <text wx:if="{{unit}}" class="metric-unit">{{unit}}</text>
+  </view>
+  <view wx:if="{{trend}}" class="metric-trend">
+    <text wx:if="{{trend === 'up'}}" class="trend up">↑ 上升</text>
+    <text wx:elif="{{trend === 'down'}}" class="trend down">↓ 下降</text>
+  </view>
+</view>

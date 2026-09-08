@@ -1,0 +1,9 @@
+{
+  "name": "mes-equipment",
+  "version": "1.0.0",
+  "description": "设备管理云函数 — 报修/维修/TPM定时扫描",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

@@ -1,0 +1,119 @@
+
+
+.page-container { min-height: 100vh; background: var(--color-bg); display: flex; flex-direction: column; }
+.list-scroll { flex: 1; height: 0; }
+.list-end { height: 40rpx; }
+
+.tab-bar { white-space: nowrap; padding: 20rpx 20rpx 12rpx; flex-shrink: 0; }
+.tab-item {
+  display: inline-flex; align-items: center; gap: 6rpx;
+  padding: 14rpx 24rpx; margin-right: 12rpx;
+  background: var(--color-card); border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-round); transition: all 0.15s;
+}
+.tab-icon { font-size: 24rpx; }
+.tab-label { font-size: 26rpx; font-weight: 500; color: var(--color-text-secondary); }
+.tab-active {
+  background: var(--color-primary); border-color: var(--color-primary);
+}
+.tab-active .tab-label { color: #fff; }
+
+.status-row { padding: 0 20rpx 16rpx; white-space: nowrap; flex-shrink: 0; }
+.status-chip {
+  display: inline-block; padding: 10rpx 22rpx; margin-right: 10rpx;
+  border-radius: var(--radius-round); font-size: 24rpx; color: var(--color-text-secondary);
+  background: var(--color-card); border: 1rpx solid var(--color-border);
+}
+.chip-active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); font-weight: 600; }
+
+.card {
+  display: flex; gap: 16rpx; padding: 24rpx 20rpx; margin: 0 20rpx 14rpx;
+  background: var(--color-card); border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.card-left { flex-shrink: 0; }
+.card-type-badge {
+  width: 52rpx; height: 52rpx; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24rpx; font-weight: 700; color: #fff;
+}
+.badge-prod { background: #00B4E4; }
+.badge-qual { background: #00E896; }
+.badge-andon { background: #FF4757; }
+.badge-repair { background: #FFB800; }
+.badge-mat   { background: #D4AF37; }
+
+.card-body { flex: 1; min-width: 0; }
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6rpx; }
+.card-name { font-size: 28rpx; font-weight: 700; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-sub { font-size: 22rpx; color: var(--color-text-placeholder); margin-bottom: 8rpx; display: block; }
+.card-bar { height: 6rpx; background: rgba(255,255,255,0.06); border-radius: 3rpx; overflow: hidden; margin-bottom: 4rpx; }
+.card-bar-fill { height: 100%; background: var(--color-primary); border-radius: 3rpx; transition: width 0.5s; }
+.card-num { font-size: 22rpx; color: var(--color-primary); font-family: var(--font-mono); }
+
+.andon-card { flex-direction: column; }
+.andon-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10rpx; }
+.andon-card-type { font-size: 24rpx; font-weight: 600; }
+.andon-card-type.MATERIAL  { color: #D4AF37; }
+.andon-card-type.EQUIPMENT { color: #FF4757; }
+.andon-card-type.PROCESS   { color: #00B4E4; }
+.andon-card-type.QUALITY   { color: #00E896; }
+.andon-card-desc { font-size: 26rpx; color: var(--color-text); line-height: 1.5; margin-bottom: 10rpx; }
+.andon-card-foot { display: flex; justify-content: space-between; }
+.andon-card-target { font-size: 22rpx; color: var(--color-primary); }
+.andon-card-time { font-size: 22rpx; color: var(--color-text-placeholder); }
+
+.andon-records { margin-top: 14rpx; padding-top: 14rpx; border-top: 1rpx solid var(--color-divider); }
+.andon-record { display: flex; align-items: center; gap: 8rpx; padding: 6rpx 0; }
+.andon-record-dot { width: 10rpx; height: 10rpx; border-radius: 50%; background: var(--color-primary); flex-shrink: 0; }
+.andon-record-text { font-size: 22rpx; color: var(--color-text-secondary); flex: 1; }
+.andon-record-time { font-size: 20rpx; color: var(--color-text-placeholder); flex-shrink: 0; }
+
+.repair-item {
+  display: flex; margin: 0 20rpx 14rpx;
+  background: var(--color-card);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.repair-item-bar {
+  width: 8rpx; flex-shrink: 0;
+  background: #FFB800;
+}
+.repair-item--done .repair-item-bar { background: #00E896; }
+.repair-item--ing .repair-item-bar  { background: #00B4E4; }
+
+.repair-item-body { flex: 1; padding: 24rpx 20rpx; min-width: 0; }
+
+.repair-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8rpx; }
+.repair-item-name { font-size: 28rpx; font-weight: 700; color: var(--color-text); }
+
+.repair-item-desc {
+  display: block; font-size: 24rpx; color: #FFB800;
+  line-height: 1.5; margin-bottom: 8rpx;
+  padding: 8rpx 12rpx;
+  background: rgba(255,184,0,0.06);
+  border-radius: 6rpx;
+}
+.repair-item-meta { display: flex; align-items: center; gap: 4rpx; margin-bottom: 10rpx; }
+.repair-item-code { font-size: 22rpx; color: var(--color-text-placeholder); }
+.repair-item-dot { font-size: 22rpx; color: var(--color-text-placeholder); }
+
+.repair-item-flow { display: flex; align-items: center; gap: 10rpx; margin-bottom: 6rpx; }
+.repair-item-person { font-size: 24rpx; color: var(--color-text-secondary); }
+.repair-item-arrow { font-size: 24rpx; color: var(--color-primary); }
+.repair-item-person--target { color: #FFB800; font-weight: 600; }
+
+.repair-item-time { font-size: 22rpx; color: var(--color-text-placeholder); }
+
+.mat-card { flex-direction: column; }
+.mat-status { padding: 4rpx 16rpx; border-radius: var(--radius-round); font-size: 22rpx; font-weight: 600; }
+.mat-status.PENDING    { color: #FF4757; background: rgba(255,71,87,0.08); }
+.mat-status.PROCESSING { color: #FFB800; background: rgba(255,184,0,0.08); }
+.mat-status.COMPLETED  { color: #00E896; background: rgba(0,232,150,0.06); }
+.mat-status.UPGRADED   { color: #D4AF37; background: rgba(212,175,55,0.08); }
+
+.mat-progress { margin-top: 10rpx; padding: 12rpx 16rpx; background: rgba(255,255,255,0.02); border-radius: var(--radius-sm); }
+.mat-progress-row { display: flex; justify-content: space-between; padding: 4rpx 0; }
+.mat-progress-label { font-size: 22rpx; color: var(--color-text-placeholder); }
+.mat-progress-val { font-size: 22rpx; color: var(--color-text); font-weight: 500; }

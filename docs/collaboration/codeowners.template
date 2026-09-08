@@ -1,0 +1,49 @@
+# Copy this file to .github/CODEOWNERS after GitHub/Gitee accounts are known.
+# Replace the placeholders with real account names.
+
+# Project lead owns global architecture and shared files.
+/README.md                                      @project-lead
+/CONTRIBUTING.md                                @project-lead
+/AGENTS.md                                      @project-lead
+/docs/architecture/                             @project-lead
+/docs/collaboration/                            @project-lead
+/database/                                      @project-lead
+/backend/mes-server/src/main/java/com/yunshu/mes/common/        @project-lead
+/backend/mes-server/src/main/java/com/yunshu/mes/config/        @project-lead
+/backend/mes-server/src/main/java/com/yunshu/mes/security/      @project-lead
+/frontend/web-admin/src/router/                 @project-lead
+/frontend/web-admin/src/layouts/                @project-lead
+/frontend/web-admin/src/stores/                 @project-lead
+/frontend/web-admin/src/styles/                 @project-lead
+
+# Member A: base resources, master data, process, barcode.
+/backend/mes-server/src/main/java/com/yunshu/mes/factory/       @member-a
+/backend/mes-server/src/main/java/com/yunshu/mes/masterdata/    @member-a
+/backend/mes-server/src/main/java/com/yunshu/mes/process/       @member-a
+/backend/mes-server/src/main/java/com/yunshu/mes/barcode/       @member-a
+/frontend/web-admin/src/views/factory/          @member-a
+/frontend/web-admin/src/views/master-data/      @member-a
+/frontend/web-admin/src/views/process/          @member-a
+/frontend/web-admin/src/views/barcode/          @member-a
+
+# Member B: planning, inventory, production, andon.
+/backend/mes-server/src/main/java/com/yunshu/mes/planning/      @member-b
+/backend/mes-server/src/main/java/com/yunshu/mes/inventory/     @member-b
+/backend/mes-server/src/main/java/com/yunshu/mes/production/    @member-b
+/backend/mes-server/src/main/java/com/yunshu/mes/andon/         @member-b
+/frontend/web-admin/src/views/planning/         @member-b
+/frontend/web-admin/src/views/inventory/        @member-b
+/frontend/web-admin/src/views/production/       @member-b
+/frontend/web-admin/src/views/andon/            @member-b
+
+# Member C: quality, equipment, traceability, reporting, integration.
+/backend/mes-server/src/main/java/com/yunshu/mes/quality/       @member-c
+/backend/mes-server/src/main/java/com/yunshu/mes/equipment/     @member-c
+/backend/mes-server/src/main/java/com/yunshu/mes/traceability/  @member-c
+/backend/mes-server/src/main/java/com/yunshu/mes/reporting/     @member-c
+/backend/mes-server/src/main/java/com/yunshu/mes/integration/   @member-c
+/frontend/web-admin/src/views/quality/          @member-c
+/frontend/web-admin/src/views/equipment/        @member-c
+/frontend/web-admin/src/views/traceability/     @member-c
+/frontend/web-admin/src/views/reporting/        @member-c
+/frontend/web-admin/src/views/integration/      @member-c

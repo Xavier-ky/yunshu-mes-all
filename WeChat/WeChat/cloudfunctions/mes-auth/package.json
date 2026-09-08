@@ -1,0 +1,9 @@
+{
+  "name": "mes-auth",
+  "version": "1.0.0",
+  "description": "登录认证云函数 - 验证凭证 + 注册用户OPENID",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

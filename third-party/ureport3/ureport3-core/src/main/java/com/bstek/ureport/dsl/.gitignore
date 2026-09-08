@@ -1,0 +1,2 @@
+# ANTLR token sidecar files only; *.java are generated from dsl/ReportParser.g4 into this package.
+*.tokens

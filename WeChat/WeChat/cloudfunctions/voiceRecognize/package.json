@@ -1,0 +1,9 @@
+{
+  "name": "voice-recognize",
+  "version": "1.0.0",
+  "description": "腾讯云一句话识别云函数",
+  "main": "index.js",
+  "dependencies": {
+    "tencentcloud-sdk-nodejs": "^4.1.116"
+  }
+}

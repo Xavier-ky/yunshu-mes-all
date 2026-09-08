@@ -1,0 +1,9 @@
+{
+  "name": "mes-inventory",
+  "version": "1.0.0",
+  "description": "库存管理云函数 — FIFO批次检索 + 领料扣减 + 退料",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

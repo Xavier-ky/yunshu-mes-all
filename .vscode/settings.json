@@ -1,0 +1,16 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.maven.enabled": true,
+  "java.project.importOnFirstTimeStartup": "automatic",
+  "java.import.maven.recursive": true,
+  "java.configuration.maven.defaultMojoExecutionAction": "execute",
+  "java.maven.downloadSources": true,
+  "java.compile.nullAnalysis.mode": "disabled",
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/frontend/web-admin/dist/**": true
+  },
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python-envs.defaultPackageManager": "ms-python.python:conda",
+  "git.ignoreLimitWarning": true
+}

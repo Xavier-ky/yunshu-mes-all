@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "page-header": "/components/page-header/index",
+    "action-footer": "/components/action-footer/index"
+  },
+  "navigationStyle": "custom"
+}

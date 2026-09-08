@@ -1,0 +1,8 @@
+<view class="action-footer safe-area-bottom">
+  <button
+    class="btn btn-primary flex-1 {{primaryDisabled ? 'btn-disabled' : ''}}"
+    disabled="{{primaryDisabled}}"
+    loading="{{primaryLoading}}"
+    bindtap="onPrimary"
+  >{{primaryText}}</button>
+</view>

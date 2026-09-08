@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ureport>
+  <cell expand="None" name="A1" row="1" col="1" col-span="7"><cell-style font-size="18" font-family="Microsoft YaHei" align="left" valign="middle" bold="true" bgcolor="23,50,87" forecolor="255,255,255"/><simple-value><![CDATA[云枢智造 · 质量检验报告]]></simple-value></cell>
+  <cell expand="None" name="A2" row="2" col="1"><cell-style font-size="9" align="right" valign="middle" bold="true" bgcolor="235,241,248"/><simple-value><![CDATA[检验批次]]></simple-value></cell>
+  <cell expand="None" name="B2" row="2" col="2"><cell-style font-size="9" align="center" valign="middle" bgcolor="248,250,252"/><simple-value><![CDATA[最近 50 个来料检验批次]]></simple-value></cell>
+  <cell expand="None" name="C2" row="2" col="3"><cell-style font-size="9" align="right" valign="middle" bold="true" bgcolor="235,241,248"/><simple-value><![CDATA[接收数量]]></simple-value></cell>
+  <cell expand="None" name="D2" row="2" col="4"><cell-style font-size="11" align="right" valign="middle" bold="true" bgcolor="248,250,252" forecolor="23,105,224"/><dataset-value aggregate="sum" property="接收数量" dataset-name="质检数据"/></cell>
+  <cell expand="None" name="E2" row="2" col="5"><cell-style font-size="9" align="right" valign="middle" bold="true" bgcolor="235,241,248"/><simple-value><![CDATA[合格数量]]></simple-value></cell>
+  <cell expand="None" name="F2" row="2" col="6"><cell-style font-size="11" align="right" valign="middle" bold="true" bgcolor="248,250,252" forecolor="24,128,85"/><dataset-value aggregate="sum" property="合格数量" dataset-name="质检数据"/></cell>
+  <cell expand="None" name="G2" row="2" col="7"><cell-style font-size="9" align="center" valign="middle" bold="true" bgcolor="231,245,238" forecolor="25,111,76"/><simple-value><![CDATA[合格率 %]]></simple-value></cell>
+  <cell expand="None" name="A3" row="3" col="1" col-span="2"><cell-style font-size="9" align="right" valign="middle" bold="true" bgcolor="249,239,235" forecolor="158,67,31"/><simple-value><![CDATA[不合格数量]]></simple-value></cell>
+  <cell expand="None" name="C3" row="3" col="3"><cell-style font-size="11" align="right" valign="middle" bold="true" bgcolor="255,248,245" forecolor="190,72,37"/><dataset-value aggregate="sum" property="不合格数量" dataset-name="质检数据"/></cell>
+  <cell expand="None" name="D3" row="3" col="4" col-span="4"><cell-style font-size="9" align="left" valign="middle" bgcolor="247,249,252" forecolor="89,105,128"/><simple-value><![CDATA[判定规则：合格 / 让步接收 / 不合格，数量以检验单最终结果为准。]]></simple-value></cell>
+  <cell expand="None" name="A4" row="4" col="1"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[质检单]]></simple-value></cell>
+  <cell expand="None" name="B4" row="4" col="2"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[物料]]></simple-value></cell>
+  <cell expand="None" name="C4" row="4" col="3"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[供应商]]></simple-value></cell>
+  <cell expand="None" name="D4" row="4" col="4"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[接收/检验]]></simple-value></cell>
+  <cell expand="None" name="E4" row="4" col="5"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[合格/不合格]]></simple-value></cell>
+  <cell expand="None" name="F4" row="4" col="6"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[判定]]></simple-value></cell>
+  <cell expand="None" name="G4" row="4" col="7"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[检验日期]]></simple-value></cell>
+  <cell expand="Down" name="A5" row="5" col="1"><cell-style font-size="9" align="left" valign="middle" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="检验单号" dataset-name="质检数据"/></cell>
+  <cell expand="Down" name="B5" row="5" col="2"><cell-style font-size="9" align="left" valign="middle" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="物料" dataset-name="质检数据"/></cell>
+  <cell expand="Down" name="C5" row="5" col="3"><cell-style font-size="9" align="left" valign="middle" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="供应商" dataset-name="质检数据"/></cell>
+  <cell expand="Down" name="D5" row="5" col="4"><cell-style font-size="9" align="right" valign="middle" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="接收检验" dataset-name="质检数据"/></cell>
+  <cell expand="Down" name="E5" row="5" col="5"><cell-style font-size="9" align="right" valign="middle" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="合格不合格" dataset-name="质检数据"/></cell>
+  <cell expand="Down" name="F5" row="5" col="6"><cell-style font-size="9" align="center" valign="middle" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="判定" dataset-name="质检数据"/></cell>
+  <cell expand="Down" name="G5" row="5" col="7"><cell-style font-size="9" align="center" valign="middle" format="yyyy-MM-dd" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="检验日期" dataset-name="质检数据"/></cell>
+  <cell expand="None" name="A6" row="6" col="1" col-span="2"><cell-style font-size="9" align="left" valign="middle" bold="true" bgcolor="235,241,248"/><simple-value><![CDATA[检验员：________________]]></simple-value></cell>
+  <cell expand="None" name="C6" row="6" col="3" col-span="3"><cell-style font-size="9" align="left" valign="middle" bold="true" bgcolor="235,241,248"/><simple-value><![CDATA[质量负责人：________________]]></simple-value></cell>
+  <cell expand="None" name="F6" row="6" col="6" col-span="2"><cell-style font-size="9" align="left" valign="middle" bold="true" bgcolor="235,241,248"/><simple-value><![CDATA[日期：________________]]></simple-value></cell>
+  <row row-number="1" height="40"/><row row-number="2" height="30"/><row row-number="3" height="25"/><row row-number="4" height="25"/><row row-number="5" height="22"/><row row-number="6" height="32"/>
+  <column col-number="1" width="100"/><column col-number="2" width="150"/><column col-number="3" width="125"/><column col-number="4" width="82"/><column col-number="5" width="88"/><column col-number="6" width="72"/><column col-number="7" width="92"/>
+  <paper type="A4" orientation="landscape" left-margin="42" right-margin="42" top-margin="45" bottom-margin="45" paging-mode="fitpage" fixrows="4" html-report-align="center" column-enabled="false" html-interval-refresh-value="0"/>
+  <datasource name="内置数据源" type="buildin">
+    <dataset name="质检数据" type="sql">
+      <sql><![CDATA[SELECT i.iqc_code AS 检验单号,
+CONCAT(COALESCE(i.item_code, ''), ' ', COALESCE(i.item_name, '')) AS 物料,
+COALESCE(i.vendor_name, i.vendor_code, '未登记') AS 供应商,
+CONCAT(FORMAT(COALESCE(i.quantity_recived,0),2), ' / ', FORMAT(COALESCE(i.quantity_check,0),2)) AS 接收检验,
+CONCAT(COALESCE(i.quantity_qualified,0), ' / ', COALESCE(i.quantity_unqualified,0)) AS 合格不合格,
+i.quantity_recived AS 接收数量,
+i.quantity_qualified AS 合格数量,
+i.quantity_unqualified AS 不合格数量,
+CASE i.check_result WHEN 'ACCEPT' THEN '合格' WHEN 'PASS' THEN '合格' WHEN 'QUALIFIED' THEN '合格' WHEN 'CONCESSION' THEN '让步接收' WHEN 'REJECT' THEN '不合格' WHEN 'UNQUALIFIED' THEN '不合格' ELSE COALESCE(i.check_result,'待判定') END AS 判定,
+i.inspect_date AS 检验日期
+FROM qc_iqc i ORDER BY i.iqc_id DESC LIMIT 50]]></sql>
+      <field name="检验单号"/><field name="物料"/><field name="供应商"/><field name="接收检验"/><field name="合格不合格"/><field name="接收数量"/><field name="合格数量"/><field name="不合格数量"/><field name="判定"/><field name="检验日期"/>
+    </dataset>
+  </datasource>
+</ureport>

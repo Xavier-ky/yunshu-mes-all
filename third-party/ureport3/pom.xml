@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.yunshu.mes</groupId>
+  <artifactId>ureport3-workspace</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <name>UReport3 Workspace Aggregator</name>
+  <description>Local aggregator for IDE import and one-shot install; not published.</description>
+
+  <modules>
+    <module>ureport3-parent</module>
+    <module>ureport3-core</module>
+    <module>ureport3-font</module>
+    <module>ureport3-console</module>
+  </modules>
+</project>

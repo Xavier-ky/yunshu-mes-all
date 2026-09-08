@@ -1,0 +1,44 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: yunshu-mes-server
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+mes:
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - http://127.0.0.1:5173
+      - http://localhost:4173
+      - http://127.0.0.1:4173
+  crypto:
+    # 课程演示用密钥：部署时务必用 MES_LOGIN_AES_KEY 覆盖，并与 VITE_LOGIN_AES_KEY 保持一致。
+    enabled: ${MES_CRYPTO_ENABLED:true}
+    algorithm: AES-GCM
+    key-length: 256
+    key: ${MES_LOGIN_AES_KEY:QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVphYmNkZWY=}
+  security:
+    jwt:
+      secret: ${JWT_SECRET:yunshu-mes-dev-jwt-secret-key-please-change-in-production-2026}
+      expiry-minutes: ${JWT_EXPIRY_MINUTES:480}
+      enforce: ${JWT_ENFORCE:true}
+  workflow:
+    enforce: ${MES_WORKFLOW_ENFORCE:false}
+    auto-dispatch: ${MES_WORKFLOW_AUTO_DISPATCH:true}
+  face-auth:
+    # Local DeepFace verifier. It only reports a match; Spring Boot issues the JWT.
+    base-url: ${FACE_AUTH_BASE_URL:http://127.0.0.1:8091}

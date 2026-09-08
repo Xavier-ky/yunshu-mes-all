@@ -1,0 +1,38 @@
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl) var(--spacing-md);
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.3;
+}
+
+.empty-text {
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: 0.5rpx;
+}
+
+.empty-btn {
+  padding: 16rpx 48rpx;
+  border-radius: var(--radius-round);
+  background: var(--gradient-primary);
+  color: #FFFFFF;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  letter-spacing: 1rpx;
+  box-shadow: var(--shadow-glow);
+  transition: all 0.2s ease;
+}
+
+.empty-btn-active {
+  transform: scale(0.95);
+  box-shadow: var(--shadow-glow-lg);
+}

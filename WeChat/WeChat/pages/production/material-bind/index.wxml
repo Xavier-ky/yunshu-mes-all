@@ -1,0 +1,70 @@
+<page-header title="物料绑定" showBack="{{true}}" />
+
+<view class="page-container">
+
+  <view class="page-content">
+    <view wx:if="{{task}}" class="card">
+      <text class="section-title mb-sm">关联任务</text>
+      <view class="info-row">
+        <text class="info-label">任务编号</text>
+        <text class="info-value">{{task.taskNo}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">工单号</text>
+        <text class="info-value">{{task.workOrderNo}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">产品</text>
+        <text class="info-value">{{task.productName}}</text>
+      </view>
+    </view>
+
+    <view class="card">
+      <text class="section-title mb-sm">物料绑定</text>
+      <view class="form-group">
+        <text class="form-label">物料批次码</text>
+        <scan-input
+          placeholder="扫描物料批次码"
+          value="{{materialBatch}}"
+          bind:scan="onScanMaterial"
+          bind:input="onMaterialInput"
+          bind:identify="onMaterialIdentify"
+        />
+      </view>
+
+      <view wx:if="{{materialInfo}}" class="material-info-card">
+        <text class="section-title mb-sm">物料信息</text>
+        <view class="info-row">
+          <text class="info-label">批次号</text>
+          <text class="info-value">{{materialInfo.batchNo}}</text>
+        </view>
+        <view wx:if="{{materialInfo.materialCode}}" class="info-row">
+          <text class="info-label">物料编码</text>
+          <text class="info-value">{{materialInfo.materialCode}}</text>
+        </view>
+        <view wx:if="{{materialInfo.materialName}}" class="info-row">
+          <text class="info-label">物料名称</text>
+          <text class="info-value">{{materialInfo.materialName}}</text>
+        </view>
+        <view wx:if="{{materialInfo.spec}}" class="info-row">
+          <text class="info-label">规格</text>
+          <text class="info-value">{{materialInfo.spec}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{bound}}" class="bind-success">
+        <text class="bind-success-text">绑定成功</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-placeholder"></view>
+</view>
+
+<action-footer
+    primaryText="确认绑定"
+    primaryDisabled="{{binding || !materialBatch}}"
+    primaryLoading="{{binding}}"
+    showSecondary="{{false}}"
+    bind:primary="onBind"
+  />

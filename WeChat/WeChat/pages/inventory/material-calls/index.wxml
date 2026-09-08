@@ -1,0 +1,36 @@
+<page-header title="缺料呼叫" showBack="{{true}}" />
+
+<view class="page-container">
+    <view class="filter-tabs">
+    <view
+      class="filter-tab {{activeStatus === item.value ? 'filter-tab--active' : ''}}"
+      wx:for="{{statusList}}" wx:key="value"
+      data-value="{{item.value}}" bindtap="onStatusChange"
+    >{{item.label}}</view>
+  </view>
+
+    <view class="call-list">
+    <view
+      wx:for="{{callList}}" wx:key="callId"
+      class="call-card" data-call-id="{{item.callId}}" bindtap="onCallTap"
+    >
+      <view class="call-card-top">
+        <text class="call-material">{{item.materialName}}</text>
+        <view class="call-status status-{{item.status}}">{{item.statusLabel}}</view>
+      </view>
+      <view class="call-card-sub">
+        <text>{{item.workOrderNo}} · {{item.lineName}}</text>
+      </view>
+      <view class="call-card-row">
+        <text class="call-qty">需求 {{item.needQty}} 个</text>
+        <text wx:if="{{item.urgency === 'URGENT'}}" class="call-urgent">紧急</text>
+        <text class="call-time">{{item.createTime}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-wrap" wx:if="{{!loading && callList.length === 0}}">
+    <text class="empty-icon">📦</text>
+    <text class="empty-title">暂无缺料呼叫</text>
+  </view>
+</view>

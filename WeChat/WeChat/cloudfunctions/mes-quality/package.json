@@ -1,0 +1,9 @@
+{
+  "name": "mes-quality",
+  "version": "1.0.0",
+  "description": "质检管理云函数 — MRB冻结/解冻 + 缺陷登记",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

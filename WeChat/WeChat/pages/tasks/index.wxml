@@ -1,0 +1,162 @@
+<page-header title="{{pageTitle}}" showBack="{{true}}" />
+
+<view class="page-container">
+    <scroll-view scroll-x class="tab-bar" enhanced show-scrollbar="{{false}}">
+    <view class="tab-item {{activeTab === 'task' ? 'tab-active' : ''}}" data-tab="task" bindtap="onTabSwitch">
+      <text class="tab-label">任务</text>
+    </view>
+    <view class="tab-item {{activeTab === 'andon' ? 'tab-active' : ''}}" data-tab="andon" bindtap="onTabSwitch">
+      <text class="tab-label">我的安灯</text>
+    </view>
+    <view class="tab-item {{activeTab === 'repair' ? 'tab-active' : ''}}" data-tab="repair" bindtap="onTabSwitch">
+      <text class="tab-label">我的报修</text>
+    </view>
+    <view class="tab-item {{activeTab === 'material' ? 'tab-active' : ''}}" data-tab="material" bindtap="onTabSwitch">
+      <text class="tab-label">我的缺料</text>
+    </view>
+    <view class="tab-item {{activeTab === 'quality' ? 'tab-active' : ''}}" data-tab="quality" bindtap="onTabSwitch">
+      <text class="tab-label">我的质检</text>
+    </view>
+  </scroll-view>
+
+    <view class="status-row" wx:if="{{activeTab === 'task'}}">
+    <view class="status-chip {{activeStatus === item.value ? 'chip-active' : ''}}"
+      wx:for="{{statusList}}" wx:key="value"
+      data-value="{{item.value}}" bindtap="onStatusChange"
+    >{{item.label}}</view>
+  </view>
+
+        <scroll-view wx:if="{{activeTab === 'task'}}" class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <block wx:for="{{taskList}}" wx:key="taskId">
+      <view class="card" data-task-id="{{item.taskId}}" bindtap="onTaskTap">
+        <view class="card-left">
+          <view class="card-type-badge {{item.taskType === 'PRODUCTION' ? 'badge-prod' : item.taskType === 'QUALITY' ? 'badge-qual' : item.taskType === 'ANDON' ? 'badge-andon' : item.taskType === 'REPAIR' ? 'badge-repair' : 'badge-mat'}}">
+            <text>{{item.taskType === 'PRODUCTION' ? '产' : item.taskType === 'QUALITY' ? '检' : item.taskType === 'ANDON' ? '安' : item.taskType === 'REPAIR' ? '修' : '物'}}</text>
+          </view>
+        </view>
+        <view class="card-body">
+          <view class="card-top">
+            <text class="card-name">{{item.productName}}</text>
+            <status-tag status="{{item.status}}">{{item.statusLabel}}</status-tag>
+          </view>
+          <text class="card-sub">{{item.processName}} · {{item.workstationName}}</text>
+          <view class="card-bar" wx:if="{{item.planQty > 0}}">
+            <view class="card-bar-fill" style="width:{{item.planQty > 0 ? (item.completedQty || 0) / item.planQty * 100 : 0}}%;"></view>
+          </view>
+          <text class="card-num" wx:if="{{item.planQty > 0}}">{{item.completedQty || 0}}/{{item.planQty}}</text>
+        </view>
+      </view>
+    </block>
+    <empty-state wx:if="{{!loading && taskList.length === 0}}" text="暂无任务" />
+    <view class="list-end"></view>
+  </scroll-view>
+
+        <scroll-view wx:if="{{activeTab === 'andon'}}" class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <block wx:for="{{andonList}}" wx:key="eventId">
+      <view class="card andon-card" data-event-id="{{item.eventId}}" bindtap="onAndonTap">
+        <view class="andon-card-top">
+          <view class="andon-card-type {{item.eventType}}">
+            <text>{{item.eventType === 'MATERIAL' ? '📦 缺料' : item.eventType === 'EQUIPMENT' ? '🔧 设备' : item.eventType === 'PROCESS' ? '📋 工艺' : '✓ 品质'}}</text>
+          </view>
+          <status-tag status="{{item.status}}">{{item.statusLabel}}</status-tag>
+        </view>
+        <text class="andon-card-desc">{{item.description}}</text>
+        <view class="andon-card-foot">
+          <text class="andon-card-target">→ {{item.targetRoleName}} · {{item.targetPerson}}</text>
+          <text class="andon-card-time">{{item.createTime}}</text>
+        </view>
+                <view class="andon-records" wx:if="{{item.handleRecords && item.handleRecords.length > 0}}">
+          <view class="andon-record" wx:for="{{item.handleRecords}}" wx:key="index" wx:for-item="r">
+            <view class="andon-record-dot"></view>
+            <text class="andon-record-text">{{r.handlerName}}：{{r.action}}</text>
+            <text class="andon-record-time">{{r.time}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+    <empty-state wx:if="{{andonList.length === 0}}" text="暂无安灯记录" />
+    <view class="list-end"></view>
+  </scroll-view>
+
+        <scroll-view wx:if="{{activeTab === 'repair'}}" class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <block wx:for="{{repairList}}" wx:key="taskId">
+      <view class="repair-item {{item.status === 'COMPLETED' ? 'repair-item--done' : item.status === 'PROCESSING' ? 'repair-item--ing' : ''}}" data-task-id="{{item.taskId}}" data-device-code="{{item.productModel}}" bindtap="onRepairTap">
+                <view class="repair-item-bar"></view>
+                <view class="repair-item-body">
+          <view class="repair-item-head">
+            <text class="repair-item-name">{{item.productName || '未知设备'}}</text>
+            <status-tag status="{{item.status}}">{{item.statusLabel}}</status-tag>
+          </view>
+          <text class="repair-item-desc" wx:if="{{item.description}}">⚠️ {{item.description}}</text>
+          <view class="repair-item-meta">
+            <text class="repair-item-code">{{item.productModel || '--'}}</text>
+            <text class="repair-item-dot" wx:if="{{item.workstationName}}">·</text>
+            <text class="repair-item-code" wx:if="{{item.workstationName}}">{{item.workstationName}}</text>
+          </view>
+          <view class="repair-item-flow">
+            <text class="repair-item-person">{{item.reportedBy || '--'}}</text>
+            <text class="repair-item-arrow">→</text>
+            <text class="repair-item-person repair-item-person--target">{{item.assignedTo || '待分配'}}</text>
+          </view>
+          <text class="repair-item-time" wx:if="{{item.createTime}}">{{item.createTime}}</text>
+        </view>
+      </view>
+    </block>
+    <empty-state wx:if="{{repairList.length === 0}}" text="暂无报修记录" />
+    <view class="list-end"></view>
+  </scroll-view>
+
+        <scroll-view wx:if="{{activeTab === 'material'}}" class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <block wx:for="{{materialList}}" wx:key="callId">
+      <view class="card mat-card" data-call-id="{{item.callId}}" bindtap="onMaterialTap">
+        <view class="card-top">
+          <text class="card-name">{{item.materialName}} ×{{item.needQty}}</text>
+          <view class="mat-status {{item.status}}">
+            <text>{{item.statusLabel}}</text>
+          </view>
+        </view>
+        <text class="card-sub">{{item.lineName}} · {{item.workstationName}} · 剩余 {{item.remainQty}}</text>
+        <view class="mat-progress" wx:if="{{item.status === 'PROCESSING' || item.status === 'COMPLETED'}}">
+          <view class="mat-progress-row">
+            <text class="mat-progress-label">实发数量</text>
+            <text class="mat-progress-val">{{item.actualQty || '--'}}</text>
+          </view>
+          <view class="mat-progress-row">
+            <text class="mat-progress-label">批次号</text>
+            <text class="mat-progress-val">{{item.batchNo || '--'}}</text>
+          </view>
+          <view class="mat-progress-row" wx:if="{{item.estimatedArrival}}">
+            <text class="mat-progress-label">预计送达</text>
+            <text class="mat-progress-val">{{item.estimatedArrival}}</text>
+          </view>
+        </view>
+        <text class="card-sub" wx:if="{{item.remark}}">备注：{{item.remark}}</text>
+      </view>
+    </block>
+    <empty-state wx:if="{{materialList.length === 0}}" text="暂无缺料记录" />
+    <view class="list-end"></view>
+  </scroll-view>
+
+        <scroll-view wx:if="{{activeTab === 'quality'}}" class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <block wx:for="{{qualityList}}" wx:key="taskId">
+      <view class="card" data-task-id="{{item.taskId}}" bindtap="onQualityTap">
+        <view class="card-left">
+          <view class="card-type-badge badge-qual"><text>检</text></view>
+        </view>
+        <view class="card-body">
+          <view class="card-top">
+            <text class="card-name">{{item.productName}}</text>
+            <status-tag status="{{item.status}}">{{item.statusLabel}}</status-tag>
+          </view>
+          <text class="card-sub">{{item.processName}} · {{item.workstationName}} · {{item.workOrderNo}}</text>
+          <view class="card-bar" wx:if="{{item.planQty > 0}}">
+            <view class="card-bar-fill" style="width:{{item.planQty > 0 ? (item.completedQty || 0) / item.planQty * 100 : 0}}%; background: #00E896;"></view>
+          </view>
+          <text class="card-num" wx:if="{{item.planQty > 0}}">{{item.completedQty || 0}}/{{item.planQty}}</text>
+        </view>
+      </view>
+    </block>
+    <empty-state wx:if="{{qualityList.length === 0}}" text="暂无质检任务" />
+    <view class="list-end"></view>
+  </scroll-view>
+</view>

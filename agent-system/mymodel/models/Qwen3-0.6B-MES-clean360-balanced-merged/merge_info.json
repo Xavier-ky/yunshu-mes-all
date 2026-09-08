@@ -1,0 +1,9 @@
+{
+  "created_at": "2026-07-10T20:57:38",
+  "base_model": "models\\Qwen3-0.6B",
+  "adapter": "outputs\\mes_lora_qwen3_0_6b_clean360_balanced\\final_adapter",
+  "output_dir": "models\\Qwen3-0.6B-MES-clean360-balanced-merged",
+  "device": "cuda",
+  "dtype": "float16",
+  "note": "LoRA adapter merged into base model with merge_and_unload. Original base model and adapter are not modified."
+}

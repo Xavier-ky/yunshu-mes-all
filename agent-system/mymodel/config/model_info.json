@@ -1,0 +1,29 @@
+{
+  "package_name": "yunshu_mes_mymodel",
+  "base_model": {
+    "name": "Qwen3-0.6B",
+    "path": "models/Qwen3-0.6B",
+    "usage": "原始基础模型，用于基线对话、对比测试或回退。"
+  },
+  "merged_model": {
+    "name": "Qwen3-0.6B-MES-clean360-balanced-merged",
+    "path": "models/Qwen3-0.6B-MES-clean360-balanced-merged",
+    "usage": "最终推荐部署模型，已经融合 clean360_balanced LoRA adapter，推理时不需要再挂载 adapter。"
+  },
+  "adapter_backup": {
+    "name": "mes_lora_clean360_balanced",
+    "path": "adapters/mes_lora_clean360_balanced",
+    "usage": "最终 LoRA adapter 备份。部署优先使用 merged_model，adapter 仅用于复现合并或继续研究。"
+  },
+  "scripts": {
+    "base_chat": "scripts/chat_base.py",
+    "mes_merged_chat": "scripts/chat_mes_merged.py",
+    "merge_tool": "scripts/merge_lora_adapter.py"
+  },
+  "recommended_entry": "scripts/chat_mes_merged.py",
+  "notes": [
+    "mymodel 文件夹可以整体复制到 MES 系统项目中。",
+    "脚本默认使用相对路径定位模型，因此建议从 mymodel 根目录运行，或直接运行 scripts 下的脚本。",
+    "需要 Python 环境安装 torch、transformers、accelerate；如需重新合并 adapter，还需要 peft。"
+  ]
+}

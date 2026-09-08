@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "page-header": "/components/page-header/index",
+    "scan-input": "/components/scan-input/index",
+    "action-footer": "/components/action-footer/index",
+    "status-tag": "/components/status-tag/index"
+  },
+  "navigationStyle": "custom"
+}

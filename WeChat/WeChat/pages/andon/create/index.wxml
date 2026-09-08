@@ -1,0 +1,136 @@
+<page-header title="发起安灯" showBack="{{true}}" />
+
+<scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="andon-content">
+
+        <view class="ac-card">
+      <text class="ac-section-title">选择安灯类型</text>
+
+      <view class="andon-type-grid">
+        <view
+          class="andon-type-card {{eventType === 'MATERIAL' ? 'type-material' : ''}}"
+          data-type="MATERIAL" bindtap="onTypeTap"
+        >
+          <text class="andon-type-name">缺料安灯</text>
+        </view>
+        <view
+          class="andon-type-card {{eventType === 'EQUIPMENT' ? 'type-equipment' : ''}}"
+          data-type="EQUIPMENT" bindtap="onTypeTap"
+        >
+          <text class="andon-type-name">设备故障安灯</text>
+        </view>
+        <view
+          class="andon-type-card {{eventType === 'PROCESS' ? 'type-process' : ''}}"
+          data-type="PROCESS" bindtap="onTypeTap"
+        >
+          <text class="andon-type-name">工艺求助安灯</text>
+        </view>
+        <view
+          class="andon-type-card {{eventType === 'QUALITY' ? 'type-quality' : ''}}"
+          data-type="QUALITY" bindtap="onTypeTap"
+        >
+          <text class="andon-type-name">品质异常安灯</text>
+        </view>
+      </view>
+
+      <view class="ac-form-item" wx:if="{{eventType}}">
+        <view class="ac-label">安灯原因 <text class="ac-required">*</text></view>
+        <picker mode="selector" range="{{reasonOptions}}" range-key="label" value="{{reasonCodeIndex}}" bindchange="onReasonCodeChange">
+          <view class="ac-picker {{reasonCode ? '' : 'ac-picker--empty'}}">
+            <text>{{reasonCode ? reasonOptions[reasonCodeIndex].label : '请选择安灯原因'}}</text>
+            <text class="ac-picker-arrow">▾</text>
+          </view>
+        </picker>
+      </view>
+
+            <view class="andon-target-bar" wx:if="{{targetInfo}}">
+        <text class="andon-target-icon">📢</text>
+        <text class="andon-target-text">发起后将自动通知 <text class="andon-target-name">{{targetInfo.person}}</text>（{{targetInfo.role}}），并自动创建沟通群聊</text>
+      </view>
+    </view>
+
+        <view class="ac-card ac-related">
+      <text class="ac-section-title">关联信息</text>
+
+      <view class="ac-info-tag" wx:if="{{productName}}">
+        <text class="ac-info-tag-label">关联产品</text>
+        <text class="ac-info-tag-val">{{productName}}</text>
+      </view>
+
+      <view class="ac-form-item">
+        <view class="ac-label">工单号 <text class="ac-required">*</text></view>
+        <view class="ac-scan-row">
+          <input class="ac-input" placeholder="扫描或输入工单号" value="{{workOrderNo}}" bindinput="onWorkOrderInput" />
+          <view class="ac-scan-btn" bindtap="onWorkOrderScan">
+            <image class="ac-scan-icon" src="/images/扫码_scan-code.svg" mode="aspectFit" />
+          </view>
+        </view>
+      </view>
+
+      <view class="ac-form-row">
+        <view class="ac-form-half">
+          <view class="ac-label">产线编码 <text class="ac-required">*</text></view>
+          <input class="ac-input" placeholder="请输入" value="{{lineCode}}" bindinput="onLineCodeInput" />
+        </view>
+        <view class="ac-form-half">
+          <view class="ac-label">工位编码 <text class="ac-required">*</text></view>
+          <input class="ac-input" placeholder="请输入" value="{{workstationCode}}" bindinput="onWorkstationCodeInput" />
+        </view>
+      </view>
+
+      <view class="ac-form-item">
+        <view class="ac-label">设备编码 <text class="ac-required">*</text></view>
+        <view class="ac-scan-row">
+          <input class="ac-input" placeholder="扫描或输入设备编码" value="{{deviceCode}}" bindinput="onDeviceCodeInput" />
+          <view class="ac-scan-btn" bindtap="onDeviceCodeScan">
+            <image class="ac-scan-icon" src="/images/扫码_scan-code.svg" mode="aspectFit" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+        <view class="ac-card">
+      <view class="ac-form-item">
+        <view class="ac-label">问题描述 <text class="ac-required">*</text></view>
+        <textarea
+          class="ac-textarea"
+          placeholder="请详细描述问题情况，包括异常现象、影响范围等"
+          value="{{description}}"
+          bindinput="onDescriptionInput"
+          maxlength="500"
+        />
+        <text class="ac-char-count">{{description.length}}/500</text>
+      </view>
+    </view>
+
+        <view class="ac-card">
+      <view class="ac-form-item">
+        <view class="ac-label">现场图片 <text class="ac-label-hint">（选填）</text></view>
+        <view class="ac-image-grid">
+                    <view class="ac-image-item" wx:for="{{images}}" wx:key="index" data-index="{{index}}" data-src="{{item}}" bindtap="onPreviewImage">
+            <image class="ac-image-thumb" src="{{item}}" mode="aspectFill" />
+            <view class="ac-image-del" data-index="{{index}}" catchtap="onRemoveImage">
+              <text>✕</text>
+            </view>
+          </view>
+                    <view class="ac-upload-btn" wx:if="{{images.length < 9}}" bindtap="onChooseImages">
+            <image class="ac-upload-icon" src="/images/相机_camera.svg" mode="aspectFit" />
+            <text class="ac-upload-text">{{images.length === 0 ? '拍照/相册' : '+'}}</text>
+          </view>
+        </view>
+        <text class="ac-image-hint" wx:if="{{images.length === 0}}">可上传现场照片，最多 9 张</text>
+      </view>
+    </view>
+
+        <view class="ac-bottom"></view>
+
+  </view>
+</scroll-view>
+
+<action-footer
+  primaryText="{{submitting ? '提交中...' : '发起安灯'}}"
+  showSecondary="{{false}}"
+  primaryDisabled="{{submitting}}"
+  primaryLoading="{{submitting}}"
+  bind:primary="onSubmit"
+/>

@@ -1,0 +1,105 @@
+<page-header title="缺陷登记" showBack="{{true}}" />
+
+<view class="page-container">
+  <view class="df-content">
+
+        <view class="df-card">
+      <text class="df-card-title">产品信息</text>
+
+      <view class="df-form-item">
+        <text class="df-label">产品 SN</text>
+        <input class="df-input" placeholder="输入或扫描产品SN" value="{{productSn}}" bindinput="onProductSnInput" />
+      </view>
+
+      <view class="df-form-item">
+        <text class="df-label">产品名称</text>
+        <input class="df-input" placeholder="输入产品名称" value="{{productName}}" bindinput="onProductNameInput" />
+      </view>
+
+      <view class="df-form-item">
+        <text class="df-label">工单号</text>
+        <input class="df-input" placeholder="输入工单号" value="{{workOrderNo}}" bindinput="onWorkOrderNoInput" />
+      </view>
+    </view>
+
+        <view class="df-card">
+      <text class="df-card-title">缺陷信息</text>
+
+      <view class="df-form-item">
+        <text class="df-label">缺陷类型 <text class="df-required">*</text></text>
+        <picker mode="selector" range="{{defectTypeList}}" range-key="label" bindchange="onDefectTypeChange">
+          <view class="df-picker {{defectTypeIndex >= 0 ? '' : 'df-picker--empty'}}">
+            <text>{{defectTypeIndex >= 0 ? defectTypeList[defectTypeIndex].label : '请选择缺陷类型'}}</text>
+            <text class="df-picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="df-form-item">
+        <text class="df-label">缺陷数量 <text class="df-required">*</text></text>
+        <input class="df-input" type="number" placeholder="请输入缺陷数量" value="{{defectQty}}" bindinput="onDefectQtyInput" />
+      </view>
+
+      <view class="df-form-item">
+        <text class="df-label">缺陷描述 <text class="df-required">*</text></text>
+        <textarea
+          class="df-textarea"
+          placeholder="请详细描述缺陷情况，如位置、严重程度等"
+          value="{{description}}"
+          bindinput="onDescriptionInput"
+          maxlength="500"
+        />
+        <text class="df-char-count">{{description.length}}/500</text>
+      </view>
+    </view>
+
+        <view class="df-card">
+      <text class="df-card-title">现场图片</text>
+      <view class="df-image-area">
+        <view class="df-image-list">
+          <view
+            class="df-image-item"
+            wx:for="{{defectImages}}"
+            wx:key="index"
+            data-index="{{index}}"
+            data-src="{{item}}"
+            bindtap="onPreviewImage"
+          >
+            <image class="df-image-thumb" src="{{item}}" mode="aspectFill" />
+            <view class="df-image-del" data-index="{{index}}" catchtap="onRemoveImage">✕</view>
+          </view>
+        </view>
+        <view class="df-upload-btn" bindtap="onChooseImage" wx:if="{{defectImages.length < 9}}">
+          <image class="df-upload-icon" src="/images/相机_camera.svg" mode="aspectFit" />
+          <text class="df-upload-text">点击上传缺陷照片</text>
+        </view>
+      </view>
+    </view>
+
+        <view class="df-card">
+      <text class="df-card-title">处置方式 <text class="df-required">*</text></text>
+      <view class="df-action-row">
+        <view class="df-action-opt {{action === 'RELEASE' ? 'df-action--release' : ''}}" data-action="RELEASE" bindtap="onActionTap">
+          <text>✓ 放行</text>
+        </view>
+        <view class="df-action-opt {{action === 'REWORK' ? 'df-action--rework' : ''}}" data-action="REWORK" bindtap="onActionTap">
+          <text>↻ 返工</text>
+        </view>
+        <view class="df-action-opt {{action === 'SCRAP' ? 'df-action--scrap' : ''}}" data-action="SCRAP" bindtap="onActionTap">
+          <text>✕ 报废</text>
+        </view>
+      </view>
+      <view wx:if="{{action === 'SCRAP' || action === 'REWORK'}}" class="df-freeze-warn">
+        <text class="df-freeze-icon">⚠️</text>
+        <text>提交后将自动冻结该批次的生产流转权限，后续工序将被锁定，需主管审批后解锁。</text>
+      </view>
+    </view>
+
+        <view class="df-submit-wrap">
+      <view class="df-submit-btn {{submitting ? 'df-submit--loading' : ''}}" bindtap="onSubmit">
+        {{submitting ? '提交中...' : '提交缺陷'}}
+      </view>
+    </view>
+
+  </view>
+</view>

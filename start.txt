@@ -1,0 +1,41 @@
+# 窗口 1 - 后端
+Start-Process powershell -ArgumentList '-NoExit','-Command','cd D:\ClaudeCode\MES\backend\mes-server; $env:SPRING_PROFILES_ACTIVE=''local''; .\mvnw.cmd spring-boot:run'
+
+# 窗口 2 - 前端
+Start-Process powershell -ArgumentList '-NoExit','-Command','cd D:\ClaudeCode\MES\frontend\web-admin; npm run dev -- --host 127.0.0.1 --port 5173'
+
+cd backend\mes-server
+$env:SPRING_PROFILES_ACTIVE='local'
+.\mvnw.cmd spring-boot:run
+
+cd frontend\web-admin
+npm run dev -- --host 127.0.0.1 --port 5173
+
+http://127.0.0.1:5173
+
+
+powershell -File D:\ClaudeCode\MES\start.ps1
+
+http://127.0.0.1:6333/dashboard/
+
+cd D:\ClaudeCode\MES
+.\start.cmd
+
+
+
+deepseek API Key：
+REPLACE_WITH_YOUR_API_KEY
+
+阿里千问qwen：
+API Key：
+sk-ws-H.EMDXLEL.lGzd.MEUCIQCSs8Uhw7BCG5PO187gPKrbfaNDAdCLfd10gtuzKBRSQwIgDyZFLAFL9qxbp_vTYz8y_wBOtxMKbICEu6iO63w8Uak
+API Host：
+ws-9ket38qehg8899i8.cn-beijing.maas.aliyuncs.com
+OpenAI 兼容地址：
+https://ws-9ket38qehg8899i8.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+DashScope：
+https://ws-9ket38qehg8899i8.cn-beijing.maas.aliyuncs.com/api/v1
+
+智谱GLM：
+API Key：
+a7c9363dc478498e87add6a9526720d7.yISgvttZ4uibmziy

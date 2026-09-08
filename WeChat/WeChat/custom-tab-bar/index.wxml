@@ -1,0 +1,17 @@
+<view class="tab-bar safe-area-bottom">
+  <view
+    wx:for="{{list}}"
+    wx:key="index"
+    class="tab-item {{selected === index ? 'tab-active' : ''}}"
+    data-path="{{item.pagePath}}"
+    data-index="{{index}}"
+    bindtap="switchTab"
+  >
+    <view class="tab-icon-wrap">
+      <image wx:if="{{item.iconImage}}" class="tab-icon-img" src="{{item.iconImage}}" mode="aspectFit" />
+      <text wx:else class="tab-icon">{{item.icon}}</text>
+            <view class="tab-badge" wx:if="{{item.hasBadge && messageBadge}}">{{messageBadge}}</view>
+    </view>
+    <text class="tab-text {{selected === index ? 'active' : ''}}">{{item.text}}</text>
+  </view>
+</view>

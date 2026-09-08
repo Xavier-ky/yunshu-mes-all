@@ -1,0 +1,191 @@
+
+
+.page-container {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: #0A1628;
+  position: relative; overflow: hidden;
+}
+
+.page-container::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,180,240,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 80% 75%, rgba(0,200,180,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(60,100,180,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 40% at 50% 30%, rgba(255,255,255,0.03) 0%, transparent 50%);
+}
+
+.page-container::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(2rpx 2rpx at 15% 20%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2rpx 2rpx at 75% 15%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1rpx 1rpx at 30% 45%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(2rpx 2rpx at 65% 55%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1rpx 1rpx at 85% 70%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(2rpx 2rpx at 10% 75%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1rpx 1rpx at 50% 85%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(2rpx 2rpx at 40% 10%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1rpx 1rpx at 90% 35%, rgba(255,255,255,0.3), transparent);
+  animation: particles 8s ease-in-out infinite;
+}
+@keyframes particles {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.login-card {
+  width: 640rpx;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(40rpx);
+  -webkit-backdrop-filter: blur(40rpx);
+  border: 1rpx solid rgba(255,255,255,0.10);
+  border-radius: 36rpx;
+  padding: 64rpx 44rpx 52rpx;
+  position: relative; z-index: 2;
+  box-shadow:
+    0 8rpx 48rpx rgba(0,0,0,0.30),
+    0 0 0 1rpx rgba(255,255,255,0.04) inset,
+    0 1rpx 0 rgba(255,255,255,0.06) inset;
+}
+
+.login-card::before {
+  content: ''; position: absolute; top: 0; left: 40rpx; right: 40rpx;
+  height: 2rpx;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), rgba(0,200,255,0.5), rgba(255,255,255,0.3), transparent);
+}
+
+.login-card::after {
+  content: ''; position: absolute; inset: 0; border-radius: 36rpx;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(0,200,255,0.2) 0%, transparent 8rpx),
+    radial-gradient(circle at 100% 0%, rgba(0,200,255,0.2) 0%, transparent 8rpx),
+    radial-gradient(circle at 0% 100%, rgba(0,200,255,0.15) 0%, transparent 8rpx),
+    radial-gradient(circle at 100% 100%, rgba(0,200,255,0.15) 0%, transparent 8rpx);
+}
+
+.login-logo-wrap {
+  position: relative;
+  width: 200rpx; height: 200rpx;
+  margin: 0 auto 24rpx;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.login-logo-ring {
+  position: absolute; inset: -8rpx; border-radius: 50%;
+  border: 2rpx solid rgba(255,255,255,0.08);
+  animation: ringSpin 20s linear infinite;
+}
+@keyframes ringSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.login-logo-ring2 {
+  position: absolute; inset: -20rpx; border-radius: 50%;
+  border: 1rpx dashed rgba(255,255,255,0.06);
+  animation: ringSpin 30s linear infinite reverse;
+}
+
+.login-logo-glow {
+  position: absolute; top: 50%; left: 50%;
+  width: 140rpx; height: 140rpx;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,180,240,0.15) 0%, transparent 70%);
+  animation: logoGlow 2.5s ease-in-out infinite;
+}
+@keyframes logoGlow {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+  50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.9; }
+}
+
+.login-logo {
+  width: 170rpx; height: 156rpx;
+  position: relative; z-index: 1;
+  filter: drop-shadow(0 0 20rpx rgba(0,180,240,0.5)) drop-shadow(0 0 40rpx rgba(0,150,220,0.25));
+  animation: logoFloat 4s ease-in-out infinite;
+}
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8rpx); }
+}
+
+.login-header {
+  display: flex; flex-direction: column; align-items: center;
+  margin-bottom: 44rpx;
+}
+.login-title {
+  font-size: 48rpx; font-weight: 800; letter-spacing: 4rpx;
+  background: linear-gradient(180deg, #E8F4FA 0%, #80C8E8 50%, #4098C0 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+}
+.login-subtitle {
+  font-size: 24rpx; color: rgba(255,255,255,0.35);
+  margin-top: 10rpx; letter-spacing: 6rpx;
+}
+
+.login-form { margin-bottom: 36rpx; }
+.login-form .form-group { margin-bottom: 24rpx; position: relative; }
+
+.login-form .form-label {
+  display: block; font-size: 24rpx; color: rgba(255,255,255,0.40);
+  margin-bottom: 12rpx; font-weight: 500; letter-spacing: 1rpx;
+}
+
+.login-form .form-input {
+  width: 100%; height: 96rpx;
+  background: rgba(255,255,255,0.05);
+  border: 1rpx solid rgba(255,255,255,0.10);
+  border-radius: 18rpx;
+  padding: 0 28rpx;
+  font-size: 28rpx; color: #E8ECF2;
+  box-sizing: border-box; transition: all 0.3s ease;
+  caret-color: #00B4E4;
+}
+.login-form .form-input:focus {
+  border-color: rgba(0,180,240,0.5);
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 0 6rpx rgba(0,180,240,0.08), 0 0 24rpx rgba(0,150,220,0.10);
+}
+.login-form .form-input::placeholder { color: rgba(255,255,255,0.20); }
+
+.login-form .btn {
+  margin-top: 36rpx;
+  height: 100rpx; border-radius: 20rpx;
+  background: linear-gradient(135deg, #006080 0%, #0088AA 30%, #00A8D0 70%, #0088AA 100%);
+  background-size: 200% 100%;
+  animation: btnShimmer 3s ease-in-out infinite;
+  color: #fff; font-size: 32rpx; font-weight: 700;
+  letter-spacing: 6rpx;
+  border: 1rpx solid rgba(255,255,255,0.15);
+  box-shadow:
+    0 6rpx 32rpx rgba(0,120,180,0.35),
+    0 0 0 1rpx rgba(255,255,255,0.06) inset,
+    0 1rpx 0 rgba(255,255,255,0.10) inset;
+  transition: all 0.25s ease;
+}
+.login-form .btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2rpx 12rpx rgba(0,100,160,0.25);
+}
+@keyframes btnShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.mock-tips {
+  background: rgba(255,255,255,0.03);
+  border: 1rpx solid rgba(255,255,255,0.06);
+  border-radius: 16rpx; padding: 24rpx 28rpx;
+}
+.tip-title {
+  font-size: 22rpx; font-weight: 600; color: rgba(255,255,255,0.30);
+  margin-bottom: 12rpx; display: block; letter-spacing: 1rpx;
+}
+.tip-row { padding: 4rpx 0; }
+.tip-row text { font-size: 22rpx; color: rgba(255,255,255,0.22); }

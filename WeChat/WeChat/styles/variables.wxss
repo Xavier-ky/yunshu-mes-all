@@ -1,0 +1,47 @@
+
+
+page {
+  --color-primary: #00B4E4;
+  --color-primary-light: rgba(0,180,228,0.10);
+  --color-primary-dark: #006080;
+  --color-accent: #00E896;
+  --color-accent-light: rgba(0,232,150,0.08);
+  --color-success: #00E896;
+  --color-success-light: rgba(0,232,150,0.08);
+  --color-warning: #FFB800;
+  --color-warning-light: rgba(255,184,0,0.08);
+  --color-danger: #FF4757;
+  --color-danger-light: rgba(255,71,87,0.08);
+  --color-info: #00B4E4;
+
+  --color-text: #E2E8F0;
+  --color-text-secondary: #8899AA;
+  --color-text-placeholder: #556678;
+  --color-bg: #0A1628;
+  --color-bg-elevated: #0F1D30;
+  --color-card: rgba(255,255,255,0.04);
+  --color-card-solid: #111E32;
+  --color-card-hover: rgba(255,255,255,0.06);
+  --color-border: rgba(255,255,255,0.08);
+  --color-border-active: rgba(0,180,228,0.35);
+  --color-divider: rgba(255,255,255,0.05);
+
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-shadow: 0 8rpx 32rpx rgba(0,0,0,0.25);
+
+  --gradient-primary: linear-gradient(135deg, #006080, #00A8D0);
+  --gradient-hero: linear-gradient(180deg, #0D1E30 0%, #0A1628 100%);
+
+  --shadow-sm: 0 2rpx 8rpx rgba(0,0,0,0.20);
+  --shadow-md: 0 4rpx 16rpx rgba(0,0,0,0.25);
+  --shadow-lg: 0 8rpx 24rpx rgba(0,0,0,0.30);
+
+  --radius-sm: 8rpx; --radius-md: 12rpx; --radius-lg: 16rpx; --radius-xl: 20rpx; --radius-round: 999rpx;
+  --font-xs: 22rpx; --font-sm: 24rpx; --font-md: 28rpx; --font-lg: 32rpx; --font-xl: 36rpx; --font-xxl: 44rpx; --font-hero: 56rpx;
+  --spacing-xs: 8rpx; --spacing-sm: 16rpx; --spacing-md: 24rpx; --spacing-lg: 32rpx; --spacing-xl: 48rpx;
+  --transition-fast: 0.15s ease; --transition-normal: 0.2s ease; --transition-slow: 0.35s ease;
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  --font-mono: "SF Mono", "Fira Code", "Consolas", monospace;
+  --glass-blur: 20rpx;
+}

@@ -1,0 +1,198 @@
+<page-header title="{{eventId ? '安灯处理' : '安灯事件'}}" showBack="{{true}}" />
+
+<view class="page-container">
+    <block wx:if="{{!eventId}}">
+        <scroll-view scroll-x class="filter-bar">
+      <view
+        class="filter-item {{activeStatus === item.value ? 'active' : ''}}"
+        wx:for="{{statusList}}"
+        wx:key="value"
+        data-value="{{item.value}}"
+        bindtap="onStatusFilter"
+      >{{item.label}}</view>
+    </scroll-view>
+
+        <view class="page-content">
+      <block wx:for="{{eventList}}" wx:key="eventId">
+        <view class="card event-card" data-event-id="{{item.eventId}}" bindtap="onEventTap">
+          <view class="flex-between mb-sm">
+            <view class="event-card-left">
+              <text class="event-title">{{item.eventTypeName}}</text>
+              <text class="event-no">{{item.eventNo}}</text>
+            </view>
+            <status-tag status="{{item.status}}">{{item.statusLabel}}</status-tag>
+          </view>
+
+          <view class="info-row">
+            <text class="info-label">产线</text>
+            <text class="info-value">{{item.lineName}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">工位</text>
+            <text class="info-value">{{item.workstationName}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">设备</text>
+            <text class="info-value">{{item.deviceName || item.deviceCode || '--'}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">原因</text>
+            <text class="info-value">{{item.reasonName}}</text>
+          </view>
+
+          <view class="event-desc">{{item.description}}</view>
+
+          <view class="event-foot">
+            <text class="event-time">{{item.createTime}}</text>
+            <view class="event-priority priority-{{item.priority === 'HIGH' ? 'high' : (item.priority === 'MEDIUM' ? 'medium' : 'low')}}">
+              {{item.priority === 'HIGH' ? '高优先级' : (item.priority === 'MEDIUM' ? '中优先级' : '低优先级')}}
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <empty-state wx:if="{{!loading && eventList.length === 0}}" text="暂无安灯事件" />
+    </view>
+  </block>
+
+    <block wx:if="{{eventId && event}}">
+    <view class="page-content">
+            <view class="card">
+        <view class="flex-between mb-sm">
+          <text class="detail-no">{{event.eventNo}}</text>
+          <status-tag status="{{event.status}}">{{event.statusLabel}}</status-tag>
+        </view>
+
+        <view class="detail-meta-row">
+          <view class="detail-meta-item">
+            <text class="meta-label">事件类型</text>
+            <text class="meta-value type-tag type-{{event.eventType}}">{{event.eventTypeName}}</text>
+          </view>
+          <view class="detail-meta-item">
+            <text class="meta-label">优先级</text>
+            <text class="meta-value priority-text priority-{{event.priority === 'HIGH' ? 'high' : (event.priority === 'MEDIUM' ? 'medium' : 'low')}}">{{event.priority === 'HIGH' ? '高' : (event.priority === 'MEDIUM' ? '中' : '低')}}</text>
+          </view>
+        </view>
+      </view>
+
+            <view class="card">
+        <view class="section-title">关联信息</view>
+        <view class="info-grid">
+          <view class="info-item">
+            <text class="info-label">工单号</text>
+            <text class="info-value">{{event.workOrderNo}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">产线</text>
+            <text class="info-value">{{event.lineName}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">工位</text>
+            <text class="info-value">{{event.workstationName}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">设备名称</text>
+            <text class="info-value">{{event.deviceName || '--'}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">设备编码</text>
+            <text class="info-value">{{event.deviceCode || '--'}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">原因分类</text>
+            <text class="info-value">{{event.reasonName}}</text>
+          </view>
+        </view>
+      </view>
+
+            <view class="card">
+        <view class="section-title">问题描述</view>
+        <view class="desc-text">{{event.description || '无'}}</view>
+        <view class="images-row" wx:if="{{event.images && event.images.length > 0}}">
+          <image
+            wx:for="{{event.images}}"
+            wx:key="index"
+            class="desc-image"
+            src="{{item}}"
+            mode="aspectFill"
+            bindtap="onPreviewImage"
+            data-index="{{index}}"
+          />
+        </view>
+      </view>
+
+            <view class="card">
+        <view class="section-title">发起信息</view>
+        <view class="info-row">
+          <text class="info-label">发起人</text>
+          <text class="info-value">{{event.createdByName || event.createdBy}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">发起时间</text>
+          <text class="info-value">{{event.createTime}}</text>
+        </view>
+        <view class="info-row" wx:if="{{event.responseTime}}">
+          <text class="info-label">响应时间</text>
+          <text class="info-value">{{event.responseTime}}</text>
+        </view>
+      </view>
+
+            <view class="card">
+        <view class="section-title">处理记录</view>
+        <block wx:if="{{event.handleRecords && event.handleRecords.length > 0}}">
+          <view class="record-item" wx:for="{{event.handleRecords}}" wx:key="index">
+            <view class="record-head">
+              <text class="record-handler">{{item.handlerName || item.handler}}</text>
+              <text class="record-time">{{item.time}}</text>
+            </view>
+            <text class="record-action">{{item.action}}</text>
+          </view>
+        </block>
+        <view wx:else class="no-records">暂无处理记录，请尽快处理</view>
+      </view>
+
+            <view class="card accept-card" wx:if="{{needsAccept}}">
+        <view class="accept-tip">
+          <text class="accept-tip-icon">📋</text>
+          <text class="accept-tip-text">请先接收任务，再进行安灯处理</text>
+        </view>
+        <button class="btn btn-accept" bindtap="onAccept" loading="{{accepting}}">接收任务</button>
+      </view>
+
+            <view class="card" wx:if="{{!needsAccept}}">
+        <view class="section-title">处理操作</view>
+
+        <view class="form-group">
+          <view class="form-label">处理状态 <text class="required">*</text></view>
+          <picker mode="selector" range="{{statusOptions}}" range-key="label" value="{{statusIndex}}" bindchange="onStatusChange">
+            <view class="picker-display">
+              {{statusOptions[statusIndex].label}}
+              <text class="picker-arrow">›</text>
+            </view>
+          </picker>
+        </view>
+
+        <view class="form-group">
+          <view class="form-label">处理结果 <text class="required">*</text></view>
+          <textarea
+            class="form-textarea"
+            placeholder="请输入处理结果和说明..."
+            value="{{handleResult}}"
+            bindinput="onHandleResultInput"
+            maxlength="500"
+          />
+          <view class="char-count">{{handleResult.length}}/500</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="footer-placeholder"></view>
+  </block>
+</view>
+<action-footer
+  wx:if="{{eventId && event && !needsAccept}}"
+  primaryText="提交处理"
+  showSecondary="{{false}}"
+  primaryLoading="{{submitting}}"
+  bind:primary="onSubmit"
+/>

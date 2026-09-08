@@ -1,0 +1,510 @@
+你现在是一个资深 AI Agent 架构师、LangGraph 工程师、FastAPI 工程师、Vue 工程师，同时熟悉 Java Spring Boot 企业系统集成。
+
+我要在当前 MES 主项目中新增一个独立的多 Agent 协同子系统。目标不是普通聊天机器人，而是接近 Codex / Cursor Agent 的业务操作台：用户输入任务后，主 Agent 负责理解目标、拆解任务、选择子 Agent、协调执行；子 Agent 按业务板块分工，拥有不同的数据查询和操作权限；所有执行过程、工具调用、确认动作都要在前端清晰展示。
+
+请你严格按“只读扫描 → 输出计划 → 等我确认 → 分阶段实现”的方式工作。没有我的确认，不要创建、修改、删除任何文件。
+
+项目背景：
+
+当前系统是电风扇制造组装行业 MES 系统，确定有以下九大业务板块：（刚刚调整的）
+
+1. 系统总览
+2. 计划调度
+3. 仓储管理
+4. 生产管理
+5. 质量管理
+6. 安灯中心
+7. 设备管理
+8. 系统管理
+9. 分析集成
+
+主业务后端使用 Java Spring Boot。现在新增独立 Agent 子系统：
+
+- 前端：Vue 3 + Vite + TypeScript
+- 后端：FastAPI
+- Agent 编排：LangGraph
+- 新增代码统一放在 agent-system/
+- 不修改原 Spring Boot 代码
+- 不直接操作主业务数据库
+- 后续通过 Spring Boot REST API 调用主系统能力
+- 第一版允许使用 mock 数据和 mock tools
+- 所有密钥、模型配置、接口地址都放在 .env 中，不允许硬编码
+
+注：你可以使用D:\Anaconda2024.10\envs\pytorch这个conda环境
+
+
+核心架构要求：
+
+系统采用多 Agent 协同架构。
+
+1. MainAgent / SupervisorAgent
+
+职责：
+- 接收用户请求
+- 识别用户意图
+- 判断涉及哪个业务板块
+- 拆解任务
+- 选择一个或多个子 Agent
+- 协调子 Agent 执行
+- 汇总各子 Agent 结果
+- 控制权限和确认流程
+- 生成最终回答
+
+限制：
+- MainAgent 不直接查数据库
+- MainAgent 不直接调用 Spring Boot 业务接口
+- MainAgent 不直接执行工具
+- MainAgent 只能通过子 Agent 和 Tool Registry 完成任务
+- MainAgent 不能绕过子 Agent 权限
+
+2. 子 Agent 设计
+
+请按九大业务板块设计子 Agent：
+
+- OverviewAgent：系统总览 Agent
+- ScheduleAgent：计划调度 Agent
+- WarehouseAgent：仓储管理 Agent
+- ProductionAgent：生产管理 Agent
+- QualityAgent：质量管理 Agent
+- AndonAgent：安灯中心 Agent
+- EquipmentAgent：设备管理 Agent
+- SystemAgent：系统管理 Agent
+- AnalyticsAgent：分析集成 Agent
+
+每个子 Agent 必须有明确职责、权限边界和工具范围。
+
+子 Agent 基本结构必须包含：
+
+- agent_name
+- business_module
+- description
+- allowed_tools
+- allowed_api_paths
+- read_permissions
+- write_permissions
+- require_confirmation_actions
+- risk_level
+- handle_task()
+
+权限原则：
+
+- 查询类操作可以自动执行。
+- 写入、修改、删除、关闭、发布、提交、确认、入库、出库、发料、报工、质检提交、状态流转都必须先生成确认卡片。
+- SystemAgent 第一版默认只读，不允许修改用户、角色、权限。
+- AnalyticsAgent 第一版只读，只做统计和分析。
+- Trace、日志、确认记录必须可查看。
+- 子 Agent 不能调用权限范围外的工具。
+- 模型不能直接生成 SQL 操作业务库。
+- 即使后续增加数据库访问，也必须通过受控 DataAccess 或 SpringBootClient，并经过权限白名单校验。
+
+九大子 Agent 权限建议：
+
+OverviewAgent：
+- 可读：系统总览、今日生产、待办、异常数量、设备状态、质量概览
+- 可写：默认无
+- 主要用途：汇总系统运行情况
+
+ScheduleAgent：
+- 可读：生产计划、排产结果、产线能力、工单优先级、物料齐套状态
+- 可写：排产建议保存、计划调整申请
+- 高风险：下达计划、调整工单优先级、修改排产
+
+WarehouseAgent：
+- 可读：库存、批次、齐套、发料、入库、出库记录
+- 可写：发料确认申请、库存调整申请
+- 高风险：确认发料、库存调整、入库确认、出库确认
+
+ProductionAgent：
+- 可读：生产进度、工位作业、报工记录、条码绑定、产线状态
+- 可写：提交报工申请、工位操作记录申请
+- 高风险：提交报工、修改产量、变更生产状态
+
+QualityAgent：
+- 可读：质检任务、质检记录、不良统计、返修记录
+- 可写：质检结果提交申请、返修单创建申请
+- 高风险：提交质检结果、判定不良、创建返修单
+
+AndonAgent：
+- 可读：安灯事件、异常任务、处理记录、异常分类
+- 可写：创建安灯、分派任务、关闭安灯申请
+- 高风险：关闭安灯、分派责任人、修改异常等级
+
+EquipmentAgent：
+- 可读：设备状态、点检记录、保养计划、维修记录
+- 可写：创建设备维修申请、保养确认申请
+- 高风险：设备停机、维修完成确认、保养完成确认
+
+SystemAgent：
+- 可读：用户、角色、权限、菜单、系统配置
+- 可写：第一版禁止
+- 高风险：所有系统管理写入操作
+
+AnalyticsAgent：
+- 可读：生产报表、质量报表、设备报表、安灯报表、库存报表
+- 可写：报表生成记录
+- 高风险：默认无
+- 主要用途：跨模块分析、趋势总结、管理建议
+
+LangGraph 工作流要求：
+
+使用 LangGraph 构建多 Agent 协同流程，至少包含以下流程：
+
+用户输入
+→ MainAgent 接收
+→ 输入安全检查
+→ 意图识别
+→ 参数提取
+→ 缺参数则追问
+→ 任务拆解
+→ 选择子 Agent
+→ 子 Agent 选择工具
+→ 权限校验
+→ 执行 read 工具
+→ write 工具进入确认流程
+→ 子 Agent 返回观察结果
+→ MainAgent 汇总
+→ 生成最终回答
+→ 记录 trace
+
+GraphState 至少包含：
+
+- session_id
+- user_id
+- user_role
+- user_message
+- intent
+- involved_modules
+- selected_agents
+- plan
+- current_agent
+- tool_calls
+- observations
+- confirmations
+- pending_action
+- final_answer
+- trace_id
+- error
+
+必须实现的核心模块：
+
+1. Agent Registry
+- 统一注册 MainAgent 和所有子 Agent
+- 根据业务板块和权限选择 Agent
+
+2. Tool Registry
+- 统一注册工具
+- 工具必须声明所属模块、动作类型、风险等级、是否需要确认
+
+3. Permission Guard
+- 校验子 Agent 是否有权限调用某工具
+- 校验当前用户角色是否允许该操作
+- 阻止 MainAgent 或子 Agent 越权调用
+
+4. LLM Adapter
+- BaseLLM
+- MockLLM
+- OpenAICompatibleLLM
+- OllamaAdapter，占位即可
+- 第一版必须支持 MockLLM，无 API Key 也能运行
+
+5. SpringBootClient
+- 统一封装对 Java Spring Boot 的调用
+- 第一版 ENABLE_MOCK_TOOLS=true，返回 mock 数据
+- 后续 ENABLE_MOCK_TOOLS=false 时切换真实接口
+- 工具中不要散落 http 请求
+
+6. Confirmation 机制
+- 所有写入类动作必须生成确认卡片
+- 用户确认后才执行真实动作
+- 用户取消后记录 trace 并终止动作
+
+确认卡片至少包含：
+
+- confirmation_id
+- 发起 Agent
+- 所属业务板块
+- 操作名称
+- 影响对象
+- 请求参数
+- 风险等级
+- 风险说明
+- 预期结果
+
+7. Trace 机制
+- 前端要展示类似 Codex 的执行步骤
+- 至少记录用户输入、MainAgent 判断、选择的子 Agent、每个子 Agent 的任务、工具调用、工具输入输出、确认状态、最终回答
+
+第一版 MVP 只需要跑通以下能力：
+
+子 Agent：
+- MainAgent
+- OverviewAgent
+- ScheduleAgent
+- WarehouseAgent
+- ProductionAgent
+- QualityAgent
+- AndonAgent
+- EquipmentAgent
+- SystemAgent
+- AnalyticsAgent
+
+Mock 查询工具：
+- query_system_overview
+- query_schedule_plan
+- query_work_order
+- query_material_kitting
+- query_inventory
+- query_production_progress
+- query_quality_record
+- query_andon_events
+- query_equipment_status
+- query_report_summary
+
+Mock 写入工具：
+- create_andon_event
+- submit_production_report
+- confirm_material_issue
+- submit_quality_result
+
+第一版典型任务必须跑通：
+
+1. “帮我查一下 WO20260708001 为什么延期”
+MainAgent 调度 ScheduleAgent、WarehouseAgent、ProductionAgent、QualityAgent、AndonAgent，返回计划、工具调用、分析结论。
+
+2. “帮我创建一个电机异响安灯”
+MainAgent 调度 AndonAgent，生成确认卡片，用户确认后执行 mock create_andon_event。
+
+3. “查询今天系统总览”
+MainAgent 调度 OverviewAgent，返回今日生产、质量、安灯、设备、库存摘要。
+
+4. “生成今天的质量异常分析”
+MainAgent 调度 QualityAgent 和 AnalyticsAgent，返回质量问题、风险点和建议。
+
+前端要求：
+
+使用 Agent界面Vue.txt 作为主界面基础，改造成 AgentHome.vue。
+
+前端需要展示：
+
+- 用户消息
+- Agent 回复
+- MainAgent 任务计划
+- 参与的子 Agent
+- 每个子 Agent 的执行步骤
+- 工具调用过程
+- 确认卡片
+- Trace 面板
+- 当前状态：Planning、Routing、Running、Waiting Approval、Done、Error
+
+前端组件建议：
+
+- AgentHome.vue
+- ChatWindow.vue
+- MessageBubble.vue
+- AgentStepCard.vue
+- SubAgentBadge.vue
+- PlanCard.vue
+- ToolCallCard.vue
+- ConfirmationCard.vue
+- TracePanel.vue
+
+后端 API 至少实现：
+
+GET /api/health
+
+POST /api/agent/chat
+
+请求：
+
+{
+  "session_id": "xxx",
+  "user_id": "xavier",
+  "user_role": "admin",
+  "message": "帮我查一下 WO20260708001 为什么延期"
+}
+
+返回：
+
+{
+  "session_id": "xxx",
+  "answer": "...",
+  "intent": "...",
+  "involved_modules": [],
+  "selected_agents": [],
+  "plan": [],
+  "tool_calls": [],
+  "confirmations": [],
+  "trace_id": "..."
+}
+
+GET /api/agents
+返回所有子 Agent 及其权限。
+
+GET /api/tools
+返回所有工具及其权限。
+
+POST /api/confirmations/{confirmation_id}/approve
+确认执行写入操作。
+
+POST /api/confirmations/{confirmation_id}/reject
+取消写入操作。
+
+GET /api/traces/{trace_id}
+查看执行过程。
+
+推荐目录结构：
+
+agent-system/
+  README.md
+  .env.example
+
+  backend/
+    README.md
+    requirements.txt
+    .env.example
+    app/
+      main.py
+
+      core/
+        config.py
+        logging.py
+        permissions.py
+
+      graph/
+        state.py
+        workflow.py
+        nodes.py
+
+      agents/
+        base.py
+        registry.py
+        main_agent.py
+        overview_agent.py
+        schedule_agent.py
+        warehouse_agent.py
+        production_agent.py
+        quality_agent.py
+        andon_agent.py
+        equipment_agent.py
+        system_agent.py
+        analytics_agent.py
+
+      llm/
+        base.py
+        mock_llm.py
+        openai_compatible.py
+        ollama_adapter.py
+
+      tools/
+        base.py
+        registry.py
+        mock_tools.py
+        mes_tools.py
+
+      integrations/
+        spring_boot_client.py
+
+      storage/
+        trace_store.py
+        confirmation_store.py
+        session_store.py
+
+      api/
+        routes_health.py
+        routes_chat.py
+        routes_agents.py
+        routes_tools.py
+        routes_confirmations.py
+        routes_traces.py
+
+  frontend/
+    README.md
+    package.json
+    vite.config.ts
+    index.html
+    src/
+      main.ts
+      App.vue
+
+      api/
+        agentApi.ts
+
+      views/
+        AgentHome.vue
+
+      components/
+        ChatWindow.vue
+        MessageBubble.vue
+        AgentStepCard.vue
+        SubAgentBadge.vue
+        PlanCard.vue
+        ToolCallCard.vue
+        ConfirmationCard.vue
+        TracePanel.vue
+
+      types/
+        agent.ts
+
+      styles/
+        global.css
+
+回答格式要求：
+
+业务分析类回答必须包含：
+
+- 结论
+- 子 Agent 执行情况
+- 查询依据
+- 风险点
+- 建议操作
+- 下一步可执行动作
+
+Cursor 执行要求：
+
+第一步只读扫描当前项目结构，不允许创建、修改、删除文件。
+
+扫描后输出简洁计划，包括：
+
+1. agent-system 应该创建在哪里
+2. 准备创建哪些核心目录
+3. 多 Agent 架构如何落地
+4. MainAgent 和九大子 Agent 如何协作
+5. 不同子 Agent 权限如何实现
+6. 前端如何复用 Agent界面Vue.txt
+7. 第一版 MVP 能跑通什么
+
+等我确认后再分阶段创建代码。
+
+分阶段执行：
+
+阶段 1：创建 agent-system 基础目录和 README
+阶段 2：创建 FastAPI 基础服务
+阶段 3：创建多 Agent 注册表和权限模型
+阶段 4：创建 LangGraph 工作流骨架
+阶段 5：创建 MockLLM 和 LLM Adapter
+阶段 6：创建 Tool Registry 和 mock MES 工具
+阶段 7：创建 confirmation 和 trace 机制
+阶段 8：创建 Vue 前端，并复用 Agent界面Vue.txt 作为 AgentHome
+阶段 9：前后端联调
+阶段 10：补充 README 和 Spring Boot 接入说明
+
+每个阶段完成后暂停，并告诉我：
+
+- 新增了哪些文件
+- 修改了哪些文件
+- 如何运行验证
+- 下一阶段做什么
+
+重要限制：
+
+- 不修改原 Spring Boot 代码
+- 不修改原业务数据库
+- 不把 API Key 写入代码
+- 不让模型直接执行 SQL
+- 不让 MainAgent 绕过子 Agent 权限
+- 不让子 Agent 调用权限外工具
+- 不让写入类工具绕过确认
+- 不一次性生成庞大复杂工程
+- 所有新增代码默认只放在 agent-system/ 下
+
+现在请开始第一步：只读扫描当前项目目录结构，不要修改任何文件。扫描完成后给我简洁实施计划，等待我确认。

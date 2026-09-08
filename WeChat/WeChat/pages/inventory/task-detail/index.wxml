@@ -1,0 +1,166 @@
+<page-header title="{{pageMode === 'INBOUND' ? '入库登记' : pageMode === 'RETURN' ? '退料详情' : '领料确认'}}" showBack="{{true}}" />
+
+<view class="page-container">
+  <view class="id-loading" wx:if="{{loading}}"><text>加载中...</text></view>
+  <view class="id-empty" wx:elif="{{!task}}"><text>任务不存在</text></view>
+
+  <view class="id-content" wx:else>
+        <view class="id-card">
+      <view class="id-card-head">
+        <text class="id-card-title">物料信息</text>
+        <status-tag status="{{task.status}}">{{task.statusLabel}}</status-tag>
+      </view>
+      <view class="id-info-grid">
+        <view class="id-info-item"><text class="id-info-l">物料名称</text><text class="id-info-v">{{task.materialName}}</text></view>
+        <view class="id-info-item"><text class="id-info-l">物料编码</text><text class="id-info-v">{{task.materialCode}}</text></view>
+        <view class="id-info-item"><text class="id-info-l">规格型号</text><text class="id-info-v">{{task.spec || '--'}}</text></view>
+        <view wx:if="{{pageMode === 'INBOUND'}}">
+          <view class="id-info-item"><text class="id-info-l">批次号</text><text class="id-info-v">{{task.batchNo || '--'}}</text></view>
+          <view class="id-info-item"><text class="id-info-l">应入库</text><text class="id-info-v id-info-hl">{{task.qty}} {{task.unit || ''}}</text></view>
+          <view class="id-info-item"><text class="id-info-l">已入库</text><text class="id-info-v">{{task.registeredQty || 0}} {{task.unit || ''}}</text></view>
+        </view>
+        <block wx:else>
+          <view class="id-info-item"><text class="id-info-l">批次号</text><text class="id-info-v">{{task.batchNo}}</text></view>
+          <view class="id-info-item"><text class="id-info-l">需求数量</text><text class="id-info-v id-info-hl">{{task.qty}} {{task.unit || ''}}</text></view>
+          <view class="id-info-item"><text class="id-info-l">已领数量</text><text class="id-info-v">{{task.issuedQty || 0}} {{task.unit || ''}}</text></view>
+          <view class="id-info-item"><text class="id-info-l">待领数量</text><text class="id-info-v id-info-bad">{{remainQty}} {{task.unit || ''}}</text></view>
+        </block>
+      </view>
+    </view>
+
+        <view class="id-card">
+      <text class="id-card-title">仓库信息</text>
+      <view class="id-info-grid">
+        <view class="id-info-item"><text class="id-info-l">仓库名称</text><text class="id-info-v">{{task.warehouseName}}</text></view>
+        <view class="id-info-item"><text class="id-info-l">库位编码</text><text class="id-info-v">{{task.locationCode}}</text></view>
+        <view wx:if="{{pageMode !== 'INBOUND'}}">
+          <view class="id-info-item"><text class="id-info-l">当前库存</text><text class="id-info-v">{{task.stockQty || '--'}} {{task.unit || ''}}</text></view>
+        </view>
+        <view class="id-info-item"><text class="id-info-l">工单号</text><text class="id-info-v">{{task.workOrderNo}}</text></view>
+      </view>
+    </view>
+
+                <view class="id-card" wx:if="{{pageMode === 'INBOUND' && task.status !== 'COMPLETED'}}">
+      <text class="id-card-title">入库登记</text>
+
+      <view class="id-inbound-info">
+        <view class="id-inbound-row">
+          <text class="id-inbound-label">应入库数量</text>
+          <text class="id-inbound-total">{{task.qty}} {{task.unit || ''}}</text>
+        </view>
+        <view class="id-inbound-row">
+          <text class="id-inbound-label">已登记数量</text>
+          <text class="id-inbound-done">{{task.registeredQty || 0}} {{task.unit || ''}}</text>
+        </view>
+        <view class="id-inbound-row id-inbound-row--remain">
+          <text class="id-inbound-label">待入库</text>
+          <text class="id-inbound-remain">{{task.qty - (task.registeredQty || 0)}} {{task.unit || ''}}</text>
+        </view>
+      </view>
+
+      <view class="id-form-item">
+        <text class="id-label">本次实收数量</text>
+        <view class="id-stepper">
+          <view class="id-step-btn" bindtap="onInboundQtyChange" data-delta="-1">−</view>
+          <input class="id-step-input" type="number" value="{{inboundQty}}" bindinput="onInboundQtyInput" />
+          <view class="id-step-btn" bindtap="onInboundQtyChange" data-delta="1">+</view>
+        </view>
+        <text class="id-qty-hint">最大可登记 {{task.qty - (task.registeredQty || 0)}} {{task.unit || ''}}</text>
+      </view>
+
+      <view class="id-form-item">
+        <text class="id-label">备注</text>
+        <textarea class="id-textarea" placeholder="入库备注（选填）" value="{{remark}}" bindinput="onRemarkInput" maxlength="200" />
+      </view>
+
+      <view class="id-btn-submit {{submitting ? 'id-btn--loading' : ''}}" bindtap="onSubmitInbound">
+        {{submitting ? '提交中...' : '确认入库'}}
+      </view>
+    </view>
+
+        <view class="id-card" wx:if="{{pageMode === 'INBOUND' && task.status === 'COMPLETED'}}">
+      <view class="id-completed-badge">
+        <text class="id-completed-icon">✓</text>
+        <text class="id-completed-text">入库已完成</text>
+        <text class="id-completed-detail">实收 {{task.registeredQty || task.qty}} / 应入库 {{task.qty}} {{task.unit || ''}}</text>
+      </view>
+    </view>
+
+                <block wx:if="{{pageMode === 'ISSUE'}}">
+            <view class="id-card">
+        <text class="id-card-title">扫描物料批次</text>
+        <view class="id-scan-row">
+          <input class="id-input" placeholder="扫描或输入物料批次码" value="{{scanBatchNo}}" bindinput="onScanInput" bindconfirm="onScanConfirm" />
+          <view class="id-scan-btn" bindtap="onScan">
+            <image class="id-scan-icon" src="/images/扫码_scan-code.svg" mode="aspectFit" />
+          </view>
+        </view>
+        <view class="id-scanned" wx:if="{{scannedMaterial}}">
+          <view class="id-info-grid">
+            <view class="id-info-item"><text class="id-info-l">物料名称</text><text class="id-info-v">{{scannedMaterial.materialName}}</text></view>
+            <view class="id-info-item"><text class="id-info-l">规格</text><text class="id-info-v">{{scannedMaterial.spec}}</text></view>
+            <view class="id-info-item"><text class="id-info-l">批次号</text><text class="id-info-v">{{scannedMaterial.batchNo}}</text></view>
+            <view class="id-info-item"><text class="id-info-l">库存数量</text><text class="id-info-v">{{scannedMaterial.stockQty}}</text></view>
+            <view class="id-info-item"><text class="id-info-l">仓库库位</text><text class="id-info-v">{{scannedMaterial.warehouseName}} / {{scannedMaterial.locationCode}}</text></view>
+          </view>
+          <view class="id-warn" wx:if="{{stockNotEnough}}">⚠️ 库存不足！当前库存 {{scannedMaterial.stockQty}}，待领 {{remainQty}}</view>
+          <view class="id-warn id-warn--fifo" wx:if="{{fifoWarning}}">⚠️ {{fifoWarning}}</view>
+        </view>
+      </view>
+
+            <view class="id-card" wx:if="{{scannedMaterial && !stockNotEnough}}">
+        <text class="id-card-title">实发数量</text>
+        <view class="id-stepper">
+          <view class="id-step-btn" bindtap="onQtyChange" data-field="issueQty" data-delta="-1">−</view>
+          <input class="id-step-input" type="number" value="{{issueQty}}" bindinput="onQtyInput" data-field="issueQty" />
+          <view class="id-step-btn" bindtap="onQtyChange" data-field="issueQty" data-delta="1">+</view>
+        </view>
+        <text class="id-qty-hint">最大可发 {{maxIssueQty}} {{task.unit || ''}}</text>
+        <view class="id-form-item">
+          <text class="id-label">备注</text>
+          <textarea class="id-textarea" placeholder="备注信息（选填）" value="{{remark}}" bindinput="onRemarkInput" maxlength="200" />
+        </view>
+        <view class="id-btn-submit {{submitting ? 'id-btn--loading' : ''}}" bindtap="onSubmitIssue">
+          {{submitting ? '提交中...' : '确认领料'}}
+        </view>
+      </view>
+
+            <view class="id-card">
+        <text class="id-card-title">退料操作</text>
+        <view class="id-return-toggle" bindtap="onToggleReturnForm" wx:if="{{!showReturnForm}}">
+          <text>该物料需要退料？点击这里</text>
+        </view>
+        <view class="id-return-form" wx:if="{{showReturnForm}}">
+          <view class="id-form-item">
+            <text class="id-label">退料数量（已领 {{task.issuedQty || 0}} {{task.unit || ''}}）</text>
+            <view class="id-stepper">
+              <view class="id-step-btn" bindtap="onReturnQtyChange" data-delta="-1">−</view>
+              <input class="id-step-input" type="number" value="{{returnQty}}" bindinput="onReturnQtyInput" />
+              <view class="id-step-btn" bindtap="onReturnQtyChange" data-delta="1">+</view>
+            </view>
+          </view>
+          <view class="id-form-item">
+            <text class="id-label">退料原因 <text class="id-required">*</text></text>
+            <textarea class="id-textarea" placeholder="请详细描述退料原因" value="{{returnReason}}" bindinput="onReturnReasonInput" maxlength="200" />
+          </view>
+          <view class="id-form-item">
+            <text class="id-label">现场照片（选填，最多4张）</text>
+            <view class="id-photo-row">
+              <view class="id-photo-item" wx:for="{{returnPhotos}}" wx:key="index">
+                <image class="id-photo-thumb" src="{{item}}" mode="aspectFill" />
+                <view class="id-photo-del" data-index="{{index}}" catchtap="onDeletePhoto">✕</view>
+              </view>
+              <view class="id-photo-add" wx:if="{{returnPhotos.length < 4}}" bindtap="onChoosePhoto">
+                <text class="id-photo-add-icon">+</text>
+              </view>
+            </view>
+          </view>
+          <view class="id-btn-submit id-btn--return {{returnSubmitting ? 'id-btn--loading' : ''}}" bindtap="onSubmitReturn">
+            {{returnSubmitting ? '提交中...' : '确认退料'}}
+          </view>
+          <view class="id-return-cancel" bindtap="onToggleReturnForm">取消退料</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

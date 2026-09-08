@@ -1,0 +1,136 @@
+<page-header title="维修详情" showBack="{{true}}" />
+
+<view class="page-container">
+  <scroll-view class="rd-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <block wx:if="{{!loading && task}}">
+
+            <view class="rd-banner rd-banner--{{task.status}}">
+        <view class="rd-banner-icon">
+          <text>{{task.status === 'PENDING' ? '🔧' : task.status === 'PROCESSING' ? '⚙️' : task.status === 'COMPLETED' ? '✅' : '🔧'}}</text>
+        </view>
+        <view class="rd-banner-body">
+          <text class="rd-banner-title">{{task.status === 'PENDING' ? '待维修' : task.status === 'PROCESSING' ? '维修中' : task.status === 'COMPLETED' ? '已修复' : task.statusLabel}}</text>
+          <text class="rd-banner-sub">{{task.priorityLabel}}优先级 · 维修员：{{task.assignedTo || '待分配'}}</text>
+        </view>
+      </view>
+
+            <view class="rd-card">
+        <text class="rd-section-title">任务信息</text>
+        <view class="rd-info-grid">
+          <view class="rd-info-row">
+            <text class="rd-info-l">任务编号</text>
+            <text class="rd-info-v">{{task.taskNo || task.taskId}}</text>
+          </view>
+          <view class="rd-info-row">
+            <text class="rd-info-l">创建时间</text>
+            <text class="rd-info-v">{{task.createTime}}</text>
+          </view>
+          <view class="rd-info-row" wx:if="{{task.completedAt}}">
+            <text class="rd-info-l">完成时间</text>
+            <text class="rd-info-v">{{task.completedAt}}</text>
+          </view>
+          <view class="rd-info-row" wx:if="{{task.repairResult}}">
+            <text class="rd-info-l">维修结果</text>
+            <text class="rd-info-v rd-info-highlight">{{task.repairResult}}</text>
+          </view>
+        </view>
+      </view>
+
+            <view class="rd-card">
+        <text class="rd-section-title">故障设备</text>
+        <view class="rd-info-grid">
+          <view class="rd-info-row">
+            <text class="rd-info-l">设备名称</text>
+            <text class="rd-info-v rd-info-highlight">{{task.productName || device.deviceName || '--'}}</text>
+          </view>
+          <view class="rd-info-row">
+            <text class="rd-info-l">设备编号</text>
+            <text class="rd-info-v">{{task.productModel || device.deviceCode || '--'}}</text>
+          </view>
+          <view class="rd-info-row" wx:if="{{device}}">
+            <text class="rd-info-l">所属产线</text>
+            <text class="rd-info-v">{{device.lineName || '--'}}</text>
+          </view>
+          <view class="rd-info-row" wx:if="{{device}}">
+            <text class="rd-info-l">设备型号</text>
+            <text class="rd-info-v">{{device.deviceModel || '--'}}</text>
+          </view>
+          <view class="rd-info-row">
+            <text class="rd-info-l">当前状态</text>
+            <view class="rd-info-v"><status-tag status="{{device ? device.status : (task.status === 'COMPLETED' ? 'RUNNING' : 'REPAIRING')}}">{{device ? device.statusLabel : (task.status === 'COMPLETED' ? '运行' : '维修中')}}</status-tag></view>
+          </view>
+        </view>
+      </view>
+
+            <view class="rd-card">
+        <text class="rd-section-title">故障描述</text>
+        <view class="rd-desc">
+          <text>{{task.description || '--'}}</text>
+        </view>
+      </view>
+
+            <view class="rd-card">
+        <text class="rd-section-title">人员信息</text>
+        <view class="rd-person-flow">
+                    <view class="rd-person-node">
+            <view class="rd-person-avatar rd-avatar-reporter">
+              <text>{{task.reportedBy ? task.reportedBy.charAt(0) : '?'}}</text>
+            </view>
+            <text class="rd-person-name">{{task.reportedBy || '--'}}</text>
+            <text class="rd-person-role">上报人</text>
+          </view>
+          <view class="rd-person-arrow">
+            <text>→</text>
+          </view>
+                    <view class="rd-person-node">
+            <view class="rd-person-avatar rd-avatar-repairer">
+              <text>{{task.assignedTo ? task.assignedTo.charAt(0) : '?'}}</text>
+            </view>
+            <text class="rd-person-name">{{task.assignedTo || '待分配'}}</text>
+            <text class="rd-person-role">维修员</text>
+          </view>
+          <view class="rd-person-arrow" wx:if="{{task.completedBy}}">
+            <text>→</text>
+          </view>
+                    <view class="rd-person-node" wx:if="{{task.completedBy}}">
+            <view class="rd-person-avatar rd-avatar-completer">
+              <text>{{task.completedBy.charAt(0)}}</text>
+            </view>
+            <text class="rd-person-name">{{task.completedBy}}</text>
+            <text class="rd-person-role">完成人</text>
+          </view>
+        </view>
+      </view>
+
+            <view class="rd-card" wx:if="{{device && device.repairRecords && device.repairRecords.length > 0}}">
+        <text class="rd-section-title">设备历史维修</text>
+        <view class="rd-timeline">
+          <view class="rd-tl-item" wx:for="{{device.repairRecords}}" wx:key="repairId">
+            <view class="rd-tl-dot"></view>
+            <view class="rd-tl-body">
+              <text class="rd-tl-time">{{item.repairTime}}</text>
+              <text class="rd-tl-text">{{item.repairBy}}：{{item.repairResult || '维修完成'}}</text>
+              <text class="rd-tl-desc" wx:if="{{item.faultDescription}}">{{item.faultDescription}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+    </block>
+
+    <view class="rd-empty" wx:if="{{!loading && !task}}">
+      <text class="rd-empty-icon">🔧</text>
+      <text class="rd-empty-text">未找到维修记录</text>
+    </view>
+
+    <view class="rd-bottom"></view>
+  </scroll-view>
+</view>
+<action-footer
+  wx:if="{{task && !upgraded && task.status !== 'COMPLETED'}}"
+  primaryText="⚠️ 升级为安灯事件"
+  secondaryText="返回"
+  bind:primary="onUpgrade"
+  bind:secondary="onBack"
+/>

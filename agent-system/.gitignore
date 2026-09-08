@@ -1,0 +1,2 @@
+# Local Qdrant persistent index, snapshots and WAL data.
+/data/qdrant/

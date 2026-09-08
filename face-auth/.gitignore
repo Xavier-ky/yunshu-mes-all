@@ -1,0 +1,9 @@
+.venv/
+.face-venv/
+.face-runtime/
+.face-conda/
+__pycache__/
+app/__pycache__/
+data/sry_face_data/
+data/runtime/
+data/.deepface/

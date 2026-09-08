@@ -1,0 +1,65 @@
+@import "/styles/variables.wxss";
+@import "/styles/common.wxss";
+
+.scan-section {
+  padding: var(--spacing-sm) 0;
+}
+
+.timeline {
+  padding-top: var(--spacing-sm);
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  padding-bottom: var(--spacing-md);
+}
+
+.timeline-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 8rpx;
+  margin-right: var(--spacing-sm);
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-dot.dot-success {
+  background-color: var(--color-success);
+}
+
+.timeline-dot.dot-danger {
+  background-color: var(--color-danger);
+}
+
+.timeline-line {
+  position: absolute;
+  left: 9rpx;
+  top: 28rpx;
+  width: 2rpx;
+  height: calc(100% - 20rpx);
+  background-color: var(--color-border);
+  z-index: 0;
+}
+
+.timeline-content {
+  flex: 1;
+  background-color: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+}
+
+.binding-item,
+.record-item {
+  padding: var(--spacing-xs) 0;
+}
+
+.section-title {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  padding-bottom: var(--spacing-xs);
+}

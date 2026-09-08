@@ -1,0 +1,211 @@
+<page-header title="生产看板" showBack="{{true}}" />
+
+<view class="page-container">
+  <view class="db-content" wx:if="{{!loading}}">
+
+        <view class="kpi-grid">
+      <view class="kpi-card kpi-card--output">
+        <text class="kpi-label">今日产量</text>
+        <view class="kpi-value-row">
+          <text class="kpi-value">{{kpiOutput}}</text>
+          <text class="kpi-unit">/ {{kpiPlan}} 台</text>
+        </view>
+        <view class="kpi-sub-row">
+          <text class="kpi-sub-label">计划达成</text>
+          <text class="kpi-sub-value">{{kpiCompletionRate}}%</text>
+        </view>
+        <view class="kpi-bar-bg"><view class="kpi-bar-fill kpi-bar--output" style="width:{{kpiCompletionRate}}%;"></view></view>
+      </view>
+
+      <view class="kpi-card kpi-card--quality kpi-card--ring-card">
+        <text class="kpi-label">综合合格率</text>
+        <view class="kpi-ring-wrap">
+          <view class="kpi-ring" style="--pct:{{kpiQualifiedRate / 100}};">
+            <view class="kpi-ring-inner">
+              <text class="kpi-ring-val">{{kpiQualifiedRate}}</text>
+              <text class="kpi-ring-unit">%</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="kpi-card kpi-card--lines kpi-card--ring-card">
+        <text class="kpi-label">产线开工率</text>
+        <view class="kpi-ring-wrap">
+          <view class="kpi-ring kpi-ring--blue" style="--pct:{{kpiTotalLines > 0 ? kpiActiveLines / kpiTotalLines : 0}};">
+            <view class="kpi-ring-inner">
+              <text class="kpi-ring-val">{{kpiActiveLines}}</text>
+              <text class="kpi-ring-unit">/{{kpiTotalLines}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="kpi-card kpi-card--wip kpi-card--ring-card">
+        <text class="kpi-label">在制 WIP</text>
+        <view class="kpi-ring-wrap">
+          <view class="kpi-ring kpi-ring--gold" style="--pct:0.75;">
+            <view class="kpi-ring-inner">
+              <text class="kpi-ring-val">{{kpiWip}}</text>
+              <text class="kpi-ring-unit">个</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+        <view class="abnormal-grid">
+      <view class="ab-card ab-card--andon">
+        <view class="ab-icon">⚠</view>
+        <view class="ab-info">
+          <text class="ab-num">{{abnormal.andonTotal || 0}}</text>
+          <text class="ab-label">安灯事件</text>
+        </view>
+        <text class="ab-pending" wx:if="{{abnormal.andonPending}}">{{abnormal.andonPending}}条待处理</text>
+      </view>
+      <view class="ab-card ab-card--quality">
+        <view class="ab-icon">✗</view>
+        <view class="ab-info">
+          <text class="ab-num">{{abnormal.qualityTotal || 0}}</text>
+          <text class="ab-label">质检异常</text>
+        </view>
+        <text class="ab-pending" wx:if="{{abnormal.qualityPending}}">{{abnormal.qualityPending}}条待处理</text>
+      </view>
+      <view class="ab-card ab-card--equipment">
+        <view class="ab-icon">🔧</view>
+        <view class="ab-info">
+          <text class="ab-num">{{abnormal.equipmentTotal || 0}}</text>
+          <text class="ab-label">设备故障</text>
+        </view>
+        <text class="ab-pending" wx:if="{{abnormal.equipmentPending}}">{{abnormal.equipmentPending}}条待处理</text>
+      </view>
+    </view>
+
+        <view class="chart-card">
+      <view class="chart-header">
+        <text class="chart-title">近7日产量趋势</text>
+        <text class="chart-subtitle">单位：台</text>
+      </view>
+
+      <view class="bar-chart">
+        <view class="bar-column" wx:for="{{trendDays}}" wx:key="index">
+          <view class="bar-value-text">{{trendValues[index]}}</view>
+          <view class="bar-wrap">
+            <view class="bar-fill" style="height:{{trendMax > 0 ? trendValues[index] / trendMax * 100 : 0}}%; background: linear-gradient(180deg, #00B4E4, #005A7A);"></view>
+          </view>
+          <text class="bar-label">{{item}}</text>
+        </view>
+      </view>
+
+            <view class="chart-legend">
+        <view class="legend-item">
+          <view class="legend-dot legend-dot--output"></view>
+          <text>产量</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-dot legend-dot--quality"></view>
+          <text>合格率趋势</text>
+        </view>
+      </view>
+
+            <view class="quality-trend">
+        <view class="qt-item" wx:for="{{trendQualifiedRates}}" wx:key="index">
+          <text class="qt-value">{{item}}%</text>
+        </view>
+      </view>
+    </view>
+
+        <view class="section-header">
+      <text class="section-title">产线进度</text>
+      <text class="section-count">{{lines.length}} 条产线</text>
+    </view>
+
+    <view class="line-list">
+      <view class="line-card" wx:for="{{lines}}" wx:key="lineName" data-index="{{index}}" bindtap="onLineTap">
+        <view class="lc-left">
+          <view class="lc-color" style="background:{{item.color}};"></view>
+          <view class="lc-info">
+            <text class="lc-name">{{item.lineName}}</text>
+            <text class="lc-sub">在制 {{item.taskCount}} 个工单</text>
+          </view>
+        </view>
+        <view class="lc-right">
+          <view class="lc-stats">
+            <text class="lc-actual">{{item.actualQty}}</text>
+            <text class="lc-plan">/ {{item.planQty}}</text>
+          </view>
+          <text class="lc-qr" style="color:{{item.qualifiedRate >= 98 ? '#2E8B8B' : item.qualifiedRate >= 95 ? '#D4AF37' : '#D32F2F'}};">{{item.qualifiedRate}}%</text>
+        </view>
+
+                <view class="lc-progress-wrap">
+          <view class="lc-progress" style="width:100%;">
+            <view class="lc-progress-fill" style="width:{{item.progress}}%; background:{{item.color}};"></view>
+          </view>
+          <text class="lc-progress-text">{{item.progress}}%</text>
+        </view>
+      </view>
+    </view>
+
+        <view class="section-header">
+      <text class="section-title">产量分布</text>
+      <text class="section-count">合计 {{distTotal}} 台</text>
+    </view>
+
+    <view class="chart-card">
+            <view class="dist-list">
+        <view class="dist-row" wx:for="{{distribution}}" wx:key="name">
+          <view class="dist-info">
+            <view class="dist-dot" style="background:{{item.color}};"></view>
+            <text class="dist-name">{{item.name}}</text>
+          </view>
+          <text class="dist-qty">{{item.output}} 台</text>
+        </view>
+      </view>
+
+            <view class="dist-bar-wrap">
+        <view class="dist-bar">
+          <view
+            class="dist-bar-seg"
+            wx:for="{{distribution}}"
+            wx:key="name"
+            style="flex:{{item.percent / 100}}; background:{{item.color}};"
+          ></view>
+        </view>
+        <view class="dist-pct-row">
+          <view class="dist-pct-item" wx:for="{{distribution}}" wx:key="name">
+            <text class="dist-pct" style="color:{{item.color}};">{{item.percent}}%</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+        <view class="section-header" wx:if="{{defectDistribution.length > 0}}">
+      <text class="section-title">缺陷类型分布</text>
+      <text class="section-count">共 {{defectTotal}} 例</text>
+    </view>
+
+    <view class="chart-card" wx:if="{{defectDistribution.length > 0}}">
+      <view class="defect-list">
+        <view class="defect-row" wx:for="{{defectDistribution}}" wx:key="name">
+          <view class="defect-left">
+            <view class="defect-dot" style="background:{{item.color}};"></view>
+            <text class="defect-name">{{item.name}}</text>
+          </view>
+          <view class="defect-right">
+            <view class="defect-bar-bg">
+              <view class="defect-bar-fill" style="width:{{item.percent}}%; background:{{item.color}};"></view>
+            </view>
+            <text class="defect-count">{{item.count}}例 {{item.percent}}%</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+        <view class="footer-placeholder"></view>
+
+  </view>
+
+    <view class="db-loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

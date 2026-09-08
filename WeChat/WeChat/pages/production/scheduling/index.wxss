@@ -1,0 +1,226 @@
+
+
+.page-container {
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+.page-scroll {
+  height: 100vh;
+  padding: 0 28rpx;
+}
+
+.form-card {
+  margin-top: 24rpx;
+  padding: 32rpx 28rpx 28rpx;
+  background: var(--color-card);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+.form-card-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-text);
+  display: block;
+  margin-bottom: 24rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.form-row {
+  margin-bottom: 20rpx;
+}
+.form-label {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 8rpx;
+}
+.form-optional {
+  font-weight: 400;
+  color: var(--color-text-placeholder);
+  font-size: 24rpx;
+  margin-left: 6rpx;
+}
+
+.form-input {
+  height: 80rpx;
+  width: 100%;
+  padding: 0 20rpx;
+  background: rgba(255,255,255,0.03);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-md);
+  color: var(--color-text);
+}
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4rpx rgba(0,180,240,0.06);
+}
+.form-ph {
+  color: var(--color-text-placeholder);
+}
+
+.form-pick {
+  height: 80rpx;
+  width: 100%;
+  padding: 0 20rpx;
+  background: rgba(255,255,255,0.03);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-md);
+  color: var(--color-text);
+}
+.form-pick-placeholder {
+  color: var(--color-text-placeholder);
+}
+.form-pick-arrow {
+  font-size: 22rpx;
+  color: var(--color-text-placeholder);
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 120rpx;
+  padding: 14rpx 20rpx;
+  background: rgba(255,255,255,0.03);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-md);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.form-row-split {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+.form-split-item {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-submit {
+  width: 100%;
+  height: 88rpx;
+  margin-top: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 44rpx;
+  background: var(--gradient-primary);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 700;
+  border: none;
+}
+.form-submit:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+.form-submit[disabled] {
+  opacity: 0.4;
+}
+
+.history-section {
+  margin-top: 36rpx;
+}
+.history-title {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 14rpx;
+  display: block;
+  padding-left: 4rpx;
+}
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 22rpx;
+  background: var(--color-card);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.history-item:active {
+  background: var(--color-card-hover);
+}
+.hi-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.hi-product {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hi-meta {
+  font-size: 22rpx;
+  color: var(--color-text-placeholder);
+}
+.hi-right {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  flex-shrink: 0;
+}
+.hi-status {
+  font-size: 22rpx;
+  font-weight: 600;
+  padding: 6rpx 16rpx;
+  border-radius: var(--radius-round);
+}
+.hi-pending {
+  color: #FFB800;
+  background: rgba(255,184,0,0.08);
+}
+.hi-progress {
+  color: #00B4E4;
+  background: rgba(0,180,240,0.08);
+}
+.hi-done {
+  color: #00E896;
+  background: rgba(0,232,150,0.06);
+}
+.hi-del {
+  width: 44rpx; height: 44rpx;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,71,87,0.06);
+}
+.hi-del:active {
+  background: rgba(255,71,87,0.15);
+}
+.hi-del-icon {
+  font-size: 22rpx;
+  color: #FF8A92;
+}
+
+.history-empty {
+  margin-top: 60rpx;
+  display: flex;
+  justify-content: center;
+}
+.he-text {
+  font-size: 26rpx;
+  color: var(--color-text-placeholder);
+}
+
+.page-bottom {
+  height: 60rpx;
+}

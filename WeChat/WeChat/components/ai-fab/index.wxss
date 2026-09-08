@@ -1,0 +1,35 @@
+
+
+.side-fab {
+  position: fixed; right: -44rpx; bottom: 30%; z-index: 150;
+  width: 120rpx; height: 120rpx; border-radius: 50%;
+  background: rgba(0,100,140,0.88);
+  border: 2rpx solid rgba(0,180,240,0.35);
+  box-shadow: 0 0 24rpx rgba(0,180,240,0.20);
+  display: flex; align-items: center; justify-content: center;
+  animation: sideFabBreathe 2s ease-in-out infinite;
+  transition: right 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.side-fab--show {
+  right: 24rpx; opacity: 1; animation: none;
+}
+
+.side-fab-inner {
+  width: 88rpx; height: 88rpx; border-radius: 50%;
+  background: rgba(255,255,255,0.10);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.side-fab-icon { width: 44rpx; height: 44rpx; }
+
+.side-fab-edge {
+  position: absolute; left: -2rpx; top: 20%; bottom: 20%;
+  width: 3rpx; border-radius: 2rpx;
+  background: linear-gradient(180deg, transparent, rgba(0,200,255,0.6), transparent);
+}
+
+@keyframes sideFabBreathe {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.60; }
+}

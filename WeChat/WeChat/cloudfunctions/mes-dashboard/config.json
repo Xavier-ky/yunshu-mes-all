@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "openapi": []
+  },
+  "triggers": [
+    {
+      "name": "dashboardAggregate",
+      "type": "timer",
+      "config": "0 */5 * * * * *"
+    }
+  ]
+}

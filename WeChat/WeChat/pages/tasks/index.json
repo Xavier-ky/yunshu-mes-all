@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "task-card": "/components/task-card/index",
+    "empty-state": "/components/empty-state/index",
+    "page-header": "/components/page-header/index",
+    "status-tag": "/components/status-tag/index"
+  },
+  "navigationStyle": "custom"
+}

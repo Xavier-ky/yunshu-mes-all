@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yunshu-mes.local/schemas/api-response.schema.json",
+  "title": "ApiResponse",
+  "type": "object",
+  "required": ["code", "message", "data", "traceId"],
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "业务响应码，成功时固定为 SUCCESS"
+    },
+    "message": {
+      "type": "string",
+      "description": "业务响应消息"
+    },
+    "data": {
+      "description": "响应数据，具体结构由接口定义"
+    },
+    "traceId": {
+      "type": "string",
+      "description": "请求链路追踪 ID"
+    }
+  },
+  "additionalProperties": false
+}

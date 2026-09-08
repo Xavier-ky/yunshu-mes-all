@@ -1,0 +1,11 @@
+-- Relax IPQC header NOT NULL for draft create from pending
+ALTER TABLE qc_ipqc
+  MODIFY COLUMN workorder_id BIGINT UNSIGNED NULL COMMENT '工单ID',
+  MODIFY COLUMN workorder_code VARCHAR(64) NULL COMMENT '工单编码',
+  MODIFY COLUMN workorder_name VARCHAR(255) NULL COMMENT '工单名称',
+  MODIFY COLUMN workstation_id BIGINT UNSIGNED NULL COMMENT '工作站ID',
+  MODIFY COLUMN workstation_code VARCHAR(64) NULL COMMENT '工作站编码',
+  MODIFY COLUMN workstation_name VARCHAR(255) NULL COMMENT '工作站名称',
+  MODIFY COLUMN process_id BIGINT UNSIGNED NULL COMMENT '工序ID',
+  MODIFY COLUMN item_id BIGINT UNSIGNED NULL COMMENT '产品物料ID',
+  MODIFY COLUMN quantity_check DOUBLE(12,4) NULL DEFAULT 0 COMMENT '检测数量';

@@ -1,0 +1,18 @@
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 16rpx;
+  border-radius: var(--radius-round);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.5rpx;
+  border: 1rpx solid transparent;
+}
+
+.tag-green  { color: var(--color-success); background: var(--color-success-light); border-color: rgba(39,174,96,0.25); }
+.tag-blue   { color: var(--color-accent); background: var(--color-accent-light); border-color: rgba(45,156,219,0.25); }
+.tag-orange { color: var(--color-primary); background: var(--color-primary-light); border-color: rgba(240,120,60,0.25); }
+.tag-red    { color: var(--color-danger);  background: var(--color-danger-light);  border-color: rgba(235,87,87,0.25); }
+.tag-gray   { color: var(--color-text-secondary); background: rgba(0,0,0,0.03); border-color: var(--color-border); }

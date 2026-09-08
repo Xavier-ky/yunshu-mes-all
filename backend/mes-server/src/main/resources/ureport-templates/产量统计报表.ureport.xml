@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ureport>
+  <cell expand="None" name="A1" row="1" col="1" col-span="7"><cell-style font-size="18" font-family="Microsoft YaHei" align="left" valign="middle" bold="true" bgcolor="23,50,87" forecolor="255,255,255"/><simple-value><![CDATA[云枢智造 · 产量统计报表]]></simple-value></cell>
+  <cell expand="None" name="A2" row="2" col="1"><cell-style font-size="9" align="right" valign="middle" bold="true" bgcolor="235,241,248"/><simple-value><![CDATA[报表周期]]></simple-value></cell>
+  <cell expand="None" name="B2" row="2" col="2"><cell-style font-size="9" align="center" valign="middle" bgcolor="248,250,252"/><simple-value><![CDATA[最近 50 条生产工单]]></simple-value></cell>
+  <cell expand="None" name="C2" row="2" col="3"><cell-style font-size="9" align="right" valign="middle" bold="true" bgcolor="235,241,248"/><simple-value><![CDATA[计划总量]]></simple-value></cell>
+  <cell expand="None" name="D2" row="2" col="4"><cell-style font-size="11" align="right" valign="middle" bold="true" bgcolor="248,250,252" forecolor="23,105,224"/><dataset-value aggregate="sum" property="计划数量" dataset-name="产量数据"/></cell>
+  <cell expand="None" name="E2" row="2" col="5"><cell-style font-size="9" align="right" valign="middle" bold="true" bgcolor="235,241,248"/><simple-value><![CDATA[完成总量]]></simple-value></cell>
+  <cell expand="None" name="F2" row="2" col="6"><cell-style font-size="11" align="right" valign="middle" bold="true" bgcolor="248,250,252" forecolor="24,128,85"/><dataset-value aggregate="sum" property="完成数量" dataset-name="产量数据"/></cell>
+  <cell expand="None" name="G2" row="2" col="7"><cell-style font-size="9" align="center" valign="middle" bold="true" bgcolor="228,239,253" forecolor="20,86,170"/><simple-value><![CDATA[达成率 %]]></simple-value></cell>
+  <cell expand="None" name="A3" row="3" col="1"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[工单号]]></simple-value></cell>
+  <cell expand="None" name="B3" row="3" col="2"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[产品]]></simple-value></cell>
+  <cell expand="None" name="C3" row="3" col="3"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[计划数量]]></simple-value></cell>
+  <cell expand="None" name="D3" row="3" col="4"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[完成数量]]></simple-value></cell>
+  <cell expand="None" name="E3" row="3" col="5"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[差异]]></simple-value></cell>
+  <cell expand="None" name="F3" row="3" col="6"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[达成率]]></simple-value></cell>
+  <cell expand="None" name="G3" row="3" col="7"><cell-style font-size="10" align="center" valign="middle" bold="true" bgcolor="43,91,145" forecolor="255,255,255" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><simple-value><![CDATA[状态]]></simple-value></cell>
+  <cell expand="Down" name="A4" row="4" col="1"><cell-style font-size="9" align="left" valign="middle" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="工单号" dataset-name="产量数据"/></cell>
+  <cell expand="Down" name="B4" row="4" col="2"><cell-style font-size="9" align="left" valign="middle" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="产品名称" dataset-name="产量数据"/></cell>
+  <cell expand="Down" name="C4" row="4" col="3"><cell-style font-size="9" align="right" valign="middle" format="#,##0.00" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="计划数量" dataset-name="产量数据"/></cell>
+  <cell expand="Down" name="D4" row="4" col="4"><cell-style font-size="9" align="right" valign="middle" format="#,##0.00" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="完成数量" dataset-name="产量数据"/></cell>
+  <cell expand="Down" name="E4" row="4" col="5"><cell-style font-size="9" align="right" valign="middle" format="#,##0.00" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="差异" dataset-name="产量数据"/></cell>
+  <cell expand="Down" name="F4" row="4" col="6"><cell-style font-size="9" align="right" valign="middle" format="#,##0.0" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="达成率" dataset-name="产量数据"/></cell>
+  <cell expand="Down" name="G4" row="4" col="7"><cell-style font-size="9" align="center" valign="middle" border-left="thin" border-right="thin" border-top="thin" border-bottom="thin"/><dataset-value aggregate="select" property="状态" dataset-name="产量数据"/></cell>
+  <cell expand="None" name="A5" row="5" col="1" col-span="7"><cell-style font-size="9" align="left" valign="middle" bgcolor="247,249,252" forecolor="89,105,128"/><simple-value><![CDATA[说明：差异 = 完成数量 - 计划数量；达成率按单工单计划数量计算。]]></simple-value></cell>
+  <row row-number="1" height="40"/><row row-number="2" height="32"/><row row-number="3" height="25"/><row row-number="4" height="22"/><row row-number="5" height="22"/>
+  <column col-number="1" width="105"/><column col-number="2" width="155"/><column col-number="3" width="78"/><column col-number="4" width="78"/><column col-number="5" width="72"/><column col-number="6" width="68"/><column col-number="7" width="72"/>
+  <paper type="A4" orientation="landscape" left-margin="45" right-margin="45" top-margin="48" bottom-margin="48" paging-mode="fitpage" fixrows="3" html-report-align="center" column-enabled="false" html-interval-refresh-value="0"/>
+  <datasource name="内置数据源" type="buildin">
+    <dataset name="产量数据" type="sql">
+      <sql><![CDATA[SELECT wo.work_order_no AS 工单号,
+COALESCE(p.product_name, '未关联产品') AS 产品名称,
+wo.plan_qty AS 计划数量,
+wo.completed_qty AS 完成数量,
+(wo.completed_qty - wo.plan_qty) AS 差异,
+ROUND(CASE WHEN wo.plan_qty = 0 THEN 0 ELSE wo.completed_qty * 100.0 / wo.plan_qty END, 1) AS 达成率,
+CASE wo.status WHEN 'CREATED' THEN '已创建' WHEN 'PREPARE' THEN '待生产' WHEN 'CONFIRMED' THEN '已确认' WHEN 'RELEASED' THEN '已下达' WHEN 'IN_PROGRESS' THEN '生产中' WHEN 'FINISHED' THEN '已完成' WHEN 'COMPLETED' THEN '已完成' WHEN 'CLOSED' THEN '已关闭' ELSE wo.status END AS 状态
+FROM work_order wo
+LEFT JOIN product p ON wo.product_id = p.product_id
+ORDER BY wo.work_order_id DESC LIMIT 50]]></sql>
+      <field name="工单号"/><field name="产品名称"/><field name="计划数量"/><field name="完成数量"/><field name="差异"/><field name="达成率"/><field name="状态"/>
+    </dataset>
+  </datasource>
+</ureport>

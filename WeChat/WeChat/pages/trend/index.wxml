@@ -1,0 +1,116 @@
+<page-header title="生产数据" showBack="{{true}}" />
+
+<view class="page-container">
+  <view class="tr-content">
+
+        <view class="tr-kpi-strip">
+      <view class="tr-kpi-item">
+        <text class="tr-kpi-val">{{todayOutput}}</text>
+        <text class="tr-kpi-lbl">今日产量</text>
+      </view>
+      <view class="tr-kpi-div"></view>
+      <view class="tr-kpi-item">
+        <text class="tr-kpi-val">{{avgOutput}}</text>
+        <text class="tr-kpi-lbl">日均产量</text>
+      </view>
+      <view class="tr-kpi-div"></view>
+      <view class="tr-kpi-item">
+        <text class="tr-kpi-val">{{peakOutput}}</text>
+        <text class="tr-kpi-lbl">峰值 {{peakDate}}</text>
+      </view>
+      <view class="tr-kpi-div"></view>
+      <view class="tr-kpi-item">
+        <text class="tr-kpi-val {{trend === 'up' ? 'tr-green' : 'tr-red'}}">{{trend === 'up' ? '↑' : '↓'}}{{trendDiff}}%</text>
+        <text class="tr-kpi-lbl">{{trend === 'up' ? '上升趋势' : '下降趋势'}}</text>
+      </view>
+    </view>
+
+        <view class="tr-dual-cards">
+      <view class="tr-dual-card">
+        <text class="tr-dc-label">累计产量</text>
+        <text class="tr-dc-value">{{cumulativeOutput}}</text>
+        <text class="tr-dc-sub">台</text>
+        <view class="tr-dc-bar"><view class="tr-dc-fill tr-dc-fill--blue" style="width:{{trend==='up' ? 85 : 70}}%;"></view></view>
+      </view>
+      <view class="tr-dual-card">
+        <text class="tr-dc-label">平均合格率</text>
+        <text class="tr-dc-value tr-green">{{avgQualifiedRate}}</text>
+        <text class="tr-dc-sub">%</text>
+        <view class="tr-dc-bar"><view class="tr-dc-fill tr-dc-fill--green" style="width:{{avgQualifiedRate}}%;"></view></view>
+      </view>
+    </view>
+
+        <view class="tr-card">
+      <view class="tr-card-head">
+        <text class="tr-card-title">近7日生产数据</text>
+        <text class="tr-card-sub">单位：台</text>
+      </view>
+
+      <view class="tr-chart-wrap">
+                <view class="tr-y-axis">
+          <text class="tr-y-label" wx:for="{{yLabelsReversed}}" wx:key="index">{{item}}</text>
+        </view>
+
+                <view class="tr-chart-main">
+                    <view class="tr-grid-lines">
+            <view class="tr-grid-line" wx:for="{{yLabels}}" wx:key="index"></view>
+          </view>
+
+                    <view class="tr-bars-row">
+            <view class="tr-bar-col" wx:for="{{daily}}" wx:key="index">
+              <text class="tr-bar-val">{{item.output}}</text>
+              <view class="tr-bar-pillar">
+                <view class="tr-bar-fill" style="height:{{item.barHeight}}%;"></view>
+              </view>
+              <text class="tr-bar-date">{{item.date}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+        <view class="tr-card">
+      <view class="tr-card-head">
+        <text class="tr-card-title">近7日合格率</text>
+        <text class="tr-card-sub">最高 {{bestQualifiedRate}}%（{{bestQrDate}}）</text>
+      </view>
+
+      <view class="tr-rate-list">
+        <view class="tr-rate-row" wx:for="{{daily}}" wx:key="index">
+          <text class="tr-rate-date">{{item.date}}</text>
+          <view class="tr-rate-track">
+            <view class="tr-rate-fill" style="width:{{item.qualifiedRate}}%; background:{{item.qualifiedRate >= 98 ? '#2E8B8B' : item.qualifiedRate >= 96 ? '#D4AF37' : '#D32F2F'}};"></view>
+          </view>
+          <text class="tr-rate-pct" style="color:{{item.qualifiedRate >= 98 ? '#2E8B8B' : item.qualifiedRate >= 96 ? '#D4AF37' : '#D32F2F'}};">{{item.qualifiedRate}}%</text>
+        </view>
+      </view>
+    </view>
+
+        <view class="tr-card">
+      <view class="tr-card-head">
+        <text class="tr-card-title">数据明细</text>
+      </view>
+
+      <view class="tr-table">
+        <view class="tr-table-head">
+          <text class="tr-th tr-th-date">日期</text>
+          <text class="tr-th">产量</text>
+          <text class="tr-th">合格率</text>
+          <text class="tr-th">状态</text>
+        </view>
+        <view class="tr-table-row" wx:for="{{daily}}" wx:key="index">
+          <text class="tr-td tr-td-date">{{item.date}}</text>
+          <text class="tr-td">{{item.output}}</text>
+          <text class="tr-td">{{item.qualifiedRate}}%</text>
+          <text class="tr-td">
+            <view class="tr-status {{item.qualifiedRate >= 98 ? 'tr-status--good' : item.qualifiedRate >= 96 ? 'tr-status--warn' : 'tr-status--bad'}}">
+              {{item.qualifiedRate >= 98 ? '优秀' : item.qualifiedRate >= 96 ? '正常' : '注意'}}
+            </view>
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <view class="footer-placeholder"></view>
+  </view>
+</view>

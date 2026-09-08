@@ -1,0 +1,47 @@
+
+.page-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10,22,40,0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1rpx solid rgba(255,255,255,0.06);
+  box-shadow: 0 2rpx 16rpx rgba(0,180,240,0.12);
+  box-sizing: border-box;
+}
+
+.header-placeholder {  }
+
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 44px; padding: 0 32rpx;
+}
+
+.header-left { display: flex; align-items: center; flex: 1; min-width: 0; }
+
+.back-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 64rpx; height: 64rpx; border-radius: 50%;
+  margin-right: 16rpx; margin-left: -8rpx;
+  background: rgba(255,255,255,0.06);
+  transition: all 0.2s ease;
+}
+.back-btn-active { background: rgba(0,180,228,0.12); }
+
+.back-icon {
+  font-size: 40rpx; font-weight: 300;
+  color: rgba(255,255,255,0.60); line-height: 1;
+}
+
+.header-title {
+  font-size: 34rpx; font-weight: 600;
+  color: #E2E8F0; letter-spacing: 1rpx;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.header-right {
+  padding: 8rpx 16rpx; border-radius: 20rpx;
+  transition: all 0.2s ease;
+}
+.header-right-active { background: rgba(255,255,255,0.06); }
+
+.right-text { font-size: 24rpx; color: #00B4E4; font-weight: 500; }

@@ -1,0 +1,34 @@
+
+
+.page-container { min-height: 100vh; background: #0A1628; }
+
+.rd-content { padding: 24rpx; display: flex; flex-direction: column; gap: 20rpx; }
+
+.rd-card {
+  background: rgba(255,255,255,0.04);
+  border-radius: 16rpx;
+  padding: 28rpx;
+}
+
+.rd-status-row {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.rd-status-label { font-size: 26rpx; color: rgba(255,255,255,0.45); }
+
+.rd-section-title {
+  font-size: 24rpx; font-weight: 600; color: rgba(255,255,255,0.35);
+  margin-bottom: 20rpx; display: block;
+}
+
+.rd-info-grid { display: flex; flex-direction: column; gap: 18rpx; }
+.rd-info-item { display: flex; justify-content: space-between; align-items: flex-start; }
+.rd-info-l { font-size: 26rpx; color: rgba(255,255,255,0.40); flex-shrink: 0; }
+.rd-info-v { font-size: 26rpx; color: #E2E8F0; text-align: right; word-break: break-all; }
+.rd-info-highlight { color: #FFB800; font-weight: 600; }
+
+.rd-reason { padding: 18rpx 0; }
+.rd-reason text { font-size: 26rpx; color: #E2E8F0; line-height: 1.6; }
+
+.rd-empty { display: flex; flex-direction: column; align-items: center; padding: 200rpx 60rpx; }
+.rd-empty-icon { font-size: 80rpx; margin-bottom: 24rpx; }
+.rd-empty-text { font-size: 28rpx; color: rgba(255,255,255,0.25); }

@@ -1,0 +1,97 @@
+<page-header title="缺料呼叫" showBack="{{true}}" />
+
+<view class="page-container">
+  <view class="mc-content">
+
+        <view class="mc-card mc-success" wx:if="{{submitted}}">
+      <text class="mc-success-icon">✅</text>
+      <text class="mc-success-title">缺料呼叫已提交</text>
+      <text class="mc-success-desc">呼叫单号：{{resultCallId}}，仓库已收到通知</text>
+      <view class="mc-success-actions">
+        <view class="mc-btn mc-btn-outline" bindtap="onUpgradeToAndon">升级为安灯</view>
+        <view class="mc-btn mc-btn-primary" bindtap="onBack">返回</view>
+      </view>
+    </view>
+
+        <block wx:else>
+            <view class="mc-card">
+        <text class="mc-section-title">工单信息</text>
+
+        <view class="mc-form-item">
+          <text class="mc-label">工单号 <text class="mc-required">*</text></text>
+          <input class="mc-input" placeholder="输入工单号" value="{{workOrderNo}}" bindinput="onWorkOrderInput" />
+        </view>
+
+        <view class="mc-form-item">
+          <text class="mc-label">产品名称 <text class="mc-required">*</text></text>
+          <input class="mc-input" placeholder="输入产品名称" value="{{productName}}" bindinput="onProductNameInput" />
+        </view>
+
+        <view class="mc-row-2">
+          <view class="mc-form-item mc-flex-1">
+            <text class="mc-label">工序</text>
+            <input class="mc-input" placeholder="输入工序" value="{{processName}}" bindinput="onProcessNameInput" />
+          </view>
+          <view class="mc-form-item mc-flex-1">
+            <text class="mc-label">工位</text>
+            <input class="mc-input" placeholder="输入工位" value="{{workstationName}}" bindinput="onWorkstationNameInput" />
+          </view>
+        </view>
+      </view>
+
+            <view class="mc-card">
+        <text class="mc-section-title">缺料信息</text>
+
+        <view class="mc-form-item">
+          <text class="mc-label">缺料物料 <text class="mc-required">*</text></text>
+          <input class="mc-input" placeholder="输入物料名称，如：风扇电机" value="{{materialName}}" bindinput="onMaterialInput" />
+        </view>
+
+        <view class="mc-form-item">
+          <text class="mc-label">物料编码</text>
+          <input class="mc-input" placeholder="输入物料编码（选填）" value="{{materialCode}}" bindinput="onMaterialCodeInput" />
+        </view>
+
+        <view class="mc-form-item">
+          <text class="mc-label">缺料数量 <text class="mc-required">*</text></text>
+          <input class="mc-input" type="number" placeholder="填写需求数量" value="{{needQty}}" bindinput="onNeedQtyInput" />
+        </view>
+
+        <view class="mc-form-item">
+          <text class="mc-label">剩余可用量</text>
+          <input class="mc-input" type="number" placeholder="输入剩余可用量" value="{{remainQty}}" bindinput="onRemainQtyInput" />
+        </view>
+
+        <view class="mc-form-item">
+          <text class="mc-label">紧急程度</text>
+          <picker mode="selector" range="{{urgencyOptions}}" range-key="label" value="{{urgencyIndex}}" bindchange="onUrgencyChange">
+            <view class="mc-picker">{{urgencyLabel}}  <text class="mc-picker-arrow">▼</text></view>
+          </picker>
+        </view>
+
+        <view class="mc-form-item">
+          <text class="mc-label">备注</text>
+          <textarea class="mc-textarea" placeholder="补充说明（选填）" value="{{remark}}" bindinput="onRemarkInput" maxlength="200" />
+        </view>
+      </view>
+
+            <view class="mc-card" wx:if="{{canUpgrade}}">
+        <view class="mc-upgrade-hint">
+          <text>⚠️ 物料已耗尽且呼叫未响应？</text>
+          <view class="mc-btn mc-btn-sm mc-btn-warn" bindtap="onUpgradeToAndon">升级为安灯</view>
+        </view>
+      </view>
+
+    </block>
+
+  </view>
+</view>
+
+<action-footer
+  wx:if="{{!submitted}}"
+  primaryText="{{submitting ? '提交中...' : '提交缺料呼叫'}}"
+  showSecondary="{{false}}"
+  primaryDisabled="{{submitting}}"
+  primaryLoading="{{submitting}}"
+  bind:primary="onSubmit"
+/>

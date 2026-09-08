@@ -1,0 +1,64 @@
+
+
+.scan-section {
+  padding: var(--spacing-md);
+}
+
+.identify-result {
+  padding: 0 var(--spacing-md) var(--spacing-md);
+}
+
+.result-label {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.result-card {
+  padding: var(--spacing-md);
+}
+
+.result-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8rpx 0;
+}
+
+.scan-tips {
+  padding: var(--spacing-md);
+}
+
+.tip-list {
+  margin-top: var(--spacing-sm);
+}
+
+.tip-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.tip-prefix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100rpx;
+  padding: 4rpx 12rpx;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: var(--font-xs);
+  border-radius: var(--radius-round);
+  text-align: center;
+  margin-right: var(--spacing-sm);
+  font-weight: 700;
+  border: 1rpx solid rgba(0, 212, 255, 0.2);
+}
+
+.tip-desc {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}

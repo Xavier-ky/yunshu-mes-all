@@ -1,0 +1,120 @@
+/* ===== Tencent Cloud Console Theme ===== */
+
+.tc-shell {
+  background: var(--mes-watercolor-bg, #f2f2f2) !important;
+  color: #000 !important;
+}
+
+.tc-shell :deep(.core-strip),
+.tc-shell :deep(.panel),
+.tc-shell :deep(.crud-table-wrap),
+.tc-shell :deep(.ph-empty),
+.tc-shell :deep(.dash-card),
+.tc-shell :deep(.dash-kpi) {
+  background: #fff !important;
+  border: 1px solid #e7e7e7 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.tc-shell :deep(.x-root),
+.tc-shell :deep(.crud-root) {
+  background: transparent !important;
+}
+
+.tc-shell :deep(.x-hero h2),
+.tc-shell :deep(.crud-hero h2) {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #000 !important;
+}
+
+.tc-shell :deep(.x-hero p),
+.tc-shell :deep(.crud-hero p) {
+  font-size: 12px !important;
+  color: #888 !important;
+}
+
+.tc-shell :deep(.x-left),
+.tc-shell :deep(.crud-left),
+.tc-shell :deep(.x-right),
+.tc-shell :deep(.crud-right) {
+  background: #fff !important;
+  border: 1px solid #e7e7e7 !important;
+  border-radius: 0 !important;
+}
+
+.tc-shell :deep(.panel-tabs) { border-bottom: 1px solid #e7e7e7 !important; }
+.tc-shell :deep(.panel-tab) {
+  border-radius: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  color: #888 !important;
+  font-size: 12px !important;
+}
+.tc-shell :deep(.panel-tab:hover) { color: #333 !important; }
+.tc-shell :deep(.panel-tab.active) {
+  color: #0052d9 !important;
+  font-weight: 500 !important;
+  border-bottom-color: #0052d9 !important;
+}
+
+.tc-shell :deep(.crud-input),
+.tc-shell :deep(.crud-field input),
+.tc-shell :deep(.crud-field select) {
+  background: #fff !important;
+  border: 1px solid #dcdcdc !important;
+  border-radius: 0 !important;
+  color: #000 !important;
+  font-size: 12px !important;
+}
+.tc-shell :deep(.crud-input:focus),
+.tc-shell :deep(.crud-field input:focus),
+.tc-shell :deep(.crud-field select:focus) {
+  border-color: #0052d9 !important;
+  box-shadow: 0 0 0 2px rgba(0, 82, 217, 0.1) !important;
+}
+
+.tc-shell :deep(.crud-btn) { border-radius: 0 !important; font-size: 12px !important; }
+.tc-shell :deep(.crud-btn.pri) {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border: 1px solid #0052d9 !important;
+}
+.tc-shell :deep(.crud-btn.pri:hover) { background: #266fe8 !important; }
+.tc-shell :deep(.crud-btn.sec) {
+  background: #fff !important;
+  border: 1px solid #dcdcdc !important;
+  color: #333 !important;
+}
+.tc-shell :deep(.crud-btn.sec:hover) { background: #f5f5f5 !important; }
+
+.tc-shell :deep(.crud-modal) {
+  background: #fff !important;
+  border: 1px solid #e7e7e7 !important;
+  border-radius: 0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+}
+.tc-shell :deep(.crud-overlay) { background: rgba(0, 0, 0, 0.3) !important; }
+
+.tc-shell :deep(.dt-tag.blue),
+.tc-shell :deep(.crud-tag.blue) { color: #0052d9 !important; }
+.tc-shell :deep(.dt-tag.green),
+.tc-shell :deep(.crud-tag.green) { color: #0abf5b !important; }
+.tc-shell :deep(.dt-tag.amber),
+.tc-shell :deep(.crud-tag.amber) { color: #ff9d00 !important; }
+.tc-shell :deep(.dt-tag.red),
+.tc-shell :deep(.crud-tag.red) { color: #e34d59 !important; }
+
+.tc-shell :deep(.x-item.active),
+.tc-shell :deep(.crud-list-item.active) {
+  background: rgba(0, 82, 217, 0.06) !important;
+  color: #0052d9 !important;
+}
+
+.tc-shell :deep(.hero-banner) { border-radius: 0 !important; }
+.tc-shell :deep(.welcome-row h2) { font-size: 14px !important; font-weight: 600 !important; color: #000 !important; }
+.tc-shell :deep(.quick-card-2) {
+  border: 1px solid #e7e7e7 !important;
+  border-radius: 0 !important;
+}
+.tc-shell :deep(.quick-card-2:hover) { border-color: #0052d9 !important; }
