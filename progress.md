@@ -339,3 +339,8 @@
 - Pushed main to https://github.com/Xavier-ky/yunshu-mes-all.git; remote/local commit IDs match.
 - Git reported all 6 LFS objects (3.1 GB) uploaded. Git LFS fsck passed.
 
+
+### Team clone audit completed
+- Actual remote clone and full LFS download verified. Corrected two numeric generation limits in the sanitized upload copy and verified config import.
+- Added team setup and validation report with test limitations. No business database modifications or full workflow acceptance claimed.
+

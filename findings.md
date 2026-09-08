@@ -189,3 +189,9 @@
 - 3,172 unmodified files passed SHA-256 comparison with source. Three files have credential placeholders in the upload copy; .gitattributes adds LFS rules.
 - Windows sandbox prevented credential and LFS subprocess operations; approved Git commands outside sandbox completed successfully.
 
+
+### Team handoff findings
+- Public repository can be cloned without collaborator access; direct pushing requires write access.
+- Run Maven Wrapper from backend/mes-server. Calling it from repository root fails wrapper directory resolution.
+- Runtime requires MySQL setup, Python/Node dependencies, AI credentials and Qdrant re-indexing. Root README contains outdated profile/CONTRIBUTING references.
+

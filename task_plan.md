@@ -232,3 +232,10 @@ Phase 1 — 计划与范围确认
 - 3,176 files; 6 LFS assets (about 3.1 GB); sanitized three upload-copy configuration files while preserving local originals.
 - Target main commit 07b6f4fc8da9c67c1a6cb9e03d934da5453d79a8 verified against GitHub. Git LFS integrity check passed.
 
+
+### Team clone verification — complete (2026-09-08)
+- Independent GitHub clone tree matches uploaded source; all six LFS files downloaded and fsck passed.
+- npm ci and frontend build passed; UReport3 and backend package passed; 94 Python syntax checks passed.
+- Existing frontend tests: 66/71 passed, five failures retained and documented. Clean-database and end-to-end business validation not performed.
+- Repaired upload-only sanitization of two numeric token limits; local secrets unchanged. Added docs/team-clone-check.md.
+
