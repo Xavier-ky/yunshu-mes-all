@@ -184,3 +184,8 @@
 - Actual path D:\own_groceries\MES. Existing origin points to yunshu-mes; requested target yunshu-mes-all has no refs.
 - Includes local runtimes, dependencies, models and a 2 GiB incomplete download. Git LFS available; gh CLI unavailable.
 
+
+### GitHub upload verification
+- 3,172 unmodified files passed SHA-256 comparison with source. Three files have credential placeholders in the upload copy; .gitattributes adds LFS rules.
+- Windows sandbox prevented credential and LFS subprocess operations; approved Git commands outside sandbox completed successfully.
+

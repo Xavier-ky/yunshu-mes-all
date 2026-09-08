@@ -334,3 +334,8 @@
 ## GitHub upload — 2026-09-08
 - Verified source and inventoried all files. Inspecting target visibility and credential files before staging.
 
+
+### GitHub upload completed
+- Pushed main to https://github.com/Xavier-ky/yunshu-mes-all.git; remote/local commit IDs match.
+- Git reported all 6 LFS objects (3.1 GB) uploaded. Git LFS fsck passed.
+
